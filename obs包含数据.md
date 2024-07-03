@@ -179,7 +179,7 @@ obs://temp-zjw/llama2-7b/pytorch_model-00002-of-00002.bin
 
 ## llama3
 
-### 8b <a id="llama3-8b-1"></a>
+### 8b{#llama3-8b-1}
 ```
 obs://llama3/data/Meta-Llama-3-8B-Instruct
 ```
@@ -192,19 +192,19 @@ obs://glm32k/data.zip
 
 ## yolov5
 
-### dataset <a id="yolov5-dataset-1"></a>
+### dataset{#yolov5-dataset-1}
 ```
 obs://temp-zjw/datasets/coco2017.zip
 ```
 
 ## qwen1.5
 
-### 7b-chat <a id="qwen1_5-7b-chat-1"></a>
+### 7b-chat{#qwen1_5-7b-chat-1}
 ```
 obs://wio/qwen1.5-7b-chat-ckpt/qwen15_7b_chat.ckpt
 ```
 
-### 14b-chat <a id="qwen1_5-14b-chat-1"></a>
+### 14b-chat{#qwen1_5-14b-chat-1}
 ```
 obs://wio/qwen1.5-14b-chat/model-00001-of-00008.safetensors
 obs://wio/qwen1.5-14b-chat/model-00002-of-00008.safetensors
@@ -216,7 +216,7 @@ obs://wio/qwen1.5-14b-chat/model-00007-of-00008.safetensors
 obs://wio/qwen1.5-14b-chat/model-00008-of-00008.safetensors
 ```
 
-## 72b-chat <a id="qwen1_5-72b-chat-1"></a>
+## 72b-chat{#qwen1_5-72b-chat-1}
 ```
 obs://wio/qw1.5-72b-chat.ckpt
 ```
