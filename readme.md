@@ -29,3 +29,6 @@ https://modelscope.cn/my/overview
 
 HuggingFace：
 https://huggingface.co/models
+
+HuggingFace 国内镜像：
+https://hf-mirror.com/models
