@@ -20,3 +20,11 @@ http://mirrors.cn-central-221.ovaijisuan.com/
 
 modelarts相关文档:
 https://docs.gaoxinai.com/zh-cn/usermanual/modelarts/modelarts_01_0001.html
+
+第三方模型库
+ 
+魔塔社区：
+https://modelscope.cn/my/overview
+
+HuggingFace：
+https://huggingface.co/models
