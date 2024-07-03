@@ -1,0 +1,41 @@
+[INFO] 2024-06-26 09:06:16,834 [mindformers/auto_class.py:557] from_pretrained: config in /home/ma-user/work/mindformers/research/glm3/run_glm3_6b_finetune_2k_910b.yaml is used for auto processor building.
+[INFO] 2024-06-26 09:06:17,162 [mindformers/auto_class.py:612] from_pretrained: processor built successfully!
+[INFO] 2024-06-26 09:06:17,163 [mindformers/auto_class.py:164] from_pretrained: default yaml config in ./checkpoint_download/glm3/glm3_6b.yaml is used.
+[INFO] 2024-06-26 09:06:17,203 [mindformers/version_control.py:60] decorator: The Cell Reuse compilation acceleration feature is not supported when the environment variable ENABLE_CELL_REUSE is 0 or MindSpore version is earlier than 2.1.0 or stand_alone mode or pipeline_stages <= 1
+[INFO] 2024-06-26 09:06:17,203 [mindformers/version_control.py:64] decorator: 
+The current ENABLE_CELL_REUSE=0, please set the environment variable as follows: 
+export ENABLE_CELL_REUSE=1 to enable the Cell Reuse compilation acceleration feature.
+[INFO] 2024-06-26 09:06:17,203 [mindformers/version_control.py:70] decorator: The Cell Reuse compilation acceleration feature does not support single-card mode.This feature is disabled by default. ENABLE_CELL_REUSE=1 does not take effect.
+[INFO] 2024-06-26 09:06:17,203 [mindformers/version_control.py:73] decorator: The Cell Reuse compilation acceleration feature only works in pipeline parallel mode(pipeline_stage>1).Current pipeline stage=1, the feature is disabled by default.
+[INFO] 2024-06-26 09:09:32,925 [mindformers/models/base_model.py:115] load_checkpoint: weights in /home/ma-user/work/mindformers/research/glm3/6b/rank_0/glm3_6b.ckpt are loaded
+[INFO] 2024-06-26 09:09:32,926 [mindformers/auto_class.py:292] from_config: model built successfully!
+[WARNING] 2024-06-26 09:09:32,936 [mindformers/generation/text_generator.py:1099] generate: When do_sample is set to False, top_k will be set to 1 and top_p will be set to 0, making them inactive.
+[INFO] 2024-06-26 09:09:32,936 [mindformers/generation/text_generator.py:1103] generate: Generation Config is: {'max_length': 2048, 'max_new_tokens': None, 'num_beams': 1, 'do_sample': False, 'use_past': True, 'temperature': 1.0, 'top_k': 0, 'top_p': 1.0, 'repetition_penalty': 1.0, 'encoder_repetition_penalty': 1.0, 'renormalize_logits': False, 'pad_token_id': 0, 'bos_token_id': None, 'eos_token_id': 2, '_from_model_config': True}
+[INFO] 2024-06-26 09:09:32,937 [mindformers/generation/text_generator.py:176] _get_generation_mode: The generation mode will be **GREEDY_SEARCH**.
+[INFO] 2024-06-26 09:12:27,522 [mindformers/generation/text_generator.py:478] _greedy_search: total time: 174.58494234085083 s; generated tokens: 30 tokens; generate speed: 0.17183612514204985 tokens/s
+[WARNING] 2024-06-26 09:12:27,531 [mindformers/generation/text_generator.py:1099] generate: When do_sample is set to False, top_k will be set to 1 and top_p will be set to 0, making them inactive.
+[INFO] 2024-06-26 09:12:27,531 [mindformers/generation/text_generator.py:1103] generate: Generation Config is: {'max_length': 2048, 'max_new_tokens': None, 'num_beams': 1, 'do_sample': False, 'use_past': True, 'temperature': 1.0, 'top_k': 0, 'top_p': 1.0, 'repetition_penalty': 1.0, 'encoder_repetition_penalty': 1.0, 'renormalize_logits': False, 'pad_token_id': 0, 'bos_token_id': None, 'eos_token_id': 2, '_from_model_config': True}
+[INFO] 2024-06-26 09:12:27,531 [mindformers/generation/text_generator.py:176] _get_generation_mode: The generation mode will be **GREEDY_SEARCH**.
+[INFO] 2024-06-26 09:12:32,099 [mindformers/generation/text_generator.py:478] _greedy_search: total time: 4.567128419876099 s; generated tokens: 165 tokens; generate speed: 36.127733847360545 tokens/s
+[INFO] 2024-06-26 09:15:25,846 [mindformers/auto_class.py:557] from_pretrained: config in /home/ma-user/work/mindformers/research/glm3/run_glm3_6b_finetune_2k_910b.yaml is used for auto processor building.
+[INFO] 2024-06-26 09:15:26,172 [mindformers/auto_class.py:612] from_pretrained: processor built successfully!
+[INFO] 2024-06-26 09:15:26,213 [mindformers/version_control.py:60] decorator: The Cell Reuse compilation acceleration feature is not supported when the environment variable ENABLE_CELL_REUSE is 0 or MindSpore version is earlier than 2.1.0 or stand_alone mode or pipeline_stages <= 1
+[INFO] 2024-06-26 09:15:26,214 [mindformers/version_control.py:64] decorator: 
+The current ENABLE_CELL_REUSE=0, please set the environment variable as follows: 
+export ENABLE_CELL_REUSE=1 to enable the Cell Reuse compilation acceleration feature.
+[INFO] 2024-06-26 09:15:26,214 [mindformers/version_control.py:70] decorator: The Cell Reuse compilation acceleration feature does not support single-card mode.This feature is disabled by default. ENABLE_CELL_REUSE=1 does not take effect.
+[INFO] 2024-06-26 09:15:26,214 [mindformers/version_control.py:73] decorator: The Cell Reuse compilation acceleration feature only works in pipeline parallel mode(pipeline_stage>1).Current pipeline stage=1, the feature is disabled by default.
+[INFO] 2024-06-26 09:18:44,896 [mindformers/models/base_model.py:115] load_checkpoint: weights in /home/ma-user/work/mindformers/research/glm3/6b/rank_0/glm3_6b.ckpt are loaded
+[INFO] 2024-06-26 09:18:44,897 [mindformers/auto_class.py:292] from_config: model built successfully!
+[WARNING] 2024-06-26 09:18:44,907 [mindformers/generation/text_generator.py:1099] generate: When do_sample is set to False, top_k will be set to 1 and top_p will be set to 0, making them inactive.
+[INFO] 2024-06-26 09:18:44,907 [mindformers/generation/text_generator.py:1103] generate: Generation Config is: {'max_length': 2048, 'max_new_tokens': None, 'num_beams': 1, 'do_sample': False, 'use_past': True, 'temperature': 1.0, 'top_k': 0, 'top_p': 1.0, 'repetition_penalty': 1.0, 'encoder_repetition_penalty': 1.0, 'renormalize_logits': False, 'pad_token_id': 0, 'bos_token_id': None, 'eos_token_id': 2, '_from_model_config': True}
+[INFO] 2024-06-26 09:18:44,907 [mindformers/generation/text_generator.py:176] _get_generation_mode: The generation mode will be **GREEDY_SEARCH**.
+[INFO] 2024-06-26 09:21:24,079 [mindformers/generation/text_generator.py:478] _greedy_search: total time: 159.17192316055298 s; generated tokens: 30 tokens; generate speed: 0.18847545097347165 tokens/s
+[WARNING] 2024-06-26 09:21:24,091 [mindformers/generation/text_generator.py:1099] generate: When do_sample is set to False, top_k will be set to 1 and top_p will be set to 0, making them inactive.
+[INFO] 2024-06-26 09:21:24,091 [mindformers/generation/text_generator.py:1103] generate: Generation Config is: {'max_length': 2048, 'max_new_tokens': None, 'num_beams': 1, 'do_sample': False, 'use_past': True, 'temperature': 1.0, 'top_k': 0, 'top_p': 1.0, 'repetition_penalty': 1.0, 'encoder_repetition_penalty': 1.0, 'renormalize_logits': False, 'pad_token_id': 0, 'bos_token_id': None, 'eos_token_id': 2, '_from_model_config': True}
+[INFO] 2024-06-26 09:21:24,091 [mindformers/generation/text_generator.py:176] _get_generation_mode: The generation mode will be **GREEDY_SEARCH**.
+[INFO] 2024-06-26 09:21:30,270 [mindformers/generation/text_generator.py:478] _greedy_search: total time: 6.17816948890686 s; generated tokens: 235 tokens; generate speed: 38.0371565432045 tokens/s
+[WARNING] 2024-06-26 09:21:30,283 [mindformers/generation/text_generator.py:1099] generate: When do_sample is set to False, top_k will be set to 1 and top_p will be set to 0, making them inactive.
+[INFO] 2024-06-26 09:21:30,283 [mindformers/generation/text_generator.py:1103] generate: Generation Config is: {'max_length': 2048, 'max_new_tokens': None, 'num_beams': 1, 'do_sample': False, 'use_past': True, 'temperature': 1.0, 'top_k': 0, 'top_p': 1.0, 'repetition_penalty': 1.0, 'encoder_repetition_penalty': 1.0, 'renormalize_logits': False, 'pad_token_id': 0, 'bos_token_id': None, 'eos_token_id': 2, '_from_model_config': True}
+[INFO] 2024-06-26 09:21:30,283 [mindformers/generation/text_generator.py:176] _get_generation_mode: The generation mode will be **GREEDY_SEARCH**.
+[INFO] 2024-06-26 09:21:39,954 [mindformers/generation/text_generator.py:478] _greedy_search: total time: 9.67060136795044 s; generated tokens: 365 tokens; generate speed: 37.74325774709883 tokens/s

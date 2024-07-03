@@ -1,0 +1,392 @@
+Namespace(task='text_generation', config='qwen1_5/run_qwen1_5_7b_infer.yaml', run_mode='predict', load_checkpoint='/home/ma-user/work/mindformers/research/qwen1_5/7b/', auto_trans_ckpt=True, vocab_file=None, merges_file=None, predict_data='帮助我制定一份去杭州的旅游攻略', seq_length=None, predict_length=8192, use_parallel=True, device_id=-1, use_past=None, do_sample=None, top_k=None, top_p=None, train_dataset='', remote_save_url=None, batch_size=1)
+[WARNING] HCCL_ADPT(2278744,ffffb92aa010,python):2024-06-19-14:35:35.228.034 [mindspore/ccsrc/plugin/device/ascend/hal/hccl_adapter/hccl_adapter.cc:63] GenHcclOptions] The environment variable DEPLOY_MODE is not set. Now set to default value 0
+2024-06-19 14:35:35,295 - mindformers[mindformers/tools/utils.py:155] - INFO - set output path to '/home/ma-user/work/mindformers/research/output'
+2024-06-19 14:35:35,296 - mindformers[mindformers/trainer/base_trainer.py:90] - INFO - Now Running Task is: text_generation, Model is: qwen2_7b
+2024-06-19 14:35:35,296 - mindformers[mindformers/trainer/base_trainer.py:131] - WARNING - Input model name is not in the supported list or unspecified.
+2024-06-19 14:35:35,296 - mindformers[mindformers/trainer/base_trainer.py:132] - WARNING - See the list of supported task and model name: OrderedDict([('general', OrderedDict([('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/general/run_general_task.yaml')])), ('masked_image_modeling', OrderedDict([('mae_vit_base_p16', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/mae/run_mae_vit_base_p16_224_800ep.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/mae/run_mae_vit_base_p16_224_800ep.yaml')])), ('image_classification', OrderedDict([('vit_base_p16', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/vit/run_vit_base_p16_224_100ep.yaml'), ('swin_base_p4w7', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/swin/run_swin_base_p4w7_224_100ep.yaml'), ('mindspore/vit_base_p16', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/vit/run_vit_base_p16_224_100ep.yaml'), ('mindspore/swin_base_p4w7', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/swin/run_swin_base_p4w7_224_100ep.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/vit/run_vit_base_p16_224_100ep.yaml')])), ('fill_mask', OrderedDict([('bert_base_uncased', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/bert/run_bert_base_uncased.yaml'), ('bert_tiny_uncased', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/bert/run_bert_tiny_uncased.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/bert/run_bert_tiny_uncased.yaml')])), ('contrastive_language_image_pretrain', OrderedDict([('clip_vit_b_32', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_b_32_pretrain_flickr8k.yaml'), ('blip2_stage1_vit_g', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/blip2/run_blip2_stage1_vit_g_qformer_pretrain.yaml'), ('blip2_stage2_vit_g_baichuan_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/blip2/run_blip2_stage2_vit_g_baichuan_7b.yaml'), ('blip2_stage2_vit_g_llama_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/blip2/run_blip2_stage2_vit_g_llama_7b.yaml'), ('mindspore/clip_vit_b_32', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_b_32_pretrain_flickr8k.yaml'), ('clip_vit_b_16', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_b_16_pretrain_flickr8k.yaml'), ('clip_vit_l_14', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_l_14_pretrain_flickr8k.yaml'), ('clip_vit_l_14@336', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_l_14@336_pretrain_flickr8k.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_b_32_pretrain_flickr8k.yaml')])), ('image_to_text_retrieval', OrderedDict([('blip2_stage1_evaluator', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/blip2/run_blip2_stage1_vit_g_retrieval_flickr30k.yaml')])), ('zero_shot_image_classification', OrderedDict([('clip_vit_b_32', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_b_32_zero_shot_image_classification_cifar100.yaml'), ('mindspore/clip_vit_b_32', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_b_32_zero_shot_image_classification_cifar100.yaml'), ('clip_vit_b_16', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_b_16_zero_shot_image_classification_cifar100.yaml'), ('clip_vit_l_14', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_l_14_zero_shot_image_classification_cifar100.yaml'), ('clip_vit_l_14@336', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_l_14@336_zero_shot_image_classification_cifar100.yaml'), ('blip2_stage1_classification', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/blip2/run_blip2_stage1_vit_g_zero_shot_image_classification_cifar100.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_clip_vit_b_32_zero_shot_image_classification_cifar100.yaml')])), ('image_to_text_generation', OrderedDict([('itt_blip2_stage2_vit_g_baichuan_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/blip2/run_blip2_stage2_vit_g_baichuan_7b_image_to_text_generation.yaml'), ('itt_blip2_stage2_vit_g_llama_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/blip2/run_blip2_stage2_vit_g_llama_7b_image_to_text_generation.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/clip/run_blip2_stage2_vit_g_llama_7b_image_to_text_generation.yaml')])), ('translation', OrderedDict([('t5_small', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/t5/run_t5_small_on_wmt16.yaml'), ('t5_tiny', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/t5/run_t5_tiny_on_wmt16.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/t5/run_t5_small_on_wmt16.yaml')])), ('text_classification', OrderedDict([('txtcls_bert_base_uncased', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/txtcls/run_txtcls_bert_base_uncased.yaml'), ('txtcls_bert_base_uncased_mnli', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/txtcls/run_txtcls_bert_base_uncased_mnli.yaml'), ('mindspore/txtcls_bert_base_uncased_mnli', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/txtcls/run_txtcls_bert_base_uncased_mnli.yaml'), ('gpt2_txtcls', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/gpt2/run_gpt2_txtcls.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/txtcls/run_txtcls_bert_base_uncased.yaml')])), ('token_classification', OrderedDict([('tokcls_bert_base_chinese', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/tokcls/run_tokcls_bert_base_chinese.yaml'), ('tokcls_bert_base_chinese_cluener', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/tokcls/run_tokcls_bert_base_chinese_cluener.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/tokcls/run_tokcls_bert_base_chinese.yaml')])), ('question_answering', OrderedDict([('qa_bert_base_uncased', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/qa/run_qa_bert_base_uncased.yaml'), ('qa_bert_base_uncased_squad', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/qa/run_qa_bert_base_uncased.yaml'), ('mindspore/qa_bert_base_uncased', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/qa/run_qa_bert_base_uncased.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/qa/run_qa_bert_base_uncased.yaml')])), ('text_generation', OrderedDict([('gpt2', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/gpt2/run_gpt2.yaml'), ('gpt2_lora', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/gpt2/run_gpt2_lora.yaml'), ('gpt2_13b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/gpt2/run_gpt2_13b.yaml'), ('gpt2_52b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/gpt2/run_gpt2_52b.yaml'), ('gpt2_xl', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/gpt2/run_gpt2_xl.yaml'), ('gpt2_xl_lora', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/gpt2/run_gpt2_xl_lora.yaml'), ('llama_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/llama/run_llama_7b.yaml'), ('llama_13b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/llama/run_llama_13b.yaml'), ('llama_65b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/llama/run_llama_65b.yaml'), ('llama2_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/llama2/run_llama2_7b.yaml'), ('llama2_13b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/llama2/run_llama2_13b.yaml'), ('llama2_70b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/llama2/run_llama2_70b.yaml'), ('codellama_34b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/codellama/run_codellama_34b_910b.yaml'), ('llama_7b_lora', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/llama/run_llama_7b_lora.yaml'), ('pangualpha_2_6b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/pangualpha/run_pangualpha_2_6b.yaml'), ('pangualpha_13b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/pangualpha/run_pangualpha_13b.yaml'), ('glm_6b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/glm/run_glm_6b_finetune.yaml'), ('glm_6b_chat', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/glm/run_glm_6b_infer.yaml'), ('glm_6b_lora', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/glm/run_glm_6b_lora.yaml'), ('glm_6b_lora_chat', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/glm/run_glm_6b_lora_infer.yaml'), ('glm2_6b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/glm2/run_glm2_6b.yaml'), ('glm2_6b_lora', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/glm2/run_glm2_6b_lora.yaml'), ('glm2_6b_ptuning2', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/glm2/run_glm2_6b_ptuning2.yaml'), ('glm3_6b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/glm3/run_glm3_6b.yaml'), ('codegeex2_6b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/codegeex2/run_codegeex2_6b.yaml'), ('bloom_560m', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/bloom/run_bloom_560m.yaml'), ('bloom_7.1b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/bloom/run_bloom_7.1b.yaml'), ('bloom_65b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/bloom/run_bloom_65b.yaml'), ('bloom_176b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/bloom/run_bloom_176b.yaml'), ('baichuan_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/research/baichuan/run_baichuan_7b.yaml'), ('baichuan2_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/research/baichuan2/run_baichuan2_7b.yaml'), ('baichuan2_13b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/research/baichuan2/run_baichuan2_13b.yaml'), ('ziya_13b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/research/ziya/run_ziya_13b.yaml'), ('skywork_13b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/research/skywork/run_skywork_13b.yaml'), ('internlm_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/research/internlm/run_internlm_7b.yaml'), ('internlm_7b_lora', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/research/internlm/run_internlm_7b_lora.yaml'), ('qwen_7b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/research/qwen/run_qwen_7b.yaml'), ('qwen_7b_lora', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/research/qwen/run_qwen_7b_lora.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/gpt2/run_gpt2.yaml')])), ('segment_anything', OrderedDict([('sam_vit_b', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/sam/run_sam_vit-b.yaml'), ('sam_vit_l', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/sam/run_sam_vit-l.yaml'), ('sam_vit_h', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/sam/run_sam_vit-h.yaml'), ('common', '/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/sam/run_sam_vit-h.yaml')]))])
+2024-06-19 14:35:35,298 - mindformers[mindformers/trainer/base_trainer.py:133] - WARNING - The default model config: /home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/configs/gpt2/run_gpt2.yaml will now be used for the text_generation task 
+2024-06-19 14:35:35,298 - mindformers[mindformers/core/parallel_config.py:45] - INFO - initial recompute_config from dict: {'recompute': False, 'select_recompute': False, 'parallel_optimizer_comm_recompute': False, 'mp_comm_recompute': False, 'recompute_slice_activation': False}
+2024-06-19 14:35:35,298 - mindformers[mindformers/core/parallel_config.py:51] - INFO - initial parallel_config from dict: {'data_parallel': 1, 'model_parallel': 8, 'pipeline_stage': 1, 'micro_batch_num': 1, 'vocab_emb_dp': False, 'gradient_aggregation_group': 4}
+2024-06-19 14:35:35,299 - mindformers[mindformers/trainer/base_trainer.py:196] - INFO - The current parallel mode is semi_auto_parallel, full batch is True,so global batch size will be changed: global_batch_size = batch_size * data_parallel * micro_batch_interleave_num * gradient_accumulation_steps = 1 = 1 * 1 * 1 * 1
+2024-06-19 14:35:35,299 - mindformers[mindformers/trainer/base_trainer.py:388] - INFO - .........Build Network From Config..........
+2024-06-19 14:35:35,300 - mindformers[mindformers/models/llama/llama_config.py:188] - WARNING - Argument `use_past_shard` is deprecated.
+2024-06-19 14:35:35,300 - mindformers[mindformers/version_control.py:60] - INFO - The Cell Reuse compilation acceleration feature is not supported when the environment variable ENABLE_CELL_REUSE is 0 or MindSpore version is earlier than 2.1.0 or stand_alone mode or pipeline_stages <= 1
+2024-06-19 14:35:35,300 - mindformers[mindformers/version_control.py:64] - INFO - 
+The current ENABLE_CELL_REUSE=0, please set the environment variable as follows: 
+export ENABLE_CELL_REUSE=1 to enable the Cell Reuse compilation acceleration feature.
+2024-06-19 14:35:35,301 - mindformers[mindformers/version_control.py:73] - INFO - The Cell Reuse compilation acceleration feature only works in pipeline parallel mode(pipeline_stage>1).Current pipeline stage=1, the feature is disabled by default.
+2024-06-19 14:35:35,523 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:35:35.524.750 [mindspore/common/parameter.py:786] This interface may be deleted in the future.
+2024-06-19 14:35:35,666 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+2024-06-19 14:35:35,808 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+2024-06-19 14:35:35,952 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+2024-06-19 14:35:36,094 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+2024-06-19 14:35:36,236 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+2024-06-19 14:35:36,645 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+2024-06-19 14:35:36,786 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+2024-06-19 14:35:36,927 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+2024-06-19 14:35:37,071 - mindformers[mindformers/modules/layers.py:554] - WARNING - The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+2024-06-19 14:35:40,195 - mindformers[mindformers/models/base_model.py:117] - INFO - model built, but weights is unloaded, since the config has no checkpoint_name_or_path attribute or checkpoint_name_or_path is None.
+2024-06-19 14:35:40,210 - mindformers[mindformers/trainer/base_trainer.py:539] - INFO - Network Parameters: 7721 M.
+2024-06-19 14:35:40,705 - mindformers[mindformers/trainer/utils.py:343] - INFO - .........Building model.........
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:36:05.677.562 [mindspore/ccsrc/frontend/parallel/pass/pass_utils.cc:119] ExtractBackwardMatMul] backward_matmul_dx_dw_map size:0
+start compile Ascend C operator RmsNorm. kernel name is rms_norm
+-[DEBUG]: RmsNorm_20 has not registed self tiling struct.
+compile Ascend C operator: RmsNorm success!
+\2024-06-19 14:36:52,950 - mindformers[mindformers/trainer/utils.py:356] - INFO - /home/ma-user/work/mindformers/research/output is_share_disk: False
+2024-06-19 14:36:52,951 - mindformers[mindformers/trainer/utils.py:357] - INFO - world_size: 8
+2024-06-19 14:36:52,952 - mindformers[mindformers/trainer/utils.py:538] - INFO - .........Collecting strategy.........
+2024-06-19 14:36:52,953 - mindformers[mindformers/trainer/utils.py:545] - INFO - pipeline_stage = 1, strategy using ./output/strategy/ckpt_strategy_rank_0_rank_0.ckpt
+2024-06-19 14:36:52,953 - mindformers[mindformers/trainer/utils.py:391] - INFO - Find exist softlink dir /home/ma-user/work/mindformers/research/./output/softlink_ckpt and delete it.
+2024-06-19 14:36:52,954 - mindformers[mindformers/trainer/utils.py:401] - INFO - Make soft link of checkpoint file from /home/ma-user/work/mindformers/research/qwen1_5/7b to ./output/softlink_ckpt/7b
+2024-06-19 14:36:52,955 - mindformers[mindformers/trainer/utils.py:585] - INFO - .........Transforming ckpt.........
+2024-06-19 14:36:52,955 - mindformers[mindformers/trainer/utils.py:586] - INFO - Src ckpt strategy: None
+2024-06-19 14:36:52,955 - mindformers[mindformers/trainer/utils.py:587] - INFO - Src ckpt: ./output/softlink_ckpt/7b
+2024-06-19 14:36:52,955 - mindformers[mindformers/trainer/utils.py:588] - INFO - Dst ckpt strategy: ./output/strategy/ckpt_strategy_rank_0_rank_0.ckpt
+2024-06-19 14:36:52,955 - mindformers[mindformers/trainer/utils.py:589] - INFO - Dst ckpt: ./output/transformed_checkpoint/7b
+2024-06-19 14:40:37,233 - mindformers[mindformers/trainer/utils.py:596] - INFO - .........Transform succeed!.........
+2024-06-19 14:40:37,463 - mindformers[mindformers/trainer/utils.py:728] - INFO - Transforming checkpoint: |▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮|100%
+2024-06-19 14:40:37,463 - mindformers[mindformers/trainer/utils.py:734] - INFO - .............Start load checkpoint from checkpoint..................
+2024-06-19 14:40:37,463 - mindformers[mindformers/trainer/utils.py:251] - INFO - When distributed loads are sliced weights,load_checkpoint should be a checkpoint directory containing the directory of rank_{0-*},The directory structure is as follows: **checkpoint_root_dir/rank_{0-*}/**.ckpt
+2024-06-19 14:40:59,034 - mindformers[mindformers/trainer/utils.py:264] - INFO - Distribute load is success.
+2024-06-19 14:40:59,034 - mindformers[mindformers/trainer/utils.py:741] - INFO - loaded checkpoint: ./output/transformed_checkpoint/7b
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.194.490 [mindspore/train/serialization.py:183] The type of model.layers.0.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.195.467 [mindspore/train/serialization.py:183] The type of model.layers.0.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.265.628 [mindspore/train/serialization.py:183] The type of model.layers.1.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.266.640 [mindspore/train/serialization.py:183] The type of model.layers.1.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.353.571 [mindspore/train/serialization.py:183] The type of model.layers.2.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.354.567 [mindspore/train/serialization.py:183] The type of model.layers.2.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.446.416 [mindspore/train/serialization.py:183] The type of model.layers.3.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.447.439 [mindspore/train/serialization.py:183] The type of model.layers.3.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.534.057 [mindspore/train/serialization.py:183] The type of model.layers.4.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.535.043 [mindspore/train/serialization.py:183] The type of model.layers.4.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.621.652 [mindspore/train/serialization.py:183] The type of model.layers.5.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.622.663 [mindspore/train/serialization.py:183] The type of model.layers.5.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.734.575 [mindspore/train/serialization.py:183] The type of model.layers.6.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.735.522 [mindspore/train/serialization.py:183] The type of model.layers.6.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.826.332 [mindspore/train/serialization.py:183] The type of model.layers.7.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.827.325 [mindspore/train/serialization.py:183] The type of model.layers.7.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.917.517 [mindspore/train/serialization.py:183] The type of model.layers.8.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:40:59.918.575 [mindspore/train/serialization.py:183] The type of model.layers.8.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.111.36 [mindspore/train/serialization.py:183] The type of model.layers.9.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.121.68 [mindspore/train/serialization.py:183] The type of model.layers.9.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.102.371 [mindspore/train/serialization.py:183] The type of model.layers.10.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.103.369 [mindspore/train/serialization.py:183] The type of model.layers.10.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.204.087 [mindspore/train/serialization.py:183] The type of model.layers.11.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.205.090 [mindspore/train/serialization.py:183] The type of model.layers.11.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.295.343 [mindspore/train/serialization.py:183] The type of model.layers.12.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.296.716 [mindspore/train/serialization.py:183] The type of model.layers.12.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.390.431 [mindspore/train/serialization.py:183] The type of model.layers.13.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.391.476 [mindspore/train/serialization.py:183] The type of model.layers.13.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.484.260 [mindspore/train/serialization.py:183] The type of model.layers.14.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.485.259 [mindspore/train/serialization.py:183] The type of model.layers.14.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.578.924 [mindspore/train/serialization.py:183] The type of model.layers.15.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.579.911 [mindspore/train/serialization.py:183] The type of model.layers.15.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.681.453 [mindspore/train/serialization.py:183] The type of model.layers.16.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.682.438 [mindspore/train/serialization.py:183] The type of model.layers.16.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.771.810 [mindspore/train/serialization.py:183] The type of model.layers.17.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.772.827 [mindspore/train/serialization.py:183] The type of model.layers.17.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.865.964 [mindspore/train/serialization.py:183] The type of model.layers.18.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.867.018 [mindspore/train/serialization.py:183] The type of model.layers.18.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.967.481 [mindspore/train/serialization.py:183] The type of model.layers.19.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:00.968.543 [mindspore/train/serialization.py:183] The type of model.layers.19.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.575.86 [mindspore/train/serialization.py:183] The type of model.layers.20.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.585.68 [mindspore/train/serialization.py:183] The type of model.layers.20.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.152.086 [mindspore/train/serialization.py:183] The type of model.layers.21.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.153.087 [mindspore/train/serialization.py:183] The type of model.layers.21.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.237.691 [mindspore/train/serialization.py:183] The type of model.layers.22.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.238.676 [mindspore/train/serialization.py:183] The type of model.layers.22.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.331.581 [mindspore/train/serialization.py:183] The type of model.layers.23.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.332.630 [mindspore/train/serialization.py:183] The type of model.layers.23.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.423.185 [mindspore/train/serialization.py:183] The type of model.layers.24.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.424.227 [mindspore/train/serialization.py:183] The type of model.layers.24.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.516.147 [mindspore/train/serialization.py:183] The type of model.layers.25.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.517.110 [mindspore/train/serialization.py:183] The type of model.layers.25.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.607.590 [mindspore/train/serialization.py:183] The type of model.layers.26.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.608.574 [mindspore/train/serialization.py:183] The type of model.layers.26.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.702.188 [mindspore/train/serialization.py:183] The type of model.layers.27.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.703.212 [mindspore/train/serialization.py:183] The type of model.layers.27.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.789.503 [mindspore/train/serialization.py:183] The type of model.layers.28.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.790.478 [mindspore/train/serialization.py:183] The type of model.layers.28.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.880.994 [mindspore/train/serialization.py:183] The type of model.layers.29.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.882.004 [mindspore/train/serialization.py:183] The type of model.layers.29.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.969.493 [mindspore/train/serialization.py:183] The type of model.layers.30.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:01.970.466 [mindspore/train/serialization.py:183] The type of model.layers.30.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.640.33 [mindspore/train/serialization.py:183] The type of model.layers.31.attention_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.650.68 [mindspore/train/serialization.py:183] The type of model.layers.31.ffn_norm.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.157.039 [mindspore/train/serialization.py:183] The type of model.norm_out.weight:Float16 in 'parameter_dict' is different from the type of it in 'net':Float32, then the type convert from Float16 to Float32 in the network.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.319.418 [mindspore/train/serialization.py:1378] For 'load_param_into_net', 64 parameters in the 'net' are not loaded, because they are not in the 'parameter_dict', please check whether the network structure is consistent when training and loading checkpoint.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.319.669 [mindspore/train/serialization.py:1383] model.layers.0.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.319.756 [mindspore/train/serialization.py:1383] model.layers.0.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.319.826 [mindspore/train/serialization.py:1383] model.layers.1.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.319.891 [mindspore/train/serialization.py:1383] model.layers.1.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.319.954 [mindspore/train/serialization.py:1383] model.layers.2.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.016 [mindspore/train/serialization.py:1383] model.layers.2.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.076 [mindspore/train/serialization.py:1383] model.layers.3.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.137 [mindspore/train/serialization.py:1383] model.layers.3.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.196 [mindspore/train/serialization.py:1383] model.layers.4.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.256 [mindspore/train/serialization.py:1383] model.layers.4.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.313 [mindspore/train/serialization.py:1383] model.layers.5.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.372 [mindspore/train/serialization.py:1383] model.layers.5.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.430 [mindspore/train/serialization.py:1383] model.layers.6.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.488 [mindspore/train/serialization.py:1383] model.layers.6.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.548 [mindspore/train/serialization.py:1383] model.layers.7.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.632 [mindspore/train/serialization.py:1383] model.layers.7.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.693 [mindspore/train/serialization.py:1383] model.layers.8.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.751 [mindspore/train/serialization.py:1383] model.layers.8.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.809 [mindspore/train/serialization.py:1383] model.layers.9.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.866 [mindspore/train/serialization.py:1383] model.layers.9.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.924 [mindspore/train/serialization.py:1383] model.layers.10.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.320.981 [mindspore/train/serialization.py:1383] model.layers.10.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.037 [mindspore/train/serialization.py:1383] model.layers.11.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.093 [mindspore/train/serialization.py:1383] model.layers.11.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.150 [mindspore/train/serialization.py:1383] model.layers.12.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.222 [mindspore/train/serialization.py:1383] model.layers.12.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.284 [mindspore/train/serialization.py:1383] model.layers.13.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.343 [mindspore/train/serialization.py:1383] model.layers.13.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.400 [mindspore/train/serialization.py:1383] model.layers.14.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.458 [mindspore/train/serialization.py:1383] model.layers.14.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.516 [mindspore/train/serialization.py:1383] model.layers.15.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.572 [mindspore/train/serialization.py:1383] model.layers.15.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.628 [mindspore/train/serialization.py:1383] model.layers.16.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.686 [mindspore/train/serialization.py:1383] model.layers.16.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.743 [mindspore/train/serialization.py:1383] model.layers.17.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.800 [mindspore/train/serialization.py:1383] model.layers.17.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.857 [mindspore/train/serialization.py:1383] model.layers.18.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.913 [mindspore/train/serialization.py:1383] model.layers.18.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.321.979 [mindspore/train/serialization.py:1383] model.layers.19.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.042 [mindspore/train/serialization.py:1383] model.layers.19.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.100 [mindspore/train/serialization.py:1383] model.layers.20.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.157 [mindspore/train/serialization.py:1383] model.layers.20.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.215 [mindspore/train/serialization.py:1383] model.layers.21.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.273 [mindspore/train/serialization.py:1383] model.layers.21.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.330 [mindspore/train/serialization.py:1383] model.layers.22.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.387 [mindspore/train/serialization.py:1383] model.layers.22.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.443 [mindspore/train/serialization.py:1383] model.layers.23.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.499 [mindspore/train/serialization.py:1383] model.layers.23.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.555 [mindspore/train/serialization.py:1383] model.layers.24.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.612 [mindspore/train/serialization.py:1383] model.layers.24.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.668 [mindspore/train/serialization.py:1383] model.layers.25.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.724 [mindspore/train/serialization.py:1383] model.layers.25.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.781 [mindspore/train/serialization.py:1383] model.layers.26.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.837 [mindspore/train/serialization.py:1383] model.layers.26.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.895 [mindspore/train/serialization.py:1383] model.layers.27.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.322.951 [mindspore/train/serialization.py:1383] model.layers.27.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.323.007 [mindspore/train/serialization.py:1383] model.layers.28.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.323.062 [mindspore/train/serialization.py:1383] model.layers.28.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.323.118 [mindspore/train/serialization.py:1383] model.layers.29.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.323.173 [mindspore/train/serialization.py:1383] model.layers.29.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.323.229 [mindspore/train/serialization.py:1383] model.layers.30.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.323.293 [mindspore/train/serialization.py:1383] model.layers.30.attention.kvcache_mgr.value_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.323.351 [mindspore/train/serialization.py:1383] model.layers.31.attention.kvcache_mgr.key_past is not loaded.
+[WARNING] ME(2278744:281473788321808,MainProcess):2024-06-19-14:41:02.323.408 [mindspore/train/serialization.py:1383] model.layers.31.attention.kvcache_mgr.value_past is not loaded.
+2024-06-19 14:41:02,323 - mindformers[mindformers/trainer/utils.py:768] - INFO - Network parameters are not loaded: (['model.layers.0.attention.kvcache_mgr.key_past', 'model.layers.0.attention.kvcache_mgr.value_past', 'model.layers.1.attention.kvcache_mgr.key_past', 'model.layers.1.attention.kvcache_mgr.value_past', 'model.layers.2.attention.kvcache_mgr.key_past', 'model.layers.2.attention.kvcache_mgr.value_past', 'model.layers.3.attention.kvcache_mgr.key_past', 'model.layers.3.attention.kvcache_mgr.value_past', 'model.layers.4.attention.kvcache_mgr.key_past', 'model.layers.4.attention.kvcache_mgr.value_past', 'model.layers.5.attention.kvcache_mgr.key_past', 'model.layers.5.attention.kvcache_mgr.value_past', 'model.layers.6.attention.kvcache_mgr.key_past', 'model.layers.6.attention.kvcache_mgr.value_past', 'model.layers.7.attention.kvcache_mgr.key_past', 'model.layers.7.attention.kvcache_mgr.value_past', 'model.layers.8.attention.kvcache_mgr.key_past', 'model.layers.8.attention.kvcache_mgr.value_past', 'model.layers.9.attention.kvcache_mgr.key_past', 'model.layers.9.attention.kvcache_mgr.value_past', 'model.layers.10.attention.kvcache_mgr.key_past', 'model.layers.10.attention.kvcache_mgr.value_past', 'model.layers.11.attention.kvcache_mgr.key_past', 'model.layers.11.attention.kvcache_mgr.value_past', 'model.layers.12.attention.kvcache_mgr.key_past', 'model.layers.12.attention.kvcache_mgr.value_past', 'model.layers.13.attention.kvcache_mgr.key_past', 'model.layers.13.attention.kvcache_mgr.value_past', 'model.layers.14.attention.kvcache_mgr.key_past', 'model.layers.14.attention.kvcache_mgr.value_past', 'model.layers.15.attention.kvcache_mgr.key_past', 'model.layers.15.attention.kvcache_mgr.value_past', 'model.layers.16.attention.kvcache_mgr.key_past', 'model.layers.16.attention.kvcache_mgr.value_past', 'model.layers.17.attention.kvcache_mgr.key_past', 'model.layers.17.attention.kvcache_mgr.value_past', 'model.layers.18.attention.kvcache_mgr.key_past', 'model.layers.18.attention.kvcache_mgr.value_past', 'model.layers.19.attention.kvcache_mgr.key_past', 'model.layers.19.attention.kvcache_mgr.value_past', 'model.layers.20.attention.kvcache_mgr.key_past', 'model.layers.20.attention.kvcache_mgr.value_past', 'model.layers.21.attention.kvcache_mgr.key_past', 'model.layers.21.attention.kvcache_mgr.value_past', 'model.layers.22.attention.kvcache_mgr.key_past', 'model.layers.22.attention.kvcache_mgr.value_past', 'model.layers.23.attention.kvcache_mgr.key_past', 'model.layers.23.attention.kvcache_mgr.value_past', 'model.layers.24.attention.kvcache_mgr.key_past', 'model.layers.24.attention.kvcache_mgr.value_past', 'model.layers.25.attention.kvcache_mgr.key_past', 'model.layers.25.attention.kvcache_mgr.value_past', 'model.layers.26.attention.kvcache_mgr.key_past', 'model.layers.26.attention.kvcache_mgr.value_past', 'model.layers.27.attention.kvcache_mgr.key_past', 'model.layers.27.attention.kvcache_mgr.value_past', 'model.layers.28.attention.kvcache_mgr.key_past', 'model.layers.28.attention.kvcache_mgr.value_past', 'model.layers.29.attention.kvcache_mgr.key_past', 'model.layers.29.attention.kvcache_mgr.value_past', 'model.layers.30.attention.kvcache_mgr.key_past', 'model.layers.30.attention.kvcache_mgr.value_past', 'model.layers.31.attention.kvcache_mgr.key_past', 'model.layers.31.attention.kvcache_mgr.value_past'], [])
+{'auto_trans_ckpt': True,
+ 'callbacks': [OrderedDict([('type', 'MFLossMonitor')]),
+               OrderedDict([('type', 'CheckpointMointor'),
+                            ('prefix', 'qwen2'),
+                            ('save_checkpoint_steps', 10000),
+                            ('keep_checkpoint_max', 3),
+                            ('integrated_save', False),
+                            ('async_save', False)]),
+               OrderedDict([('type', 'ObsMonitor')])],
+ 'context': {'ascend_config': {'precision_mode': 'must_keep_origin_dtype'},
+             'device_id': 0,
+             'device_target': 'Ascend',
+             'enable_graph_kernel': False,
+             'graph_kernel_flags': '--disable_expand_ops=Softmax,Dropout '
+                                   '--enable_parallel_fusion=true '
+                                   '--reduce_fuse_depth=8 '
+                                   '--enable_auto_tensor_inplace=true',
+             'max_call_depth': 10000,
+             'save_graphs': False,
+             'save_graphs_path': './graph'},
+ 'device_num': 8,
+ 'load_checkpoint': './output/transformed_checkpoint',
+ 'local_rank': 0,
+ 'lr_schedule': {'learning_rate': 1e-05,
+                 'total_steps': -1,
+                 'type': 'CosineWithWarmUpLR',
+                 'warmup_ratio': 0.01},
+ 'micro_batch_interleave_num': 1,
+ 'model': {'arch': {'type': 'LlamaForCausalLM'},
+           'model_config': {'batch_size': 1,
+                            'bos_token_id': 151643,
+                            'checkpoint_name_or_path': None,
+                            'compute_dtype': 'float16',
+                            'do_sample': False,
+                            'emb_dropout_prob': 0.0,
+                            'eos_token_id': 151643,
+                            'hidden_size': 4096,
+                            'intermediate_size': 11008,
+                            'kv_channels': 128,
+                            'layernorm_compute_type': 'float32',
+                            'max_decode_length': 512,
+                            'num_heads': 32,
+                            'num_layers': 32,
+                            'offset': 0,
+                            'pad_token_id': 151643,
+                            'param_init_type': 'float16',
+                            'qkv_has_bias': True,
+                            'repetition_penalty': 1,
+                            'rms_norm_eps': 1e-06,
+                            'rotary_dtype': 'float16',
+                            'rotary_emb_base': 10000,
+                            'rotary_pct': 1.0,
+                            'seq_length': 2048,
+                            'softmax_compute_type': 'float16',
+                            'theta': 1000000.0,
+                            'top_k': 0,
+                            'top_p': 0.8,
+                            'type': 'LlamaConfig',
+                            'use_flash_attention': False,
+                            'use_paged_attention': False,
+                            'use_past': True,
+                            'use_past_shard': False,
+                            'vocab_size': 151936}},
+ 'moe_config': <mindformers.modules.transformer.moe.MoEConfig object at 0xfffed2b30820>,
+ 'only_save_strategy': False,
+ 'optimizer': {'beta1': 0.9,
+               'beta2': 0.95,
+               'eps': 1e-06,
+               'type': 'FP32StateAdamWeightDecay',
+               'weight_decay': 0.1},
+ 'output_dir': './output',
+ 'parallel': {'device_num': 8,
+              'enable_alltoall': False,
+              'enable_parallel_optimizer': True,
+              'full_batch': True,
+              'gradients_mean': False,
+              'parallel_mode': 'semi_auto_parallel',
+              'parallel_optimizer_config': {'gradient_accumulation_shard': False,
+                                            'parallel_optimizer_threshold': 64},
+              'search_mode': 'sharding_propagation',
+              'strategy_ckpt_config': {'only_trainable_params': False,
+                                       'save_file': './ckpt_strategy.ckpt'},
+              'strategy_ckpt_save_file': './output/strategy/ckpt_strategy_rank_0_rank_0.ckpt'},
+ 'parallel_config': <mindformers.modules.transformer.transformer.TransformerOpParallelConfig object at 0xfffd8c18dc10>,
+ 'processor': {'return_tensors': 'ms',
+               'tokenizer': {'eos_token': '<|endoftext|>',
+                             'merges_file': '/home/ma-user/work/mindformers/research/qwen1_5/7b/merges.txt',
+                             'model_max_length': 32768,
+                             'pad_token': '<|endoftext|>',
+                             'type': 'Qwen2Tokenizer',
+                             'unk_token': '<|endoftext|>',
+                             'vocab_file': '/home/ma-user/work/mindformers/research/qwen1_5/7b/vocab.json'},
+               'type': 'Qwen2Processor'},
+ 'rank_id': 0,
+ 'recompute_config': <mindformers.modules.transformer.transformer.TransformerRecomputeConfig object at 0xfffd8c18d490>,
+ 'resume_training': False,
+ 'run_mode': 'predict',
+ 'runner_config': {'batch_size': 1,
+                   'epochs': 5,
+                   'gradient_accumulation_steps': 1,
+                   'sink_mode': True,
+                   'sink_size': 2},
+ 'runner_wrapper': {'scale_sense': {'loss_scale_value': 65536,
+                                    'scale_factor': 2,
+                                    'scale_window': 1000,
+                                    'type': 'DynamicLossScaleUpdateCell'},
+                    'type': 'MFTrainOneStepCell',
+                    'use_clip_grad': True},
+ 'seed': 0,
+ 'src_strategy_path_or_dir': '',
+ 'train_dataset': {'auto_tune': None,
+                   'autotune_per_step': None,
+                   'batch_size': 1,
+                   'data_loader': {'dataset_dir': '',
+                                   'shuffle': True,
+                                   'type': 'MindDataset'},
+                   'do_eval': False,
+                   'drop_remainder': True,
+                   'filepath_prefix': None,
+                   'input_columns': ['input_ids', 'labels', 'attention_mask'],
+                   'num_parallel_workers': 8,
+                   'numa_enable': False,
+                   'prefetch_size': 1,
+                   'profile': None,
+                   'python_multiprocessing': False,
+                   'repeat': 1,
+                   'seed': 0},
+ 'train_dataset_task': {'dataset_config': {'auto_tune': None,
+                                           'autotune_per_step': None,
+                                           'batch_size': 1,
+                                           'data_loader': {'dataset_dir': '',
+                                                           'shuffle': True,
+                                                           'type': 'MindDataset'},
+                                           'do_eval': False,
+                                           'drop_remainder': True,
+                                           'filepath_prefix': None,
+                                           'input_columns': ['input_ids',
+                                                             'labels',
+                                                             'attention_mask'],
+                                           'num_parallel_workers': 8,
+                                           'numa_enable': False,
+                                           'prefetch_size': 1,
+                                           'profile': None,
+                                           'python_multiprocessing': False,
+                                           'repeat': 1,
+                                           'seed': 0},
+                        'type': 'CausalLanguageModelDataset'},
+ 'trainer': {'model_name': 'qwen2_7b', 'type': 'CausalLanguageModelingTrainer'},
+ 'use_parallel': True}
+2024-06-19 14:41:02,369 - mindformers[mindformers/generation/text_generator.py:1099] - WARNING - When do_sample is set to False, top_k will be set to 1 and top_p will be set to 0, making them inactive.
+2024-06-19 14:41:02,369 - mindformers[mindformers/generation/text_generator.py:1103] - INFO - Generation Config is: {'max_length': 8192, 'max_new_tokens': None, 'num_beams': 1, 'do_sample': False, 'use_past': True, 'temperature': 1.0, 'top_k': 0, 'top_p': 1.0, 'repetition_penalty': 1, 'encoder_repetition_penalty': 1.0, 'renormalize_logits': False, 'pad_token_id': 151643, 'bos_token_id': 151643, 'eos_token_id': 151643, '_from_model_config': True}
+2024-06-19 14:41:02,370 - mindformers[mindformers/generation/text_generator.py:176] - INFO - The generation mode will be **GREEDY_SEARCH**.
+2024-06-19 14:41:02,370 - mindformers[mindformers/generation/text_generator.py:309] - WARNING - max_length 8192 can not exceeds model seq_length 2048, set max_length = seq_length.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:41:02.390.816 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 1 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:41:02.390.896 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 3 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:41:02.390.920 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 4 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:41:02.390.941 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 5 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:41:02.390.970 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 8 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:41:02.390.992 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 9 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:41:02.391.010 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 10 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:41:02.391.035 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 11 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:41:28.453.995 [mindspore/ccsrc/frontend/parallel/pass/pass_utils.cc:119] ExtractBackwardMatMul] backward_matmul_dx_dw_map size:0
+|[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:42:00.019.836 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 1 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:42:00.019.916 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 3 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:42:00.019.935 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 4 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:42:00.019.955 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 5 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:42:00.019.985 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 8 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:42:00.020.004 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 9 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:42:00.020.020 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 10 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:42:00.020.038 [mindspore/ccsrc/frontend/parallel/step_parallel_utils.cc:1543] ExtendInputArgsAbstractShape] The input 11 is not a tensor.
+[WARNING] PARALLEL(2278744,ffffb92aa010,python):2024-06-19-14:42:28.814.956 [mindspore/ccsrc/frontend/parallel/pass/pass_utils.cc:119] ExtractBackwardMatMul] backward_matmul_dx_dw_map size:0
+/start compile Ascend C operator RmsNorm. kernel name is rms_norm
+[DEBUG]: RmsNorm_20 has not registed self tiling struct.
+compile Ascend C operator: RmsNorm success!
+-2024-06-19 14:43:14,997 - mindformers[mindformers/generation/text_generator.py:478] - INFO - total time: 132.62711668014526 s; generated tokens: 416 tokens; generate speed: 3.1366134649768544 tokens/s
+2024-06-19 14:43:15,036 - mindformers[mindformers/trainer/base_trainer.py:946] - INFO - output result is: [{'text_generation_text': ['帮助我制定一份去杭州的旅游攻略\n当然可以，以下是一份为期3天的杭州旅游攻略，包括主要景点和活动：\n\n**第一天：西湖游览**\n\n- **早上**：从酒店出发，首先游览西湖，可以乘坐公交或租自行车，推荐乘坐游船欣赏湖光山色，如雷峰塔、断桥残雪等。\n- **中午**：在湖边的苏堤春晓或者花港观鱼附近品尝杭州特色小吃，如西湖醋鱼、龙井虾仁等。\n- **下午**：参观灵隐寺，感受佛教文化，然后去岳庙了解南宋历史。\n- **晚上**：在河坊街体验杭州的夜生活，品尝各种小吃，如各种茶文化体验，如龙井茶艺表演。\n\n**第二天：江南水乡**\n\n- **早上**：前往乌镇，乌镇是典型的江南水乡，可以乘坐高铁或长途汽车，大约2小时车程。\n- **中午**：乌镇内品尝当地特色，如酱鸭、糖醋排骨等。\n- **下午**：游览乌镇，体验小桥流水人家，如东栅、西栅等。\n- **晚上**：返回杭州，如果时间允许，可以在杭州的夜市品尝一些小吃，如河坊街的夜市。\n\n**第三天：文化与购物**\n\n- **早上**：参观中国丝绸博物馆，了解丝绸文化。\n- **中午**：在南宋御街品尝杭州本地美食，如知味观的点心。\n- **下午**：逛逛杭州的大型购物中心，如西湖银泰、湖滨步行街等，购物或购买纪念品。\n- **傍晚**：结束旅程，返回酒店或机场。\n\n**注意事项**：\n- 旅行期间注意天气变化，杭州四季分明，夏季湿热，冬季寒冷。\n- 保持个人物品安全，尤其是在人多的地方。\n- 尽量提前预订景点门票和交通工具，避免排队。\n\n希望这个攻略对你有所帮助，祝你旅途愉快！\n']}]
+2024-06-19 14:43:15,036 - mindformers[mindformers/trainer/base_trainer.py:947] - INFO - output result is saved at: text_generation_result.txt
+2024-06-19 14:43:15,036 - mindformers[mindformers/trainer/base_trainer.py:948] - INFO - .........Predict Over!.............
+帮助我制定一份去杭州的旅游攻略
+当然可以，以下是一份为期3天的杭州旅游攻略，包括主要景点和活动：
+
+**第一天：西湖游览**
+
+- **早上**：从酒店出发，首先游览西湖，可以乘坐公交或租自行车，推荐乘坐游船欣赏湖光山色，如雷峰塔、断桥残雪等。
+- **中午**：在湖边的苏堤春晓或者花港观鱼附近品尝杭州特色小吃，如西湖醋鱼、龙井虾仁等。
+- **下午**：参观灵隐寺，感受佛教文化，然后去岳庙了解南宋历史。
+- **晚上**：在河坊街体验杭州的夜生活，品尝各种小吃，如各种茶文化体验，如龙井茶艺表演。
+
+**第二天：江南水乡**
+
+- **早上**：前往乌镇，乌镇是典型的江南水乡，可以乘坐高铁或长途汽车，大约2小时车程。
+- **中午**：乌镇内品尝当地特色，如酱鸭、糖醋排骨等。
+- **下午**：游览乌镇，体验小桥流水人家，如东栅、西栅等。
+- **晚上**：返回杭州，如果时间允许，可以在杭州的夜市品尝一些小吃，如河坊街的夜市。
+
+**第三天：文化与购物**
+
+- **早上**：参观中国丝绸博物馆，了解丝绸文化。
+- **中午**：在南宋御街品尝杭州本地美食，如知味观的点心。
+- **下午**：逛逛杭州的大型购物中心，如西湖银泰、湖滨步行街等，购物或购买纪念品。
+- **傍晚**：结束旅程，返回酒店或机场。
+
+**注意事项**：
+- 旅行期间注意天气变化，杭州四季分明，夏季湿热，冬季寒冷。
+- 保持个人物品安全，尤其是在人多的地方。
+- 尽量提前预订景点门票和交通工具，避免排队。
+
+希望这个攻略对你有所帮助，祝你旅途愉快！
+

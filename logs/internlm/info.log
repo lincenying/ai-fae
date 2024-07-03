@@ -1,0 +1,89 @@
+[INFO] 2024-06-13 16:27:32,908 [mindformers/tools/utils.py:155] set_output_path: set output path to '/home/ma-user/work/mindformers/research/internlm/output'
+[INFO] 2024-06-13 16:27:32,908 [mindformers/trainer/base_trainer.py:90] __init__: Now Running Task is: text_generation, Model is: internlm_7b
+[INFO] 2024-06-13 16:27:32,908 [mindformers/core/parallel_config.py:45] build_parallel_config: initial recompute_config from dict: {'recompute': True, 'parallel_optimizer_comm_recompute': False, 'mp_comm_recompute': True, 'recompute_slice_activation': True}
+[INFO] 2024-06-13 16:27:32,909 [mindformers/core/parallel_config.py:51] build_parallel_config: initial parallel_config from dict: {'data_parallel': 8, 'model_parallel': 1, 'pipeline_stage': 1, 'micro_batch_num': 1, 'vocab_emb_dp': True, 'gradient_aggregation_group': 4}
+[INFO] 2024-06-13 16:27:32,909 [mindformers/trainer/base_trainer.py:233] _check_global_batch_size_for_auto_parallel: The current parallel mode is stand_alone, batch size per card will not be changed: batch_size_per_card = 4
+[INFO] 2024-06-13 16:27:32,909 [mindformers/trainer/base_trainer.py:237] _check_global_batch_size_for_auto_parallel: global_batch_size = batch_size_per_card * device_num * gradient_accumulation_steps = 4 = 4 * 1 * 1
+[INFO] 2024-06-13 16:27:32,910 [mindformers/trainer/base_trainer.py:246] _check_global_batch_size_for_auto_parallel: parallel_config will be change to default config: [ParallelConfig]
+_recompute:[ParallelConfig]
+_recompute:True
+_select_recompute:False
+_parallel_optimizer_comm_recompute:False
+_mp_comm_recompute:True
+_recompute_slice_activation:True
+
+select_recompute:False
+use_seq_parallel:False
+_gradient_aggregation_group:4
+_embed_dp_mp_config:[ParallelConfig]
+_dp_mp_config:[ParallelConfig]
+_data_parallel:1
+_model_parallel:1
+use_seq_parallel:False
+select_recompute:False
+
+_vocab_emb_dp:True
+use_seq_parallel:False
+select_recompute:False
+
+_pp_config:[ParallelConfig]
+_pipeline_stage:1
+_micro_batch_num:1
+
+_moe_config:[ParallelConfig]
+_dpmp:[ParallelConfig]
+_data_parallel:1
+_model_parallel:1
+use_seq_parallel:False
+select_recompute:False
+
+_expert_parallel:1
+use_seq_parallel:False
+select_recompute:False
+
+.
+[INFO] 2024-06-13 16:27:32,910 [mindformers/trainer/base_trainer.py:388] create_network: .........Build Network From Config..........
+[INFO] 2024-06-13 16:27:32,911 [mindformers/version_control.py:60] decorator: The Cell Reuse compilation acceleration feature is not supported when the environment variable ENABLE_CELL_REUSE is 0 or MindSpore version is earlier than 2.1.0 or stand_alone mode or pipeline_stages <= 1
+[INFO] 2024-06-13 16:27:32,911 [mindformers/version_control.py:64] decorator: 
+The current ENABLE_CELL_REUSE=0, please set the environment variable as follows: 
+export ENABLE_CELL_REUSE=1 to enable the Cell Reuse compilation acceleration feature.
+[INFO] 2024-06-13 16:27:32,911 [mindformers/version_control.py:70] decorator: The Cell Reuse compilation acceleration feature does not support single-card mode.This feature is disabled by default. ENABLE_CELL_REUSE=1 does not take effect.
+[INFO] 2024-06-13 16:27:32,911 [mindformers/version_control.py:73] decorator: The Cell Reuse compilation acceleration feature only works in pipeline parallel mode(pipeline_stage>1).Current pipeline stage=1, the feature is disabled by default.
+[INFO] 2024-06-13 16:27:32,912 [mindformers/version_control.py:60] decorator: The Cell Reuse compilation acceleration feature is not supported when the environment variable ENABLE_CELL_REUSE is 0 or MindSpore version is earlier than 2.1.0 or stand_alone mode or pipeline_stages <= 1
+[INFO] 2024-06-13 16:27:32,912 [mindformers/version_control.py:64] decorator: 
+The current ENABLE_CELL_REUSE=0, please set the environment variable as follows: 
+export ENABLE_CELL_REUSE=1 to enable the Cell Reuse compilation acceleration feature.
+[INFO] 2024-06-13 16:27:32,912 [mindformers/version_control.py:70] decorator: The Cell Reuse compilation acceleration feature does not support single-card mode.This feature is disabled by default. ENABLE_CELL_REUSE=1 does not take effect.
+[INFO] 2024-06-13 16:27:32,912 [mindformers/version_control.py:73] decorator: The Cell Reuse compilation acceleration feature only works in pipeline parallel mode(pipeline_stage>1).Current pipeline stage=1, the feature is disabled by default.
+[WARNING] 2024-06-13 16:28:01,274 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:28:03,810 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:28:06,394 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:28:08,954 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:28:11,524 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:28:14,076 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:28:16,656 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:28:19,356 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:28:21,975 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:28:24,624 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[INFO] 2024-06-13 16:29:28,520 [mindformers/models/base_model.py:117] load_checkpoint: model built, but weights is unloaded, since the config has no checkpoint_name_or_path attribute or checkpoint_name_or_path is None.
+[WARNING] 2024-06-13 16:29:36,311 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:29:38,958 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:29:41,625 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:29:44,306 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:29:47,022 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:29:49,727 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:29:52,396 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:29:55,055 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:29:57,768 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[WARNING] 2024-06-13 16:30:00,487 [mindformers/modules/layers.py:554] shard: The user passed the custom defined activation function True. If the user want to enable shard for the activation cell, the user should set the shard for each primitives in the cell.
+[INFO] 2024-06-13 16:33:20,839 [mindformers/models/base_model.py:117] load_checkpoint: model built, but weights is unloaded, since the config has no checkpoint_name_or_path attribute or checkpoint_name_or_path is None.
+[INFO] 2024-06-13 16:33:20,857 [mindformers/trainer/base_trainer.py:539] count_parameters: Network Parameters: 7321 M.
+[INFO] 2024-06-13 16:33:21,754 [mindformers/trainer/utils.py:733] load_ckpt: .............Start load checkpoint from checkpoint..................
+[INFO] 2024-06-13 16:35:22,709 [mindformers/trainer/utils.py:767] load_ckpt: Network parameters are not loaded: ([], [])
+[WARNING] 2024-06-13 16:35:22,756 [mindformers/generation/text_generator.py:1099] generate: When do_sample is set to False, top_k will be set to 1 and top_p will be set to 0, making them inactive.
+[INFO] 2024-06-13 16:35:22,757 [mindformers/generation/text_generator.py:1103] generate: Generation Config is: {'max_length': 128, 'max_new_tokens': None, 'num_beams': 1, 'do_sample': False, 'use_past': False, 'temperature': 1.0, 'top_k': 0, 'top_p': 1.0, 'repetition_penalty': 1.0, 'encoder_repetition_penalty': 1.0, 'renormalize_logits': False, 'pad_token_id': 2, 'bos_token_id': 1, 'eos_token_id': 2, '_from_model_config': True}
+[INFO] 2024-06-13 16:35:22,757 [mindformers/generation/text_generator.py:176] _get_generation_mode: The generation mode will be **GREEDY_SEARCH**.
+[INFO] 2024-06-13 16:36:21,552 [mindformers/generation/text_generator.py:478] _greedy_search: total time: 58.79476237297058 s; generated tokens: 7 tokens; generate speed: 0.11905822419342024 tokens/s
+[INFO] 2024-06-13 16:36:22,112 [mindformers/trainer/base_trainer.py:946] predict_process: output result is: [{'text_generation_text': ['<|User|>:我们来对对联吧！生意如春意 的下联是<eoh>\n<|Bot|>:财源似水流<eoa>\n']}]
+[INFO] 2024-06-13 16:36:22,113 [mindformers/trainer/base_trainer.py:947] predict_process: output result is saved at: text_generation_result.txt
+[INFO] 2024-06-13 16:36:22,113 [mindformers/trainer/base_trainer.py:948] predict_process: .........Predict Over!.............

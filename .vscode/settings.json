@@ -1,0 +1,18 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnPaste": true,
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true
+    },
+    "black-formatter.args": [
+        "--line-length",
+        "150"
+    ],
+    "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 150,
+    "python.formatting.autopep8Args": [
+        "--max-line-length=150"
+    ],
+    "python.formatting.provider": "none"
+}
