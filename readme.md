@@ -4,6 +4,10 @@
 昇腾pytorch大模型仓库：
 https://gitee.com/ascend/ModelLink
 
+https://www.hiascend.com/software/modelzoo
+
+https://gitee.com/ascend/modelzoo-GPL
+
 mindspore框架的大模型仓库：
 https://gitee.com/mindspore/mindformers
 
