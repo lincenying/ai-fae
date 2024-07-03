@@ -114,7 +114,7 @@ obs://model-data/qianwen1.5/7b/base/model-00004-of-00004.safetensors
 ```
 
 ### 7b-chat
-[见xiemingda账号](#qwen1_5-7b-chat-1)
+[见xiemingda账号](#qwen1_5-7b-chat_1)
 
 ### 14b-base
 ```
@@ -129,10 +129,10 @@ obs://model-data/qianwen1.5/14b/base/model-00008-of-00008.safetensors
 ```
 
 ### 14b-chat
-[见xiemingda账号](#qwen1_5-14b-chat-1)
+[见xiemingda账号](#qwen1_5-14b-chat_1)
 
 ### 72b-chat
-[见xiemingda账号](#qwen1_5-72b-chat-1)
+[见xiemingda账号](#qwen1_5-72b-chat_1)
 
 ## qianwen
 
@@ -162,12 +162,12 @@ obs://model-data/llama2/llama2_7b.ckpt
 ## llama3
 
 ### 8B
-[见xiemingda账号](#llama3-8b-1)
+[见xiemingda账号](#llama3-8b_1)
 
 ## yolov5
 
 ### 数据集
-[见xiemingda账号](#yolov5-dataset-1)
+[见xiemingda账号](#yolov5-dataset_1)
 
 # xiemingda账号
 
@@ -179,7 +179,7 @@ obs://temp-zjw/llama2-7b/pytorch_model-00002-of-00002.bin
 
 ## llama3
 
-### 8b{#llama3-8b-1}
+### llama3-8b_1
 ```
 obs://llama3/data/Meta-Llama-3-8B-Instruct
 ```
@@ -192,19 +192,19 @@ obs://glm32k/data.zip
 
 ## yolov5
 
-### dataset{#yolov5-dataset-1}
+### yolov5-dataset_1
 ```
 obs://temp-zjw/datasets/coco2017.zip
 ```
 
 ## qwen1.5
 
-### 7b-chat{#qwen1_5-7b-chat-1}
+### qwen1_5-7b-chat_1
 ```
 obs://wio/qwen1.5-7b-chat-ckpt/qwen15_7b_chat.ckpt
 ```
 
-### 14b-chat{#qwen1_5-14b-chat-1}
+### qwen1_5-14b-chat_1
 ```
 obs://wio/qwen1.5-14b-chat/model-00001-of-00008.safetensors
 obs://wio/qwen1.5-14b-chat/model-00002-of-00008.safetensors
@@ -216,7 +216,7 @@ obs://wio/qwen1.5-14b-chat/model-00007-of-00008.safetensors
 obs://wio/qwen1.5-14b-chat/model-00008-of-00008.safetensors
 ```
 
-## 72b-chat{#qwen1_5-72b-chat-1}
+## qwen1_5-72b-chat_1
 ```
 obs://wio/qw1.5-72b-chat.ckpt
 ```
