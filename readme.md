@@ -1,4 +1,5 @@
-昇腾社区官网：https://www.hiascend.com/，可以查看相关产品文档和开发者文档
+昇腾社区官网：https://www.hiascend.com/
+可以查看相关产品文档和开发者文档
 
 昇腾pytorch大模型仓库：
 https://gitee.com/ascend/ModelLink
