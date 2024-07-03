@@ -132,12 +132,12 @@ obs://model-data/qianwen1.5/14b/base/model-00008-of-00008.safetensors
 
 ### 14b-chat
 ```
-见xiemingda账号
+[见xiemingda账号](#14b-chat-1)
 ```
 
 ### 72b-chat
 ```
-见xiemingda账号
+[见xiemingda账号](#72b-chat-1)
 ```
 
 ## qianwen

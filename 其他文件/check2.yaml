@@ -1,12 +1,12 @@
 seed: 0
 output_dir: './output' # path to save checkpoint/strategy
-load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/14b_base/rank_0/qwen15_14b_base.ckpt'
+load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/14b_base/'
 src_strategy_path_or_dir: ''
 auto_trans_ckpt: True  # If true, auto transform load_checkpoint to load in distributed model
 only_save_strategy: False
 resume_training: False
 use_parallel: True
-run_mode: 'predict'
+run_mode: 'finetune'
 
 # trainer config
 trainer:
@@ -17,9 +17,9 @@ trainer:
 train_dataset: &train_dataset
   data_loader:
     type: MindDataset
-    dataset_dir: ""
+    dataset_dir: "/home/ma-user/work/mindformers/research/qwen1_5/14b_base/alpaca-messages.mindrecord"
     shuffle: True
-  input_columns: ["input_ids", "labels", "attention_mask"]
+  input_columns: ["input_ids", "target_ids", "attention_mask"]
   num_parallel_workers: 8
   python_multiprocessing: False
   drop_remainder: True
@@ -33,7 +33,7 @@ train_dataset_task:
 
 # runner config
 runner_config:
-  epochs: 5
+  epochs: 1
   batch_size: 1
   sink_mode: True
   sink_size: 2
@@ -57,7 +57,8 @@ optimizer:
 # lr sechdule
 lr_schedule:
   type: CosineWithWarmUpLR
-  learning_rate: 1.e-5
+  learning_rate: 8.e-4
+  lr_end: 3.e-5
   warmup_ratio: 0.01
   total_steps: -1 # -1 means it will load the total steps of the dataset
 
@@ -67,7 +68,7 @@ callbacks:
   - type: CheckpointMointor
     prefix: "qwen2"
     save_checkpoint_steps: 10000
-    keep_checkpoint_max: 3
+    keep_checkpoint_max: 1
     integrated_save: False
     async_save: False
   - type: ObsMonitor
@@ -75,7 +76,7 @@ callbacks:
 # default parallel of device num = 8 for Atlas 800T A2
 parallel_config:
   data_parallel: 1
-  model_parallel: 1
+  model_parallel: 4
   pipeline_stage: 1
   micro_batch_num: 1
   vocab_emb_dp: True
@@ -95,10 +96,10 @@ model:
   model_config:
     type: LlamaConfig
     batch_size: 1
-    seq_length: 8192
+    seq_length: 2048
     hidden_size: 5120
-    num_layers: 40
-    num_heads: 40
+    num_layers: 32
+    num_heads: 32
     vocab_size: 152064
     intermediate_size: 13696
     qkv_has_bias: True
@@ -112,21 +113,29 @@ model:
     layernorm_compute_type: "float32"
     softmax_compute_type: "float16"
     rotary_dtype: "float16"
-    param_init_type: "float16"
+    param_init_type: "float32"
     use_past: True
     use_flash_attention: True
-    use_kbk_infer: True
-    block_size: 16
-    num_blocks: 1024
+    use_paged_attention: False
+    # block_size: 16
+    # num_blocks: 512
     use_past_shard: False
     offset: 0
-    checkpoint_name_or_path: "/home/ma-user/work/mindformers/research/qwen1_5/14b_base/rank_0/qwen15_14b_base.ckpt"
+    checkpoint_name_or_path: ""
     repetition_penalty: 1
-    max_decode_length: 2048
+    max_decode_length: 512
     top_k: 0
     top_p: 0.8
     do_sample: False
-    is_dynamic: True
+    
+    pet_config:
+      pet_type: lora
+      # configuration of lora
+      lora_rank: 64
+      lora_alpha: 16
+      lora_dropout: 0.05
+      target_modules: '.*wq|.*wk|.*wv|.*wo|.*w1|.*w2|.*w3'
+      freeze_exclude: ["*wte*", "*lm_head*"]
 
     # configuration items copied from Qwen
     rotary_pct: 1.0
@@ -140,8 +149,8 @@ processor:
   return_tensors: ms
   tokenizer:
     model_max_length: 32768
-    vocab_file: "/home/ma-user/work/mindformers/research/qwen1_5/14b_base/vocab.json"
-    merges_file: "/home/ma-user/work/mindformers/research/qwen1_5/14b_base/merges.txt"
+    vocab_file: "/{path}/vocab.json"
+    merges_file: "/{path}/merges.txt"
     unk_token: "<|endoftext|>"
     eos_token: "<|endoftext|>"
     pad_token: "<|endoftext|>"

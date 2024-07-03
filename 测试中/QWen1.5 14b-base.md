@@ -201,7 +201,7 @@ mv /home/ma-user/work/mindformers/research/qwen1_5/14b_base/transform.ckpt /home
 ### 5.1.1 配置权重路径
 
 ```bash
-vi /home/ma-user/work/mindformers/research/qwen1_5/finetune_qwen1_5_14b.yaml
+vi /home/ma-user/work/mindformers/research/qwen1_5/finetune_qwen1_5_14b_base.yaml
 ```
 
 ```yaml
@@ -214,17 +214,19 @@ train_dataset: &train_dataset
 ## 5.2 启动训练脚本
 
 ```bash
-cd /home/ma-user/work/mindformers/research
+cd /home/ma-user/work/mindformers/research/qwen1_5/14b_base/
 
 # 910B 设置如下环境变量
 export MS_ASCEND_CHECK_OVERFLOW_MODE=INFNAN_MODE
 
-bash run_singlenode.sh "python qwen1_5/run_qwen1_5.py \
---config qwen1_5/finetune_qwen1_5_14b.yaml \
+bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
+"python /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5.py \
+--config /home/ma-user/work/mindformers/research/qwen1_5/finetune_qwen1_5_14b_base.yaml \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/14b_base/ \
 --use_parallel True \
 --run_mode finetune \
 --auto_trans_ckpt True \
 --train_data /home/ma-user/work/mindformers/research/qwen1_5/14b_base/alpaca-messages.mindrecord" \
-/user/config/jobstart_hccl.json [0,8] 8
+/user/config/jobstart_hccl.json [0,4] 4
+
 ```
