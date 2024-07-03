@@ -3,8 +3,10 @@
 ```docker pull swr.cn-east-292.mygaoxinai.com/huqs/pytorch2_1_0-cann7_0-py39_910b:v2```  
 
 # 2 创建容器并进入  
-```docker run -it -e ASCEND_VISIBLE_DEVICES=3 -v /home/download/work:/home/ma-user/work/ --name test02 swr.cn-east-292.mygaoxinai.com/huqs/pytorch2_1_0-cann7_0-py39_910b:v2  
-cd work```  
+```
+docker run -it -e ASCEND_VISIBLE_DEVICES=3 -v /home/download/work:/home/ma-user/work/ --name test02 swr.cn-east-292.mygaoxinai.com/huqs/pytorch2_1_0-cann7_0-py39_910b:v2  
+cd work
+```  
 
 # 3 安装依赖zlib  
 `yum install -y zlib-devel`  
