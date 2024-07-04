@@ -42,16 +42,21 @@ def get_strategy(startegy_path, rank_id=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--src_ckpt_strategy", default="/home/ma-user/work/mindformers/research/output/strategy", help="path of src ckpt strategy")
+    parser.add_argument(
+        "--src_ckpt_strategy", default="/home/ma-user/work/mindformers/research/baichuan2/7b/output/strategy", help="path of src ckpt strategy"
+    )
     parser.add_argument("--dst_ckpt_strategy", default="", help="path of dst ckpt strategy")
     parser.add_argument(
         "--src_ckpt_dir",
-        default="/home/ma-user/work/mindformers/research/output/filter_out",
+        default="/home/ma-user/work/mindformers/research/baichuan2/7b/output/filter_out",
         type=str,
         help="path of src ckpt",
     )
     parser.add_argument(
-        "--dst_ckpt_dir", default="/home/ma-user/work/mindformers/research/output/merged_ckpt", type=str, help="path where to save dst ckpt"
+        "--dst_ckpt_dir",
+        default="/home/ma-user/work/mindformers/research/baichuan2/7b/output/merged_ckpt",
+        type=str,
+        help="path where to save dst ckpt",
     )
     parser.add_argument("--prefix", default="checkpoint_", type=str, help="prefix of transformed checkpoint")
     args = parser.parse_args()

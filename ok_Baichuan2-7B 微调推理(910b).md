@@ -189,7 +189,7 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 --use_parallel True \
 --run_mode finetune \
 --train_data /home/ma-user/work/mindformers/research/baichuan2/7b/belle_512.mindrecord" \
-/user/config/jobstart_hccl.json [0,8] 8
+/user/config/jobstart_hccl.json [0,4] 4
 
 ```
 
@@ -404,9 +404,9 @@ python /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2.py \
 --config /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2_7b_910b.yaml \
 --run_mode predict \
 --use_parallel False \
---load_checkpoint /home/ma-user/work/mindformers/research/output/ckpt/rank_0/checkpoint_0.ckpt \
+--load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/7b/output/merged_ckpt/rank_0/checkpoint_0.ckpt \
 --auto_trans_ckpt False \
---predict_data "<reserved_106>你是谁？<reserved_107>"
+--predict_data "<reserved_106>帮助我制定一份去杭州的旅游攻略<reserved_107>"
 
 ```
 
