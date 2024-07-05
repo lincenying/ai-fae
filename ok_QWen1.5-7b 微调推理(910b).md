@@ -110,6 +110,7 @@ export MS_ENABLE_GE=1
 export MS_ENABLE_REF_MODE=1
 
 vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_infer.yaml
+```
 
 ```yaml
 load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b/'
