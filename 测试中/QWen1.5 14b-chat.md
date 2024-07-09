@@ -227,5 +227,3 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 
 ```
 
-ps -ef |grep run_qwen1_5.py |awk '{print $2}'|xargs kill -9
-ps -ef |grep MindSpore/bin/python |awk '{print $2}'|xargs kill -9

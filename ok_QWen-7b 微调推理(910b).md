@@ -185,6 +185,8 @@ processor:
 ```bash
 cd /home/ma-user/work/mindformers/research/qwen/7b/
 
+export MS_ASCEND_CHECK_OVERFLOW_MODE=INFNAN_MODE
+
 bash /home/ma-user/work/mindformers/research/run_singlenode.sh
 "python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_7b_lora.yaml \

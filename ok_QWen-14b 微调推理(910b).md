@@ -194,6 +194,8 @@ processor:
 ```bash
 cd /home/ma-user/work/mindformers/research/qwen/14b/
 
+export MS_ASCEND_CHECK_OVERFLOW_MODE=INFNAN_MODE
+
 bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_14b_lora.yaml \
@@ -203,6 +205,7 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 --auto_trans_ckpt True \
 --train_data /home/ma-user/work/mindformers/research/qwen/data/alpaca.mindrecord" \
 /user/config/jobstart_hccl.json [0,4] 4
+
 ```
 
 训练进程后台运行，可在`/home/ma-user/work/mindformers/output/log/rank_0` 目录下查看实时更新的训练日志
