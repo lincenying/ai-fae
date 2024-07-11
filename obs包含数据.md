@@ -9,7 +9,7 @@ docker pull swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.10-cann7.0.0beta1_p
 ```
 
 ```bash
-ps -ef |grep run_qwen.py |awk '{print $2}'|xargs kill -9
+ps -ef |grep run_qwen1_5.py |awk '{print $2}'|xargs kill -9
 ps -ef |grep MindSpore/bin/python |awk '{print $2}'|xargs kill -9
 ```
 

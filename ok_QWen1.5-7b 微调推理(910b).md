@@ -29,6 +29,10 @@ cd /home/ma-user/work/mindformers/research/qwen1_5
 ### 2.1.1 直接使用转换完成的权重
 
 ```bash
+git clone https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat 7b
+# 删除无效的权重
+rm -rf ./7b/*.safetensors
+
 mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b/rank_0/
 cd /home/ma-user/work/mindformers/research/qwen1_5/7b/rank_0/
 
@@ -193,10 +197,6 @@ python research/qwen1_5/qwen1_5_preprocess.py \
 
 ## 5.1 修改配置文件
 
-```bash
-mkdir /home/ma-user/work/mindformers/research/qwen1_5/7b/rank_0
-mv /home/ma-user/work/mindformers/research/qwen1_5/7b/transform.ckpt /home/ma-user/work/mindformers/research/qwen1_5/7b/rank_0/
-```
 ### 5.1.1 配置权重路径
 
 ```bash
@@ -215,18 +215,22 @@ train_dataset: &train_dataset
 ```bash
 export MS_ASCEND_CHECK_OVERFLOW_MODE=INFNAN_MODE
 # 如出现OOM需要配置:
-export ENABLE_CELL_RESUSE=1          # 打开内存复用
-export MS_GE_ATOMIC_CLEAN_POLICY=1   # 打开内存优化
+ # 打开内存复用
+export ENABLE_CELL_RESUSE=1
+# 打开内存优化     
+export MS_GE_ATOMIC_CLEAN_POLICY=1
 
-cd /home/ma-user/work/mindformers/research
+cd /home/ma-user/work/mindformers/research/qwen1_5/7b/
 
-bash run_singlenode.sh "python qwen1_5/run_qwen1_5.py \
---config qwen1_5/run_qwen1_5_7b_lora.yaml \
+bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
+"python /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5.py \
+--config /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_lora.yaml \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b/ \
 --use_parallel True \
 --run_mode finetune \
 --auto_trans_ckpt True \
 --predict_length 2048 \
 --train_data /home/ma-user/work/mindformers/research/qwen1_5/7b/alpaca-messages.mindrecord" \
-/user/config/jobstart_hccl.json [0,8] 8
+/user/config/jobstart_hccl.json [0,4] 4
+
 ```

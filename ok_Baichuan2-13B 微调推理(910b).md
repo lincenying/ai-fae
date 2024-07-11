@@ -51,7 +51,7 @@ ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
 cd /home/ma-user/work/mindformers/research/baichuan2/
 
 git clone https://hf-mirror.com/baichuan-inc/Baichuan2-13B-Chat
-rm -rf ./Baichuan2-13B-Chat/pytorch_model.bin
+rm -rf ./Baichuan2-13B-Chat/pytorch_model*
 rm -rf ./Baichuan2-13B-Chat/tokenizer.model
 mv Baichuan2-13B-Chat 13b
 
@@ -84,11 +84,11 @@ export LD_PRELOAD=$LD_PRELOAD:/home/ma-user/anaconda3/envs/MindSpore/lib/python3
 # 2. 直接使用已经转换完成的预训练权重
 cd /home/ma-user/work/mindformers/research/baichuan2/13b
 
-# wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/baichuan2/Baichuan2_13B_Chat.ckpt
-/home/ma-user/work/obsutil cp obs://model-data/baichuan2/Baichuan2_13B_Chat.ckpt ./
+# wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/baichuan2/Baichuan2-13B-Chat.ckpt
+/home/ma-user/work/obsutil cp obs://model-data/baichuan2/Baichuan2-13B-Chat.ckpt ./
 
 mkdir -p /home/ma-user/work/mindformers/research/baichuan2/13b/rank_0
-mv /home/ma-user/work/mindformers/research/baichuan2/13b/Baichuan2_13B_Chat.ckpt /home/ma-user/work/mindformers/research/baichuan2/13b/rank_0
+mv /home/ma-user/work/mindformers/research/baichuan2/13b/Baichuan2-13B-Chat.ckpt /home/ma-user/work/mindformers/research/baichuan2/13b/rank_0
 ```
  
 ## 2.2 分词器文件下载
@@ -167,28 +167,24 @@ train_dataset: &train_dataset
   numa_enable: False
   prefetch_size: 1
 
-model:
-  model_config:
-    ### 7b
-    checkpoint_name_or_path: "/home/ma-user/work/mindformers/research/baichuan2/13b/rank_0/Baichuan2_7B_Chat.ckpt"
-    ### 13b
-    checkpoint_name_or_path: "/home/ma-user/work/mindformers/research/baichuan2/13b/rank_0/Baichuan2_13B_Chat.ckpt"
 ```
 
 ## 4.2 启动微调训练脚本
 
 ```bash
-cd /home/ma-user/work/mindformers/research
+cd /home/ma-user/work/mindformers/research/baichuan2/13b/
 
-bash run_singlenode.sh \
-"python baichuan2/run_baichuan2.py \
---config baichuan2/run_baichuan2_13b_lora_910b.yaml \
+export MS_ASCEND_CHECK_OVERFLOW_MODE=INFNAN_MODE
+
+bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
+"python /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2.py \
+--config /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2_13b_lora_910b.yaml \
 --load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/13b/ \
 --auto_trans_ckpt True \
 --use_parallel True \
 --run_mode finetune \
---train_data /home/ma-user/work/mindformers/research/baichuan2/13b/belle_512.mindrecord" \
-/user/config/jobstart_hccl.json [0,8] 8
+--train_dataset /home/ma-user/work/mindformers/research/baichuan2/13b/belle_512.mindrecord" \
+/user/config/jobstart_hccl.json [0,4] 4
 
 ```
 
@@ -347,7 +343,7 @@ vi /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2_13b_910b.yaml
 ```yaml
 seed: 0
 output_dir: './output' # path to save checkpoint/strategy
-load_checkpoint: 'baichuan2/13b/pytorch_model.ckpt'
+load_checkpoint: '/home/ma-user/work/mindformers/research/baichuan2/13b/pytorch_model.ckpt'
 src_strategy_path_or_dir: ''
 auto_trans_ckpt: False  # If true, auto transform load_checkpoint to load in distributed model
 only_save_strategy: False
@@ -385,6 +381,19 @@ python baichuan2/run_baichuan2.py \
 --auto_trans_ckpt False \
 --predict_data "<reserved_106>你是谁？<reserved_107>"
 
+# 直接用训练权重, 多卡推理
+cd /home/ma-user/work/mindformers/research/
+
+bash ./run_singlenode.sh \
+"python /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2.py \
+--config /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2_13b_910b.yaml \
+--run_mode predict \
+--use_parallel True \
+--load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/13b/output/checkpoint_network/ \
+--auto_trans_ckpt True \
+--predict_data <reserved_106>你是谁？<reserved_107>" /user/config/jobstart_hccl.json [0,4] 4
+
+
 # 预训练权重
 cd /home/ma-user/work/mindformers/research/
 
@@ -392,7 +401,7 @@ python baichuan2/run_baichuan2.py \
 --config baichuan2/run_baichuan2_13b_910b.yaml \
 --run_mode predict \
 --use_parallel False \
---load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/13b/rank_0/Baichuan2_13B_Chat.ckpt \
+--load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/13b/rank_0/Baichuan2-13B-Chat.ckpt \
 --auto_trans_ckpt False \
 --predict_data "<reserved_106>你是谁？<reserved_107>"
 

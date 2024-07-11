@@ -184,7 +184,7 @@ bash run_singlenode.sh \
 --auto_trans_ckpt True \
 --use_parallel True \
 --run_mode finetune \
---train_data /home/ma-user/work/mindformers/research/baichuan2/models/belle_512.mindrecord" \
+--train_dataset /home/ma-user/work/mindformers/research/baichuan2/models/belle_512.mindrecord" \
 /user/config/jobstart_hccl.json [0,8] 8
 
 ```

@@ -181,6 +181,8 @@ model:
 ```bash
 cd /home/ma-user/work/mindformers/research/baichuan2/7b/
 
+export MS_ASCEND_CHECK_OVERFLOW_MODE=INFNAN_MODE
+
 bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2.py \
 --config /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2_7b_lora_910b.yaml \
@@ -188,7 +190,7 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 --auto_trans_ckpt True \
 --use_parallel True \
 --run_mode finetune \
---train_data /home/ma-user/work/mindformers/research/baichuan2/7b/belle_512.mindrecord" \
+--train_dataset /home/ma-user/work/mindformers/research/baichuan2/7b/belle_512.mindrecord" \
 /user/config/jobstart_hccl.json [0,4] 4
 
 ```
@@ -381,10 +383,22 @@ cd /home/ma-user/work/mindformers/research/baichuan2/7b/
 python /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2.py \
 --config /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2_7b_910b.yaml \
 --run_mode predict \
---use_parallel False \
---load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/7b/pytorch_model.ckpt \
+--use_parallel True \
+--load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/7b/output/transformed_checkpoint/7b/ \
 --auto_trans_ckpt False \
 --predict_data "<reserved_106>你是谁？<reserved_107>"
+
+# 多卡推理
+cd /home/ma-user/work/mindformers/research/
+
+bash ./run_singlenode.sh \
+"python /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2.py \
+--config /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2_7b_910b.yaml \
+--run_mode predict \
+--use_parallel True \
+--load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/7b/output/transformed_checkpoint/7b/ \
+--auto_trans_ckpt False \
+--predict_data <reserved_106>你是谁？<reserved_107>" /user/config/jobstart_hccl.json [0,4] 4
 
 # 预训练权重
 cd /home/ma-user/work/mindformers/research/baichuan2/7b/
@@ -395,7 +409,7 @@ python /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2.py \
 --use_parallel False \
 --load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/7b/rank_0/Baichuan2_7B_Chat.ckpt \
 --auto_trans_ckpt False \
---predict_data "<reserved_106>你是谁？<reserved_107>"
+--predict_data "<reserved_106>什么是智慧园区?<reserved_107>"
 
 # 微调过后的权重
 cd /home/ma-user/work/mindformers/research/baichuan2/7b/
