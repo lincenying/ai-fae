@@ -112,6 +112,10 @@ obs://model-data/chatglm32k/data.zip
 
 ### 7b-base
 ```
+#转换后权重
+obs://model-data/qianwen1.5/7b/base/qwen15_7b_base.ckpt
+
+#原始权重
 obs://model-data/qianwen1.5/7b/base/model-00001-of-00004.safetensors
 obs://model-data/qianwen1.5/7b/base/model-00002-of-00004.safetensors
 obs://model-data/qianwen1.5/7b/base/model-00003-of-00004.safetensors
@@ -119,7 +123,16 @@ obs://model-data/qianwen1.5/7b/base/model-00004-of-00004.safetensors
 ```
 
 ### 7b-chat
-[见xiemingda账号](#qwen1_5-7b-chat_1)
+```
+#转换后权重
+obs://model-data/qianwen1.5/7b/chat/qwen15_7b_chat.ckpt
+
+#原始权重
+obs://model-data/qianwen1.5/7b/chat/model-00001-of-00004.safetensors
+obs://model-data/qianwen1.5/7b/chat/model-00002-of-00004.safetensors
+obs://model-data/qianwen1.5/7b/chat/model-00003-of-00004.safetensors
+obs://model-data/qianwen1.5/7b/chat/model-00004-of-00004.safetensors
+```
 
 ### 14b-base
 ```
