@@ -29,14 +29,15 @@ cd /home/ma-user/work/mindformers/research/qwen1_5
 ### 2.1.1 直接使用转换完成的权重
 
 ```bash
-git clone https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat 7b
+git clone https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat 7b_chat
 # 删除无效的权重
-rm -rf ./7b/*.safetensors
+rm -rf ./7b_chat/*.safetensors
 
-mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b/rank_0/
-cd /home/ma-user/work/mindformers/research/qwen1_5/7b/rank_0/
+mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/
+cd /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/
 
-/home/ma-user/work/obsutil cp obs://wio/qwen1.5-7b-chat-ckpt/qwen15_7b_chat.ckpt ./qwen15_7b_chat.ckpt
+/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/chat/qwen15_7b_chat.ckpt ./qwen15_7b_chat.ckpt
+
 ```
 
 ### 2.1.2 使用huggingface权重自行转换
@@ -51,7 +52,7 @@ model_dir = snapshot_download('qwen/Qwen1.5-7B-Chat')
 #<---保存文件
 python down.py
 
-mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen1___5-7B-Chat ./7b
+mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen1___5-7B-Chat ./7b_chat
 
 
 # 2. 通过hf-mirror克隆文件
@@ -90,20 +91,23 @@ pip install torch transformers transformers_stream_generator einops accelerate
 cd /home/ma-user/work/mindformers/
 
 python research/qwen1_5/convert_weight.py \
---torch_ckpt_dir ./research/qwen1_5/7b/ \
---mindspore_ckpt_path ./research/qwen1_5/7b/qwen15_7b_chat.ckpt
+--torch_ckpt_dir ./research/qwen1_5/7b_chat/ \
+--mindspore_ckpt_path ./research/qwen1_5/7b_chat/qwen15_7b_chat.ckpt
+
 ```
 
 如果报错:
 ImportError: /home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch/lib/../../torch.libs/libgomp-d22c30c5.so.1.0.0: cannot allocate memory in static TLS block
 执行:
 ```bash
+# libgomp-d22c30c5.so.1.0.0  文件名可能不一样, 安装报错提示, 修改下面的路径
 export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-d22c30c5.so.1.0.0'
 ```
 
 ```bash
-mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b/rank_0/
-mv ./research/qwen1_5/7b/qwen15_7b_chat.ckpt /home/ma-user/work/mindformers/research/qwen1_5/7b/rank_0/
+mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/
+mv ./research/qwen1_5/7b_chat/qwen15_7b_chat.ckpt /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/
+
 ```
 
 # 3. 直接使用基础权重推理
@@ -117,7 +121,7 @@ vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_infer.yaml
 ```
 
 ```yaml
-load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b/'
+load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/'
 src_strategy_path_or_dir: ''
 auto_trans_ckpt: True  # If true, auto transform load_checkpoint to load in distributed model
 only_save_strategy: False
@@ -133,13 +137,23 @@ parallel_config:
 
 processor:
   tokenizer:
-    vocab_file: "/home/ma-user/work/mindformers/research/qwen1_5/7b/vocab.json"
-    merges_file: "/home/ma-user/work/mindformers/research/qwen1_5/7b/merges.txt"
+    vocab_file: "/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/vocab.json"
+    merges_file: "/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/merges.txt"
 ```
 
 ```bash
 cd /home/ma-user/work/mindformers/research
 # 推理命令中参数会覆盖yaml文件中的相同参数
+
+# 单卡推理
+python qwen1_5/run_qwen1_5.py \
+--config qwen1_5/run_qwen1_5_7b_infer.yaml \
+--run_mode predict \
+--use_parallel False \
+--load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/qwen15_7b_chat.ckpt \
+--auto_trans_ckpt False \
+--predict_length 2048 \
+--predict_data 帮助我制定一份去杭州的旅游攻略
 
 # 多卡推理
 bash run_singlenode.sh \
@@ -147,11 +161,11 @@ bash run_singlenode.sh \
 --config qwen1_5/run_qwen1_5_7b_infer.yaml \
 --run_mode predict \
 --use_parallel True \
---load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b/ \
+--load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/ \
 --auto_trans_ckpt True \
 --predict_length 2048 \
 --predict_data 帮助我制定一份去杭州的旅游攻略" \
-/user/config/jobstart_hccl.json [0,8] 8
+/user/config/jobstart_hccl.json [0,4] 4
 
 ```
 
@@ -160,7 +174,7 @@ bash run_singlenode.sh \
 下载alpaca数据集
 
 ```bash
-cd /home/ma-user/work/mindformers/research/qwen1_5/7b/
+cd /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/
 
 /home/ma-user/work/obsutil cp obs://model-data/qianwen/alpaca_data.json ./
 
@@ -174,8 +188,8 @@ wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/qw
 cd /home/ma-user/work/mindformers/research
 
 python qwen1_5/alpaca_converter.py \
---data_path ./qwen1_5/7b/alpaca_data.json \
---output_path ./qwen1_5/7b/alpaca-data-messages.json
+--data_path ./qwen1_5/7b_chat/alpaca_data.json \
+--output_path ./qwen1_5/7b_chat/alpaca-data-messages.json
 
 ```
 
@@ -185,11 +199,11 @@ python qwen1_5/alpaca_converter.py \
 cd /home/ma-user/work/mindformers
 
 python research/qwen1_5/qwen1_5_preprocess.py \
---input_glob ./research/qwen1_5/7b/alpaca-data-messages.json \
---vocab_file ./research/qwen1_5/7b/vocab.json \
---merges_file ./research/qwen1_5/7b/merges.txt \
+--input_glob ./research/qwen1_5/7b_chat/alpaca-data-messages.json \
+--vocab_file ./research/qwen1_5/7b_chat/vocab.json \
+--merges_file ./research/qwen1_5/7b_chat/merges.txt \
 --seq_length 2048 \
---output_file ./research/qwen1_5/7b/alpaca-messages.mindrecord
+--output_file ./research/qwen1_5/7b_chat/alpaca-messages.mindrecord
 
 ```
 
@@ -204,11 +218,11 @@ vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_lora.yaml
 ```
 
 ```yaml
-load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b/'
+load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/'
 auto_trans_ckpt: True
 train_dataset: &train_dataset
   data_loader:
-    dataset_dir: "/home/ma-user/work/mindformers/research/qwen1_5/7b/alpaca-messages.mindrecord"
+    dataset_dir: "/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/alpaca-messages.mindrecord"
 ```
 ## 5.2 启动微调训练脚本
 
@@ -220,17 +234,17 @@ export ENABLE_CELL_RESUSE=1
 # 打开内存优化     
 export MS_GE_ATOMIC_CLEAN_POLICY=1
 
-cd /home/ma-user/work/mindformers/research/qwen1_5/7b/
+cd /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/
 
 bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5.py \
 --config /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_lora.yaml \
---load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b/ \
+--load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/ \
 --use_parallel True \
 --run_mode finetune \
 --auto_trans_ckpt True \
 --predict_length 2048 \
---train_data /home/ma-user/work/mindformers/research/qwen1_5/7b/alpaca-messages.mindrecord" \
+--train_data /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/alpaca-messages.mindrecord" \
 /user/config/jobstart_hccl.json [0,4] 4
 
 ```
