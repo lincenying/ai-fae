@@ -5,7 +5,7 @@
 
 ## 2. 合并权重
 使用脚本合并权重，因为是lora微调的权重，需要使用merged_lora.py脚本
-```
+```py
 # Copyright 2024 Huawei Technologies Co., Ltd
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -143,9 +143,14 @@ if __name__ == '__main__':
 src权重使用 训练输出路径output/checkpoint_network，src策略文件使用 训练输出路径output/strategy/ckpt_strategy_rank_0_rank_0.ckpt，dest目录指定一个新目录 ./merged_ckpt
 
 ## 3. 转换为bin权重
-python convert_reversed.py --./merged_ckpt/merged_lora.ckpt --torch_ckpt_path ./bin/qwen1_5_7b_fp16.bin   
-convert_reversed.py
+
+```bash
+python convert_reversed.py --./merged_ckpt/merged_lora.ckpt --torch_ckpt_path ./bin/qwen1_5_7b_fp16.bin
 ```
+
+convert_reversed.py
+
+```py
 # Copyright 2024 Huawei Technologies Co., Ltd
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -284,10 +289,14 @@ if __name__ == '__main__':
 ```
 
 ## 4. 转换为safetensors
+```bash
 python bin2st.py --model_path  ./bin/qwen1_5_7b_fp16.bin
+```
+
 模型输出在bin文件所在目录下
 bin2st.py
-```
+
+```py
 # Copyright Huawei Technologies Co., Ltd. 2023-2024. All rights reserved.
 import argparse
 import os
