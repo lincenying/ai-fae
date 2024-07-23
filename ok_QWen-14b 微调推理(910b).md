@@ -254,7 +254,7 @@ cd /home/ma-user/work/mindformers/research/qwen/14b
 #单卡推理
 python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_14b.yaml \
---predict_data '生成一份杭州的旅游攻略' \
+--predict_data '详细介绍下APG除盐床' \
 --run_mode predict \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt \
 --device_id 0
@@ -267,6 +267,38 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 --use_parallel True \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt \
 --auto_trans_ckpt True \
---predict_data 比较适合深度学习入门的书籍有" \
+--predict_data  APG除盐床隔离排空后投运的操作过程" \
 /user/config/jobstart_hccl.json [0,2] 2
+```
+
+# 6. C-Eval 评测
+
+## 6.1 下载eval py文件
+
+```bash
+cd /home/ma-user/work/mindformers/research/qwen/
+/home/ma-user/work/work/obsutil cp obs://model-data/eval.zip ./
+unzip eval.zip
+```
+
+## 6.2 修改配置文件
+
+文件`eval_utils.py`:
+
+```py
+group.add_argument('--config', default='run_qwen_7b.yaml', type=str, help='Config file path. (default: ./run_qwen_7b.yaml)')
+```
+修改`config`参数为对应的推理配置文件, 如:`run_qwen_14b.yaml`
+```py
+group.add_argument('--config', default='run_qwen_14b.yaml', type=str, help='Config file path. (default: ./run_qwen_7b.yaml)')
+```
+
+## 6.3 运行评测脚本
+```bash
+cd /home/ma-user/work/mindformers/research/qwen/
+/home/ma-user/work/work/obsutil cp obs://model-data/ceval-exam.zip ./
+mkdir -p data/ceval && cd data/ceval
+unzip ../../ceval-exam.zip && cd ../../
+python evaluate_ceval.py -d data/ceval/
+
 ```
