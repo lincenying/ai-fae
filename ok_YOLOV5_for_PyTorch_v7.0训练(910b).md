@@ -59,7 +59,9 @@ wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsu
 tar -zxvf obsutil_linux_arm64.tar.gz
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
 ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
-/home/ma-user/work/obsutil config -i=###替换成AK### -k=###替换成SK### -e=obs.cn-east-292.mygaoxinai.com
+export OBSAK="这里改成AK"
+export OBSSK="这里改成SK"
+/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 # 通过obsutil下载coco数据源
 cd /home/ma-user/work/

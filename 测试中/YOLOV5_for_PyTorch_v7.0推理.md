@@ -57,13 +57,16 @@ pip3 install -r requirements.txt
 ```bash
 # 下载obsutil
 cd /home/ma-user/work/
-wget https://obsbrowser.obs.cn-east-292.mygaoxinai.com/obsutil_hcso_linux_arm64_5.3.4.tar.gz
-tar -zxvf obsutil_hcso_linux_arm64_5.3.4.tar.gz
-chmod +x ./obsutil_linux_arm64_5.3.4/obsutil
-./obsutil config -i=###替换成AK### -k=###替换成SK### -e=obs.cn-east-292.mygaoxinai.com
+wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+tar -zxvf obsutil_linux_arm64.tar.gz
+chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
+ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
+export OBSAK="这里改成AK"
+export OBSSK="这里改成SK"
+/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 # 下载coco数据集
-./obsutil_linux_arm64_5.3.4/obsutil cp obs://temp-zjw/datasets/coco2017.zip ./
+/home/ma-user/work/obsutil cp obs://temp-zjw/datasets/coco2017.zip ./
 unzip coco2017.zip
 mv ./coco2017 ./coco
 mv ./coco /home/ma-user/work/modelzoo-GPL/built-in/ACL_Pytorch/Yolov5_for_Pytorch/yolov5/

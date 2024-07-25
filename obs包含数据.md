@@ -20,9 +20,9 @@ tar -zxvf obsutil_linux_arm64.tar.gz
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
 ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
 # yukai
-/home/ma-user/work/obsutil config -i=###替换成AK### -k=###替换成SK### -e=obs.cn-east-292.mygaoxinai.com
+/home/ma-user/work/obsutil config -i={###替换成AK###} -k={###替换成SK###} -e=obs.cn-east-292.mygaoxinai.com
 # xueningda
-/home/ma-user/work/obsutil config -i=###替换成AK### -k=###替换成SK### -e=obs.cn-east-292.mygaoxinai.com
+/home/ma-user/work/obsutil config -i={###替换成AK###} -k={###替换成SK###} -e=obs.cn-east-292.mygaoxinai.com
 ```
 
 复制文件夹

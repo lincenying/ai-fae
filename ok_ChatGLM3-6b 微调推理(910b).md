@@ -1,6 +1,6 @@
-镜像: mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
-镜像源: swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
-规格: Ascend: 8*ascend-d910b|CPU: 192核 1536GB
+- 镜像: mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
+- 镜像源: swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
+- 规格: Ascend: 8*ascend-d910b|CPU: 192核 1536GB
 
 ## 1.1 安装 Mindformers
 
@@ -19,7 +19,9 @@ wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsu
 tar -zxvf obsutil_linux_arm64.tar.gz
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
 ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
-/home/ma-user/work/obsutil config -i=###替换成AK### -k=###替换成SK### -e=obs.cn-east-292.mygaoxinai.com
+export OBSAK="这里改成AK"
+export OBSSK="这里改成SK"
+/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```
 
@@ -48,26 +50,17 @@ cd /home/ma-user/work/mindformers/research/glm3/6b
 /home/ma-user/work/obsutil cp obs://model-data/chatgml3/glm3/6b/tokenizer.model ./
 
 mkdir -p /home/ma-user/work/mindformers/research/glm3/6b/rank_0
-mv ./glm3_6b.ckpt ./research/glm3/6b/rank_0/
+mv ./glm3_6b.ckpt /home/ma-user/work/mindformers/research/glm3/6b/rank_0/
 
 ```
 
 # 3. 数据准备
 
-## 3.1 创建数据存放目录
- 
- ```bash
-cd /home/ma-user/work/mindformers/research/glm3/models
-mkdir AdvertiseGen
-cd AdvertiseGen
-
-cd ..
-
-```
-
-## 3.2 下载数据集
+## 3.1 下载数据集
 
 ```bash
+mkdir -p /home/ma-user/work/mindformers/research/glm3/6b/AdvertiseGen
+cd /home/ma-user/work/mindformers/research/glm3/6b/AdvertiseGen
 /home/ma-user/work/obsutil cp obs://model-data/chatgml3/glm3/6b/train.json ./
 /home/ma-user/work/obsutil cp obs://model-data/chatglm32k/dev.json ./
 

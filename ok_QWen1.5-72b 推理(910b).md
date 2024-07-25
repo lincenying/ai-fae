@@ -1,6 +1,6 @@
-镜像: mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
-镜像源: swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
-规格: Ascend: 8*ascend-d910b|CPU: 192核 1536GB
+- 镜像: mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
+- 镜像源: swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
+- 规格: Ascend: 8*ascend-d910b|CPU: 192核 1536GB
 
 
 ## 1.1 安装 Mindformers
@@ -25,7 +25,9 @@ wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsu
 tar -zxvf obsutil_linux_arm64.tar.gz
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
 ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
-/home/ma-user/work/obsutil config -i=###替换成AK### -k=###替换成SK### -e=obs.cn-east-292.mygaoxinai.com
+export OBSAK="这里改成AK"
+export OBSSK="这里改成SK"
+/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```
 ### 2.1.1 直接使用转换完成的权重
