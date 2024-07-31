@@ -6,6 +6,9 @@ docker pull swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.14-cann7.0.0beta1_p
 
 docker pull swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.10-cann7.0.0beta1_py_3.9-euler_2.8.3_910b:v2
 
+docker pull swr.cn-east-292.mygaoxinai.com/huqs/pytorch2.1.0_cann8.0.rc1.alpha002_py3.9_euler2.8.3_910b:v8
+
+
 ```
 
 ```bash
@@ -15,14 +18,25 @@ ps -ef |grep MindSpore/bin/python |awk '{print $2}'|xargs kill -9
 
 ```bash
 cd /home/ma-user/work/
+# 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
+# 建立软链接
 ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
-# yukai
+# 登录
 /home/ma-user/work/obsutil config -i={###替换成AK###} -k={###替换成SK###} -e=obs.cn-east-292.mygaoxinai.com
-# xueningda
-/home/ma-user/work/obsutil config -i={###替换成AK###} -k={###替换成SK###} -e=obs.cn-east-292.mygaoxinai.com
+
+# 将obs上的文件下载到notebook
+/home/ma-user/work/obsutil cp obs://xxxx/abc.zip ./
+# 将notebook上的文件上传到obs
+/home/ma-user/work/obsutil cp ./def.zip obs://xxxx/
+# 同步文件夹, 如将notebook的 ./xyz 文件夹同步到obs上
+/home/ma-user/work/obsutil sync ./xyz obs://xxxx/xyz -f -r
+# 同步文件夹, 如将obs上的 xyz 文件夹同步到notebook上
+/home/ma-user/work/obsutil sync obs://xxxx/xyz ./xyz -f -r
 ```
 
 复制文件夹

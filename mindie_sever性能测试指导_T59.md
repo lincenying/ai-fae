@@ -24,7 +24,8 @@ docker run -it --privileged --name=mindie_server --net=host --ipc=host \
 -v /var/log/npu/dump/:/var/log/npu/dump \
 -v /var/log/npu/:/usr/slog \
 -v /etc/hccn.conf:/etc/hccn.conf \
--v /home:/home \
+-v /opt/data:/home/data \
+-v /home/huangming:/home/huangming \
 mindie_server:910B.RC2 \
 /bin/bash
 ```
@@ -120,8 +121,8 @@ vim conf/config.json
 
 ## 3.3 启动daemon服务
 ```bash
-cd /usr/local/Ascend/mindie/latest/mindie-service/latest/bin
-./mindieservice_daemon
+cd /usr/local/Ascend/mindie/latest/mindie-service
+./bin/mindieservice_daemon
 ```
 另外新起一个窗口（也要进入docker），输入命令发送POST请求：
 ```bash
@@ -147,6 +148,6 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
     "typical_p": 0.95,
     "watermark": true
   },
-  "stream": false}' http://127.0.0.1:1025/
+  "stream": false}' http://127.0.0.1:2025/
 ```
 看到“generated_text”的返回结果不是乱码，而是正常的一句话。说明运行成功。
