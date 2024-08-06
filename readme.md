@@ -10,6 +10,9 @@ https://gitee.com/ascend/modelzoo-GPL
 
 mindspore框架的大模型仓库：
 https://gitee.com/mindspore/mindformers
+  
+PyTorch小模型仓库：
+https://gitee.com/ascend/ModelZoo-PyTorch
 
 MindX DL 昇腾深度学习组件，提供昇腾 AI 处理器集群调度、昇腾 AI 处理器性能测试、模型保护等基础功能，可参考：
 https://www.hiascend.com/zh/software/mindx-dl

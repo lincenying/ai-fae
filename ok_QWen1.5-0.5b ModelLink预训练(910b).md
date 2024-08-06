@@ -1,5 +1,5 @@
-镜像: `swr.cn-east-292.mygaoxinai.com/cloud/pytorch2.1.0-cann8.0.rc2-python3.9-910b:202407260923`  
-硬件：Ascend: 8*ascend-d910b|CPU: 192核 1536GB
+- 镜像: `swr.cn-east-292.mygaoxinai.com/cloud/pytorch2.1.0-cann8.0.rc2-python3.9-910b:202407260923`  
+- 硬件：Ascend: 8*ascend-d910b|CPU: 192核 1536GB
 
 # 依赖安装
 ```
