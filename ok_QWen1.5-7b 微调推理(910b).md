@@ -12,13 +12,20 @@ bash build.sh
 
 
 cd /home/ma-user/work/
+# 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
 export OBSAK="这里改成AK"
 export OBSSK="这里改成SK"
-/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
+# notebook停止后也需要重新执行下面两条命令
+export PATH=$PATH:/home/ma-user/work/obs_bin
+obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 
 ```
@@ -39,7 +46,7 @@ rm -rf ./7b_chat/*.safetensors
 mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/
 cd /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/
 
-/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/chat/qwen15_7b_chat.ckpt ./qwen15_7b_chat.ckpt
+obsutil cp obs://model-data/qianwen1.5/7b/chat/qwen15_7b_chat.ckpt ./qwen15_7b_chat.ckpt
 
 ```
 
@@ -75,10 +82,10 @@ wget -O model-00004-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-C
 
 mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b
 cd /home/ma-user/work/mindformers/research/qwen1_5/7b
-/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00001-of-00004.safetensors ./
-/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00002-of-00004.safetensors ./
-/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00003-of-00004.safetensors ./
-/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00004-of-00004.safetensors ./
+obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00001-of-00004.safetensors ./
+obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00002-of-00004.safetensors ./
+obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00003-of-00004.safetensors ./
+obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00004-of-00004.safetensors ./
 
 ```
 
@@ -179,7 +186,7 @@ bash run_singlenode.sh \
 ```bash
 cd /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/
 
-/home/ma-user/work/obsutil cp obs://model-data/qianwen/alpaca_data.json ./
+obsutil cp obs://model-data/qianwen/alpaca_data.json ./
 
 wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/qwen/qwen.tiktoken
 

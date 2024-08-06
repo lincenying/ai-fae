@@ -21,13 +21,20 @@ cd /home/ma-user/work/mindformers/research/qwen1_5
 
 # 通过obs下载权重
 cd /home/ma-user/work/
+# 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
 export OBSAK="这里改成AK"
 export OBSSK="这里改成SK"
-/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
+# notebook停止后也需要重新执行下面两条命令
+export PATH=$PATH:/home/ma-user/work/obs_bin
+obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```
 ### 2.1.1 直接使用转换完成的权重
@@ -36,14 +43,14 @@ export OBSSK="这里改成SK"
 mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/72b/rank_0/
 cd /home/ma-user/work/mindformers/research/qwen1_5/72b/rank_0/
 
-/home/ma-user/work/obsutil cp obs://wio/qw1.5-72b-chat.ckpt ./qwen1_5-72b.ckpt
+obsutil cp obs://wio/qw1.5-72b-chat.ckpt ./qwen1_5-72b.ckpt
 ```
 
 ### 2.1.2 使用huggingface权重自行转换
 
 ```bash
 cd /home/ma-user/work/mindformers/research/qwen1_5/
-/home/ma-user/work/obsutil sync obs://bigmodel/qwen1.5-72b-chat/ ./qwen1.5-72b-chat
+obsutil sync obs://bigmodel/qwen1.5-72b-chat/ ./qwen1.5-72b-chat
 mv qwen1.5-72b-chat/ 72b/
 
 ```

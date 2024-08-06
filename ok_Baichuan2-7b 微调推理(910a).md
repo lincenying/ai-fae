@@ -35,11 +35,20 @@ bash build.sh
 
 
 cd /home/ma-user/work/
+# 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
-/home/ma-user/work/obsutil config -i={###替换成AK###} -k={###替换成SK###} -e=obs.cn-east-292.mygaoxinai.com
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
+export OBSAK="这里改成AK"
+export OBSSK="这里改成SK"
+# notebook停止后也需要重新执行下面两条命令
+export PATH=$PATH:/home/ma-user/work/obs_bin
+obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```
 
@@ -58,7 +67,7 @@ mv Baichuan2-7B-Chat models
 # 通过镜像加载huggingface权重
 # wget -O pytorch_model.bin https://hf-mirror.com/baichuan-inc/Baichuan2-7B-Chat/resolve/main/pytorch_model.bin?download=true
 cd /home/ma-user/work/mindformers/research/baichuan2/models
-/home/ma-user/work/obsutil cp obs://model-data/baichuan2/pytorch_model.bin ./
+obsutil cp obs://model-data/baichuan2/pytorch_model.bin ./
 
 
 
@@ -84,7 +93,7 @@ export LD_PRELOAD=$LD_PRELOAD:/home/ma-user/anaconda3/envs/MindSpore/lib/python3
 # 2. 直接使用已经转换完成的预训练权重
 cd /home/ma-user/work/mindformers/research/baichuan2/models
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/baichuan2/Baichuan2_7B_Chat.ckpt
-/home/ma-user/work/obsutil cp obs://model-data/baichuan2/Baichuan2_7B_Chat.ckpt ./
+obsutil cp obs://model-data/baichuan2/Baichuan2_7B_Chat.ckpt ./
 
 mkdir -p /home/ma-user/work/mindformers/research/baichuan2/models/rank_0
 mv /home/ma-user/work/mindformers/research/baichuan2/models/Baichuan2_7B_Chat.ckpt /home/ma-user/work/mindformers/research/baichuan2/models/rank_0
@@ -95,7 +104,7 @@ mv /home/ma-user/work/mindformers/research/baichuan2/models/Baichuan2_7B_Chat.ck
 ```bash
 cd /home/ma-user/work/mindformers/research/baichuan2/models
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/baichuan2/tokenizer.model
-/home/ma-user/work/obsutil cp obs://model-data/baichuan2/tokenizer.model ./
+obsutil cp obs://model-data/baichuan2/tokenizer.model ./
 
 ```
 
@@ -111,7 +120,7 @@ cd /home/ma-user/work/mindformers/research/baichuan2/models
 
 ```bash
 # wget https://github.com/baichuan-inc/Baichuan2/raw/main/fine-tune/data/belle_chat_ramdon_10k.json
-/home/ma-user/work/obsutil cp obs://model-data/baichuan2/belle_chat_ramdon_10k.json ./
+obsutil cp obs://model-data/baichuan2/belle_chat_ramdon_10k.json ./
 ```
 
 ## 3.3 数据格式转换
