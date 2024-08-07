@@ -24,51 +24,53 @@ wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsu
 tar -zxvf obsutil_linux_arm64.tar.gz
 # 修改可执行文件
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-# 建立软链接
-ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
+export PATH=$PATH:/home/ma-user/work/obs_bin
 # 登录
-/home/ma-user/work/obsutil config -i={###替换成AK###} -k={###替换成SK###} -e=obs.cn-east-292.mygaoxinai.com
+obsutil config -i=###替换成AK### -k=###替换成SK### -e=obs.cn-east-292.mygaoxinai.com
 
 # 将obs上的文件下载到notebook
-/home/ma-user/work/obsutil cp obs://xxxx/abc.zip ./
+obsutil cp obs://xxxx/abc.zip ./
 # 将notebook上的文件上传到obs
-/home/ma-user/work/obsutil cp ./def.zip obs://xxxx/
+obsutil cp ./def.zip obs://xxxx/
 # 同步文件夹, 如将notebook的 ./xyz 文件夹同步到obs上
-/home/ma-user/work/obsutil sync ./xyz obs://xxxx/xyz -f -r
+obsutil sync ./xyz obs://xxxx/xyz -f -r
 # 同步文件夹, 如将obs上的 xyz 文件夹同步到notebook上
-/home/ma-user/work/obsutil sync obs://xxxx/xyz ./xyz -f -r
+obsutil sync obs://xxxx/xyz ./xyz -f -r
 ```
 
 复制文件夹
 ```bash
 # 将output文件夹拷贝到obs:/model-data/qianwen1.5/7b/chat/ 目录下, 会创建output文件夹
-/home/ma-user/work/obsutil cp ./output/ obs://model-data/qianwen1.5/7b/chat/ -f -r # 得到: obs://model-data/qianwen1.5/7b/chat/output/
+obsutil cp ./output/ obs://model-data/qianwen1.5/7b/chat/ -f -r # 得到: obs://model-data/qianwen1.5/7b/chat/output/
 # 将output文件夹里的文件拷贝到obs:/model-data/qianwen1.5/7b/chat/目录下, 不会创建output文件夹
-/home/ma-user/work/obsutil cp ./output/ obs://model-data/qianwen1.5/7b/chat/ -f -r -flat
-/home/ma-user/work/obsutil cp ./output_baichuan2_910b/ obs://model-data/baichuan2/ -f -r # 得到: obs://model-data/baichuan2/output_baichuan2_910b/
-/home/ma-user/work/obsutil cp ./qwen1_5-72b.ckpt obs://model-data/qianwen1.5/72b/ # 得到: obs://model-data/qianwen1.5/72b/qwen1_5-72b.ckpt
+obsutil cp ./output/ obs://model-data/qianwen1.5/7b/chat/ -f -r -flat
+obsutil cp ./output_baichuan2_910b/ obs://model-data/baichuan2/ -f -r # 得到: obs://model-data/baichuan2/output_baichuan2_910b/
+obsutil cp ./qwen1_5-72b.ckpt obs://model-data/qianwen1.5/72b/ # 得到: obs://model-data/qianwen1.5/72b/qwen1_5-72b.ckpt
 ```
 
 同步文件夹
 ```bash
-/home/ma-user/work/obsutil sync ./glmv2 obs://huangming/mindformers/research/glmv2
-/home/ma-user/work/obsutil sync ./qwen obs://huangming/mindformers/research/qwen
+obsutil sync ./glmv2 obs://huangming/mindformers/research/glmv2
+obsutil sync ./qwen obs://huangming/mindformers/research/qwen
 ```
 
 移动文件夹
 ```bash
 # 将xxx文件夹拷贝到obs://model-data/qianwen1.5/7b/ 目录下, 会创建xxx文件夹
-/home/ma-user/work/obsutil mv obs://model-data/qianwen1.5/7b/xxx/ obs://model-data/qianwen1.5/7b/ -f -r
+obsutil mv obs://model-data/qianwen1.5/7b/xxx/ obs://model-data/qianwen1.5/7b/ -f -r
 # 将xxx文件夹内文件拷贝到obs://model-data/qianwen1.5/7b/ 目录下, 不会创建xxx文件夹
-/home/ma-user/work/obsutil mv obs://model-data/qianwen1.5/7b/xxx/ obs://model-data/qianwen1.5/7b/ -f -r
-/home/ma-user/work/obsutil mv obs://model-data/chatglm3/ obs://model-data/chatglm32k/ -f -r
-/home/ma-user/work/obsutil mv obs://model-data/chatglm32k/chatglm3/dev.json obs://model-data/chatglm32k/ # ==> obs://model-data/chatglm32k/dev.json
+obsutil mv obs://model-data/qianwen1.5/7b/xxx/ obs://model-data/qianwen1.5/7b/ -f -r
+obsutil mv obs://model-data/chatglm3/ obs://model-data/chatglm32k/ -f -r
+obsutil mv obs://model-data/chatglm32k/chatglm3/dev.json obs://model-data/chatglm32k/ # ==> obs://model-data/chatglm32k/dev.json
 
 ```
 
 obs内部移动文件
 ```bash
-/home/ma-user/work/obsutil mv obs://model-data/qianwen1.5/14b/model-00001-of-00008.safetensors obs://model-data/qianwen1.5/14b/base/
+obsutil mv obs://model-data/qianwen1.5/14b/model-00001-of-00008.safetensors obs://model-data/qianwen1.5/14b/base/
 
 ```
 
@@ -80,6 +82,16 @@ obs内部移动文件
 ```
 obs://model-data/baichuan2/Baichuan2_7B_Chat.ckpt
 obs://model-data/baichuan2/pytorch_model.bin
+```
+
+### 13b-base
+```
+obs://model-data/baichuan2/Baichuan2-13B-Base.ckpt
+```
+
+### 13b-chat
+```
+obs://model-data/baichuan2/Baichuan2-13B-Chat.ckpt
 ```
 
 ### 数据集

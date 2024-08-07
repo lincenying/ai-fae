@@ -25,13 +25,20 @@ pip install torch transformers transformers_stream_generator einops accelerate t
 
 ```bash
 cd /home/ma-user/work/
+# 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
 export OBSAK="这里改成AK"
 export OBSSK="这里改成SK"
-/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
+# notebook停止后也需要重新执行下面两条命令
+export PATH=$PATH:/home/ma-user/work/obs_bin
+obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```
 
@@ -47,7 +54,7 @@ cd /home/ma-user/work/mindformers/research/qwen/7b/
 ### 2.1.1 直接使用转换完成的权重
 ```bash
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/qwen/qwen_7b_base.ckpt
-/home/ma-user/work/obsutil cp obs://model-data/qianwen/qwen_7b_base.ckpt ./
+obsutil cp obs://model-data/qianwen/qwen_7b_base.ckpt ./
 
 ```
 
@@ -85,10 +92,10 @@ wget -O model-00004-of-00004.safetensors https://hf-mirror.com/Qwen/Qwen-7B/reso
 
 mkdir -p /home/ma-user/work/mindformers/research/qwen/7b
 cd /home/ma-user/work/mindformers/research/qwen/7b
-/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/base/model-00001-of-00004.safetensors ./
-/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/base/model-00002-of-00004.safetensors ./
-/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/base/model-00003-of-00004.safetensors ./
-/home/ma-user/work/obsutil cp obs://model-data/qianwen1.5/7b/base/model-00004-of-00004.safetensors ./
+obsutil cp obs://model-data/qianwen1.5/7b/base/model-00001-of-00004.safetensors ./
+obsutil cp obs://model-data/qianwen1.5/7b/base/model-00002-of-00004.safetensors ./
+obsutil cp obs://model-data/qianwen1.5/7b/base/model-00003-of-00004.safetensors ./
+obsutil cp obs://model-data/qianwen1.5/7b/base/model-00004-of-00004.safetensors ./
 
 ```
 
@@ -113,7 +120,7 @@ export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-pac
 ## 2.3 分词器文件下载
 ```bash
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/qwen/qwen.tiktoken
-/home/ma-user/work/obsutil cp obs://model-data/qianwen/qwen.tiktoken ./
+obsutil cp obs://model-data/qianwen/qwen.tiktoken ./
 ```
 
 # 3. 数据准备
@@ -124,7 +131,7 @@ export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-pac
 mkdir /home/ma-user/work/mindformers/research/qwen/data
 cd /home/ma-user/work/mindformers/research/qwen/data
 # wget https://github.com/tatsu-lab/stanford_alpaca/raw/main/alpaca_data.json
-/home/ma-user/work/obsutil cp obs://model-data/qianwen/alpaca_data.json ./
+obsutil cp obs://model-data/qianwen/alpaca_data.json ./
 ```
 
 ## 3.3 数据格式转换

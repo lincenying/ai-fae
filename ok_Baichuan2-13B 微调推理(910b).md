@@ -36,13 +36,20 @@ cd mindformers
 bash build.sh
 
 cd /home/ma-user/work/
+# 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
 export OBSAK="这里改成AK"
 export OBSSK="这里改成SK"
-/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
+# notebook停止后也需要重新执行下面两条命令
+export PATH=$PATH:/home/ma-user/work/obs_bin
+obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```
 
@@ -61,7 +68,7 @@ mv Baichuan2-13B-Chat 13b
 # 通过镜像加载huggingface权重
 # wget -O pytorch_model.bin https://hf-mirror.com/baichuan-inc/Baichuan2-13B-Chat/resolve/main/pytorch_model.bin?download=true
 cd /home/ma-user/work/mindformers/research/baichuan2/13b
-/home/ma-user/work/obsutil cp obs://model-data/baichuan2/pytorch_model.bin ./
+obsutil cp obs://model-data/baichuan2/pytorch_model.bin ./
 
 
 cd /home/ma-user/work/mindformers
@@ -87,7 +94,7 @@ export LD_PRELOAD=$LD_PRELOAD:/home/ma-user/anaconda3/envs/MindSpore/lib/python3
 cd /home/ma-user/work/mindformers/research/baichuan2/13b
 
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/baichuan2/Baichuan2-13B-Chat.ckpt
-/home/ma-user/work/obsutil cp obs://model-data/baichuan2/Baichuan2-13B-Chat.ckpt ./
+obsutil cp obs://model-data/baichuan2/Baichuan2-13B-Chat.ckpt ./
 
 mkdir -p /home/ma-user/work/mindformers/research/baichuan2/13b/rank_0
 mv /home/ma-user/work/mindformers/research/baichuan2/13b/Baichuan2-13B-Chat.ckpt /home/ma-user/work/mindformers/research/baichuan2/13b/rank_0
@@ -97,7 +104,7 @@ mv /home/ma-user/work/mindformers/research/baichuan2/13b/Baichuan2-13B-Chat.ckpt
 ```bash
 cd /home/ma-user/work/mindformers/research/baichuan2/13b
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/baichuan2/tokenizer.model
-/home/ma-user/work/obsutil cp obs://model-data/baichuan2/tokenizer.model ./
+obsutil cp obs://model-data/baichuan2/tokenizer.model ./
 
 ```
 
@@ -113,7 +120,7 @@ cd /home/ma-user/work/mindformers/research/baichuan2/13b
 
 ```bash
 # wget https://github.com/baichuan-inc/Baichuan2/raw/main/fine-tune/data/belle_chat_ramdon_10k.json
-/home/ma-user/work/obsutil cp obs://model-data/baichuan2/belle_chat_ramdon_10k.json ./
+obsutil cp obs://model-data/baichuan2/belle_chat_ramdon_10k.json ./
 ```
 
 ## 3.3 数据格式转换
@@ -345,7 +352,7 @@ vi /home/ma-user/work/mindformers/research/baichuan2/run_baichuan2_13b_910b.yaml
 ```yaml
 seed: 0
 output_dir: './output' # path to save checkpoint/strategy
-load_checkpoint: '/home/ma-user/work/mindformers/research/baichuan2/13b/pytorch_model.ckpt'
+load_checkpoint: '/home/ma-user/work/mindformers/research/baichuan2/13b/rank_0/Baichuan2-13B-Chat.ckpt'
 src_strategy_path_or_dir: ''
 auto_trans_ckpt: False  # If true, auto transform load_checkpoint to load in distributed model
 only_save_strategy: False
@@ -381,6 +388,8 @@ python baichuan2/run_baichuan2.py \
 --use_parallel False \
 --load_checkpoint baichuan2/13b/pytorch_model.ckpt \
 --auto_trans_ckpt False \
+--seq_length 2048 \
+--max_length 2048 \
 --predict_data "<reserved_106>你是谁？<reserved_107>"
 
 # 直接用训练权重, 多卡推理
@@ -393,6 +402,7 @@ bash ./run_singlenode.sh \
 --use_parallel True \
 --load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/13b/output/checkpoint_network/ \
 --auto_trans_ckpt True \
+--max_length 2048 \
 --predict_data <reserved_106>你是谁？<reserved_107>" /user/config/jobstart_hccl.json [0,4] 4
 
 
@@ -405,6 +415,18 @@ python baichuan2/run_baichuan2.py \
 --use_parallel False \
 --load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/13b/rank_0/Baichuan2-13B-Chat.ckpt \
 --auto_trans_ckpt False \
+--seq_length 2048 \
+--max_length 2048 \
+--predict_data "<reserved_106>推荐一份杭州的旅游攻略<reserved_107>"
+
+python baichuan2/run_baichuan2.py \
+--config baichuan2/run_baichuan2_13b_910b.yaml \
+--run_mode predict \
+--use_parallel False \
+--load_checkpoint /home/ma-user/work/mindformers/research/baichuan2/13b_base/rank_0/Baichuan2_13B_Base.ckpt \
+--auto_trans_ckpt False \
+--seq_length 2048 \
+--max_length 2048 \
 --predict_data "<reserved_106>你是谁？<reserved_107>"
 
 # 微调过后的权重

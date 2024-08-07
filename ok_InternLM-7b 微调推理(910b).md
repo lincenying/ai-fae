@@ -25,13 +25,20 @@ pip install torch transformers transformers_stream_generator einops accelerate t
 
 ```bash
 cd /home/ma-user/work/
+# 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
 export OBSAK="这里改成AK"
 export OBSSK="这里改成SK"
-/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
+# notebook停止后也需要重新执行下面两条命令
+export PATH=$PATH:/home/ma-user/work/obs_bin
+obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```
 
@@ -43,14 +50,14 @@ export OBSSK="这里改成SK"
 mkdir -p /home/ma-user/work/mindformers/research/internlm/models
 cd /home/ma-user/work/mindformers/research/internlm/models
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/internlm/internlm-chat.ckpt
-/home/ma-user/work/obsutil cp obs://model-data/internlm/internlm-chat.ckpt ./
+obsutil cp obs://model-data/internlm/internlm-chat.ckpt ./
 
 ```
  
 ## 2.2 分词器文件下载
 ```bash
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/internlm/tokenizer.model
-/home/ma-user/work/obsutil cp obs://model-data/internlm/tokenizer.model ./
+obsutil cp obs://model-data/internlm/tokenizer.model ./
 ```
 
 # 3. 数据准备
@@ -59,7 +66,7 @@ cd /home/ma-user/work/mindformers/research/internlm/models
 
 ```bash
 cd /home/ma-user/work/mindformers/research/internlm/models
-/home/ma-user/work/obsutil cp obs://model-data/internlm/alpaca_gpt4_data_zh.json ./
+obsutil cp obs://model-data/internlm/alpaca_gpt4_data_zh.json ./
 ```
 
 ## 3.3 数据格式转换
