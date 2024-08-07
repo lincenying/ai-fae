@@ -60,6 +60,8 @@ obsutil cp obs://model-data/qianwen/qwen_7b_base.ckpt ./
 
 ### 2.1.2 使用huggingface权重自行转换
 
+#### 2.1.2.1 使用huggingface下载权重
+
 ```bash
 # 1. 使用魔塔下载
 pip install modelscope
@@ -99,7 +101,7 @@ obsutil cp obs://model-data/qianwen1.5/7b/base/model-00004-of-00004.safetensors 
 
 ```
 
-## 2.2 torch权重转mindspore权重
+#### 2.1.2.2 torch权重转mindspore权重
 
 转换权重
 ```bash
@@ -117,7 +119,7 @@ ImportError: /home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/
 export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-d22c30c5.so.1.0.0'
 ```
  
-## 2.3 分词器文件下载
+## 2.2 分词器文件下载
 ```bash
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/qwen/qwen.tiktoken
 obsutil cp obs://model-data/qianwen/qwen.tiktoken ./

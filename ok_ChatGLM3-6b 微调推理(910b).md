@@ -80,7 +80,7 @@ obsutil cp obs://model-data/chatglm32k/dev.json ./
 
 ```bash
 cd /home/ma-user/work/mindformers
-python ./mindformers/tools/hccl_tools.py --device_num "[0,8)"
+python ./mindformers/tools/hccl_tools.py --device_num "[0,8]"
 ```
 
 ## 4.2 修改配置文件
