@@ -52,6 +52,8 @@ obsutil cp obs://model-data/qianwen1.5/7b/chat/qwen15_7b_chat.ckpt ./qwen15_7b_c
 
 ### 2.1.2 使用huggingface权重自行转换
 
+#### 2.1.2.1 下载huggingface权重
+
 ```bash
 # 1. 使用魔塔下载
 pip install modelscope
@@ -69,8 +71,8 @@ mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen1___5-7B-Chat ./7b_chat
 git clone https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat
 # 删除无效的权重
 rm -rf ./Qwen1.5-7B/*.safetensors
-mv Qwen1.5-7B 7b
-cd 7b
+mv Qwen1.5-7B 7b_chat
+cd 7b_chat
 
 # 2.1 使用hf-mirror下载权重
 wget -O model-00001-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00001-of-00008.safetensors?download=true
@@ -80,8 +82,6 @@ wget -O model-00004-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-C
 
 # 2.2 通过obs下载权重
 
-mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b
-cd /home/ma-user/work/mindformers/research/qwen1_5/7b
 obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00001-of-00004.safetensors ./
 obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00002-of-00004.safetensors ./
 obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00003-of-00004.safetensors ./
@@ -89,7 +89,7 @@ obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00004-of-00004.safetensors 
 
 ```
 
-## 2.2 torch权重转mindspore权重
+#### 2.1.2.2 torch权重转mindspore权重
 
 安装依赖
 ```bash
