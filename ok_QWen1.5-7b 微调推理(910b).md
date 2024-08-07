@@ -68,10 +68,9 @@ mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen1___5-7B-Chat ./7b_chat
 
 
 # 2. 通过hf-mirror克隆文件
-git clone https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat
+git clone https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat 7b_chat
 # 删除无效的权重
-rm -rf ./Qwen1.5-7B/*.safetensors
-mv Qwen1.5-7B 7b_chat
+rm -rf ./7b_chat/*.safetensors
 cd 7b_chat
 
 # 2.1 使用hf-mirror下载权重
@@ -110,9 +109,12 @@ python research/qwen1_5/convert_weight.py \
 ImportError: /home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch/lib/../../torch.libs/libgomp-d22c30c5.so.1.0.0: cannot allocate memory in static TLS block
 执行:
 ```bash
-# libgomp-d22c30c5.so.1.0.0  文件名可能不一样, 安装报错提示, 修改下面的路径
+# libgomp-d22c30c5.so.1.0.0  文件名可能不一样, 按照报错提示, 修改下面的路径
 export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-d22c30c5.so.1.0.0'
 ```
+命令后, 重新执行转换权重命令
+
+权重转换成功后, 继续执行下面的命令
 
 ```bash
 mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/

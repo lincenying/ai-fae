@@ -80,6 +80,9 @@ ImportError: /home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/
 # libgomp-d22c30c5.so.1.0.0 文件名可能会不同, 把下面路径替换成实际路径即可
 export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-d22c30c5.so.1.0.0'
 ```
+命令后, 重新执行转换权重命令
+
+权重转换成功后, 继续执行下面的命令
 
 ```bash
 mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/72b/rank_0/
