@@ -1,3 +1,4 @@
+- 需要专属资源池，升级内核驱动版本为24.1.rc2
 - 镜像: `swr.cn-east-292.mygaoxinai.com/cloud/pytorch2.1.0-cann8.0.rc2-python3.9-910b:202407260923`  
 - 硬件：Ascend: 8*ascend-d910b|CPU: 192核 1536GB
 
