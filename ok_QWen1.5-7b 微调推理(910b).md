@@ -8,6 +8,7 @@
 ```bash
 git clone -b r1.0 https://gitee.com/mindspore/mindformers.git
 cd mindformers
+git branch # 确认分支是r1.0  如果不是, 执行 git checkout r1.0
 bash build.sh
 
 
@@ -132,6 +133,8 @@ export MS_ENABLE_REF_MODE=1
 vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_infer.yaml
 ```
 
+将 https://gitee.com/lincenying/ai-fea/raw/main/config/run_qwen1_5_7b_infer.yaml 里的内容复制进去后, 按下面的内容替换对应字段
+
 ```yaml
 load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/'
 src_strategy_path_or_dir: ''
@@ -228,6 +231,8 @@ python research/qwen1_5/qwen1_5_preprocess.py \
 ```bash
 vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_lora.yaml
 ```
+
+将 https://gitee.com/lincenying/ai-fea/raw/main/config/run_qwen1_5_7b_lora.yaml 里的内容复制进去后, 按下面的内容替换对应字段
 
 ```yaml
 load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/'
