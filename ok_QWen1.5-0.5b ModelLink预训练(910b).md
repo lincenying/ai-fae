@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ok_QWen1.5-0.5b%20ModelLink预训练(910b).html)
+
 - 需要专属资源池，升级内核驱动版本为24.1.rc2
 - 镜像: `swr.cn-east-292.mygaoxinai.com/cloud/pytorch2.1.0-cann8.0.rc2-python3.9-910b:202407260923`  
 - 硬件：Ascend: 8*ascend-d910b|CPU: 192核 1536GB

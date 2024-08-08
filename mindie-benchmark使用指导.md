@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/mindie-benchmark使用指导.html)
+
 # 1. BenchMark client模式
 client模式，需要安装MindIE-client，使用时需要开启服务！！
 进入到Server的目录下，启动服务。

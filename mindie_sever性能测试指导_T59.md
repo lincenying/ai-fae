@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/mindie_sever性能测试指导_T59.html)
+
 # 1. 环境搭建
 ## 1.1 启动容器
 

@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ok_QWen-14b%20微调推理(910b).html)
+
 - 镜像: mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v3
 - 镜像源: swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v3
 - 规格: 4*ascend-d910b|CPU: 96核 768GB

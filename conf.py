@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "杭州人工智能计算中心"
-copyright = "2023, 杭州人工智能计算中心"
-author = "Sam"
+project = "mindformers大模型流程"
+copyright = "2024, mindformers大模型流程"
+author = "LCY"
 release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------

@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ok_YOLOV5_for_PyTorch_v7.0训练(910b).html)
+
 镜像: pytorch2_1_0-cann7_0-py39:910b
 
 

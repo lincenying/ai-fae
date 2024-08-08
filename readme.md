@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/readme.html)
+
 昇腾社区官网：https://www.hiascend.com/
 可以查看相关产品文档和开发者文档
 

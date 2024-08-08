@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ok_Baichuan2-7b%20%E5%BE%AE%E8%B0%83%E6%8E%A8%E7%90%86(910a).html)
+
 910, 镜像 ms2_2_0_cann_7_0_py39:v4
 
 # 1. 环境准备

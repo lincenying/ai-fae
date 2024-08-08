@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-杭州计算中心目录
+mindformers大模型流程
 ==================================================
 
 .. toctree::
