@@ -232,10 +232,10 @@ python research/qwen1_5/qwen1_5_preprocess.py \
 ### 5.1.1 配置权重路径
 
 ```bash
-vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_lora.yaml
+vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b.yaml
 ```
 
-将 https://gitee.com/lincenying/ai-fea/raw/main/config/run_qwen1_5_7b_lora.yaml 里的内容复制进去后, 按下面的内容替换对应字段
+将 https://gitee.com/lincenying/ai-fea/raw/main/config/run_qwen1_5_7b.yaml 里的内容复制进去后, 按下面的内容替换对应字段
 
 ```yaml
 load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/'
