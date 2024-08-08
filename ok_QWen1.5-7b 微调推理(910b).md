@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ok_QWen1.5-7b%20微调推理(910b).html)
+
 - 镜像: mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
 - 镜像源: swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
 - 规格: Ascend: 8*ascend-d910b|CPU: 192核 1536GB
@@ -8,6 +10,7 @@
 ```bash
 git clone -b r1.0 https://gitee.com/mindspore/mindformers.git
 cd mindformers
+git branch # 确认分支是r1.0  如果不是, 执行 git checkout r1.0
 bash build.sh
 
 
@@ -52,6 +55,8 @@ obsutil cp obs://model-data/qianwen1.5/7b/chat/qwen15_7b_chat.ckpt ./qwen15_7b_c
 
 ### 2.1.2 使用huggingface权重自行转换
 
+#### 2.1.2.1 下载huggingface权重
+
 ```bash
 # 1. 使用魔塔下载
 pip install modelscope
@@ -66,11 +71,10 @@ mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen1___5-7B-Chat ./7b_chat
 
 
 # 2. 通过hf-mirror克隆文件
-git clone https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat
+git clone https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat 7b_chat
 # 删除无效的权重
-rm -rf ./Qwen1.5-7B/*.safetensors
-mv Qwen1.5-7B 7b
-cd 7b
+rm -rf ./7b_chat/*.safetensors
+cd 7b_chat
 
 # 2.1 使用hf-mirror下载权重
 wget -O model-00001-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00001-of-00008.safetensors?download=true
@@ -80,8 +84,6 @@ wget -O model-00004-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-C
 
 # 2.2 通过obs下载权重
 
-mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b
-cd /home/ma-user/work/mindformers/research/qwen1_5/7b
 obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00001-of-00004.safetensors ./
 obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00002-of-00004.safetensors ./
 obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00003-of-00004.safetensors ./
@@ -89,7 +91,7 @@ obsutil cp obs://model-data/qianwen1.5/7b/chat/model-00004-of-00004.safetensors 
 
 ```
 
-## 2.2 torch权重转mindspore权重
+#### 2.1.2.2 torch权重转mindspore权重
 
 安装依赖
 ```bash
@@ -110,9 +112,12 @@ python research/qwen1_5/convert_weight.py \
 ImportError: /home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch/lib/../../torch.libs/libgomp-d22c30c5.so.1.0.0: cannot allocate memory in static TLS block
 执行:
 ```bash
-# libgomp-d22c30c5.so.1.0.0  文件名可能不一样, 安装报错提示, 修改下面的路径
+# libgomp-d22c30c5.so.1.0.0  文件名可能不一样, 按照报错提示, 修改下面的路径
 export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-d22c30c5.so.1.0.0'
 ```
+命令后, 重新执行转换权重命令
+
+权重转换成功后, 继续执行下面的命令
 
 ```bash
 mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/
@@ -129,6 +134,8 @@ export MS_ENABLE_REF_MODE=1
 
 vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_infer.yaml
 ```
+
+将 https://gitee.com/lincenying/ai-fea/raw/main/config/run_qwen1_5_7b_infer.yaml 里的内容复制进去后, 按下面的内容替换对应字段
 
 ```yaml
 load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/'
@@ -226,6 +233,8 @@ python research/qwen1_5/qwen1_5_preprocess.py \
 ```bash
 vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_lora.yaml
 ```
+
+将 https://gitee.com/lincenying/ai-fea/raw/main/config/run_qwen1_5_7b_lora.yaml 里的内容复制进去后, 按下面的内容替换对应字段
 
 ```yaml
 load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/'

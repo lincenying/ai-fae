@@ -1,3 +1,6 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/docker上传镜像.html)
+
+
 ```bash
 # 获取登录指令
 docker login -u xxx -p xxx swr.cn-east-292.mygaoxinai.com

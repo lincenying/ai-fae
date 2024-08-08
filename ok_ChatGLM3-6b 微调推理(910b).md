@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ok_InternLM-7b%20微调推理(910b).html)
+
 - 镜像: mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
 - 镜像源: swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
 - 规格: Ascend: 8*ascend-d910b|CPU: 192核 1536GB
@@ -80,7 +82,7 @@ obsutil cp obs://model-data/chatglm32k/dev.json ./
 
 ```bash
 cd /home/ma-user/work/mindformers
-python ./mindformers/tools/hccl_tools.py --device_num "[0,8)"
+python ./mindformers/tools/hccl_tools.py --device_num "[0,8]"
 ```
 
 ## 4.2 修改配置文件

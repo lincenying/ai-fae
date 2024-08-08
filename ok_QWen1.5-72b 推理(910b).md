@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ok_QWen1.5-72b%20推理(910b).html)
+
 - 镜像: mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
 - 镜像源: swr.cn-east-292.mygaoxinai.com/huqs/mindspore2.2.14-cann7.0.0beta1_py_3.9-euler_2.8.3_910:v2_qwen1_5_72b
 - 规格: Ascend: 8*ascend-d910b|CPU: 192核 1536GB
@@ -80,6 +82,9 @@ ImportError: /home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/
 # libgomp-d22c30c5.so.1.0.0 文件名可能会不同, 把下面路径替换成实际路径即可
 export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-d22c30c5.so.1.0.0'
 ```
+命令后, 重新执行转换权重命令
+
+权重转换成功后, 继续执行下面的命令
 
 ```bash
 mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/72b/rank_0/

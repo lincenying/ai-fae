@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ok_YOLOV5_for_PyTorch_v7.0训练.html)
+
 镜像: py3.10_torch2.1.0_cann7.0.rc1_euler-2.8.3-aarch64
 
 

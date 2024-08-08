@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/LoRA_ckpt权重转换为safetensors权重.html)
+
 # lora - ckpt转safetensors流程
 
 ## 1. 获取权重
