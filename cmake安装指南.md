@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/cmake安装指南.html)
+
 # 1 获取镜像  
 以`swr.cn-east-292.mygaoxinai.com/huqs/pytorch2_1_0-cann7_0-py39_910b:v2`为例  
 ```bash
