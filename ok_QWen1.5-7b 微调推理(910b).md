@@ -216,10 +216,11 @@ python qwen1_5/alpaca_converter.py \
 cd /home/ma-user/work/mindformers
 
 python research/qwen1_5/qwen1_5_preprocess.py \
+--dataset_type 'qa' \
 --input_glob ./research/qwen1_5/7b_chat/alpaca-data-messages.json \
 --vocab_file ./research/qwen1_5/7b_chat/vocab.json \
 --merges_file ./research/qwen1_5/7b_chat/merges.txt \
---seq_length 2048 \
+--seq_length 4096 \
 --output_file ./research/qwen1_5/7b_chat/alpaca-messages.mindrecord
 
 ```
@@ -242,7 +243,23 @@ auto_trans_ckpt: True
 train_dataset: &train_dataset
   data_loader:
     dataset_dir: "/home/ma-user/work/mindformers/research/qwen1_5/7b_chat/alpaca-messages.mindrecord"
+
+runner_config:
+  epochs: 5 # 训练轮数
+  batch_size: 1
+  sink_mode: True
+  sink_size: 1
+
+parallel_config:
+  data_parallel: 4
+  model_parallel: 1
+  pipeline_stage: 1
+  micro_batch_num: 1
+  gradient_aggregation_group: 4
+micro_batch_interleave_num: 1
 ```
+data_parallel * model_parallel * pipeline_stage = 卡数
+
 ## 5.2 启动微调训练脚本
 
 ```bash
@@ -257,12 +274,12 @@ cd /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/
 
 bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5.py \
---config /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b_lora.yaml \
+--config /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_7b.yaml \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/ \
 --use_parallel True \
 --run_mode finetune \
 --auto_trans_ckpt True \
---predict_length 2048 \
+--predict_length 4096 \
 --train_data /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/alpaca-messages.mindrecord" \
 /user/config/jobstart_hccl.json [0,4] 4
 
