@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ModelLink介绍.html)
+
 # ModelLink训练
 [ModelLink](https://gitee.com/ascend/ModelLink) 基于Ascend PyTorch框架，通过模型并行与数据并行来训练大语言模型，旨在为华为昇腾芯片上提供端到端的大语言模型方案, 包含模型，算法，以及下游任务。  
 当前ModelLink支撑大模型使用功能:
