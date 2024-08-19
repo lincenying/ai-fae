@@ -12,7 +12,34 @@
 - 基于昇腾芯片的确定性计算功能
 - 基于昇腾芯片的高可用特性
 
-## 1. 权重转换
+## 1. 权重下载
+
+权重可以基于网页直接下载，也可以基于命令行下载，或者使用魔搭
+
+### 1.1 huggingface
+huggingface: https://huggingface.co 
+huggingface国内镜像: https://hf-mirror.com/models
+
+### 1.2 命令行下载
+```bash
+mkdir ./model_from_hf/llama-2-7b-hf/
+cd ./model_from_hf/llama-2-7b-hf/
+wget https://huggingface.co/daryl149/llama-2-7b-hf/resolve/main/config.json
+wget https://huggingface.co/daryl149/llama-2-7b-hf/resolve/main/generation_config.json
+wget https://huggingface.co/daryl149/llama-2-7b-hf/resolve/main/pytorch_model-00001-of-00002.bin
+...
+```
+
+### 1.3 魔搭下载
+```bash
+pip install modelscope
+modelscope download --model qwen/Qwen2-Math-72B-Instruct --local_dir ./qwen-2-math-72b-instruct/
+
+```
+
+## 2. 权重转换
+
+### 2.1 Huggingface权重转换到Megatron-Legacy
 
 ```shell
 # 请按照您的真实环境修改 set_env.sh 路径
@@ -30,36 +57,84 @@ python tools/checkpoint/convert_ckpt.py \
     --tokenizer-model ./model_from_hf/llama2-hf/tokenizer.model
 ```
 
-【--target-tensor-parallel-size】
+【--target-tensor-parallel-size】 指明需要切分的TP数量，默认为1
 
-指明需要切分的TP数量，默认为1
+【--target-pipeline-parallel-size】 指明需要切分的PP数量，默认为1
 
-【--target-pipeline-parallel-size】
+【--num-layer-list】 可选参数，支持动态PP划分，通过列表指定每个PP Stage的层数
 
-指明需要切分的PP数量，默认为1
+【--num-layers-per-virtual-pipeline-stage】 可选参数，支持VPP划分，指定VPP的每个Stage层数，默认为None
 
-【--num-layer-list】
+【--tokenizer-model】 需要指明到具体的分词器模型文件，如 tokenizer.model、tokenizer.json、qwen.tiktoken、None等，具体取决于huggingface中词表文件的格式形式
 
-可选参数，支持动态PP划分，通过列表指定每个PP Stage的层数
+【--params-dtype】 指定权重转换后的权重精度模式，默认为fp16，如果源格式文件为bf16，则需要对应设置为bf16，影响推理或评估结果
 
-【--num-layers-per-virtual-pipeline-stage】
+### 2.2 Megatron-Legacy权重转换到Huggingface
 
-可选参数，支持VPP划分，指定VPP的每个Stage层数，默认为None
+```bash
+# 请按照您的真实环境修改 set_env.sh 路径
+source /usr/local/Ascend/ascend-toolkit/set_env.sh
 
-【--tokenizer-model】
+python tools/checkpoint/convert_ckpt.py \
+    --model-type GPT \
+    --loader megatron \
+    --saver megatron \
+    --save-model-type save_huggingface_llama \
+    --load-dir ./model_weights/llama2-legacy/ \
+    --target-tensor-parallel-size 1 \
+    --target-pipeline-parallel-size 1 \
+    --save-dir ./model_from_hf/llama2-70b-hf/     # <-- 需要填入原始HF模型路径，新权重会存于./model_from_hf/llama2-hf/mg2hg/
+```
 
-需要指明到具体的分词器模型文件，如 tokenizer.model、tokenizer.json、qwen.tiktoken、None等，具体取决于huggingface中词表文件的格式形式
+### 2.3 lora权重与base权重合并
 
-【--params-dtype】
+在上述权重转换命令中，加入如下参数可以将训练的 lora 权重与base进行融合。
 
-指定权重转换后的权重精度模式，默认为fp16，如果源格式文件为bf16，则需要对应设置为bf16，影响推理或评估结果
+```bash
+--lora-load ${CHECKPOINT_LORA}  \
+--lora-r 16 \
+--lora-alpha 32 \
+--lora-target-modules query_key_value dense dense_h_to_4h dense_4h_to_h \
+```
 
+使用lora权重的评估脚本命名风格及启动方法为：
+
+```bash
+bash examples/llama2/evaluate_llama2_7B_lora_ptd.sh
+```
 
 ---
 
-## 2. 数据处理
+## 3. 数据处理
 
-### 数据集预处理
+### 3.1 数据集下载
+
+从Huggingface等网站下载开源数据集，保存到ModelLink/dataset/ 目录
+
+常用的预训练数据集有：
+
+Enwiki数据集: https://hf-mirror.com/datasets/lsb/enwiki20230101
+C4数据集: https://hf-mirror.com/datasets/allenai/c4
+ChineseWebText: https://hf-mirror.com/datasets/CASIA-LM/ChineseWebText
+
+常用的对话指令微调数据集有：
+
+单轮对话：Alpaca数据集: https://hf-mirror.com/datasets/tatsu-lab/alpaca
+多轮对话：ShareGPT数据集: https://hf-mirror.com/datasets/shibing624/roleplay-zh-sharegpt-gpt4-data
+多轮对话：AlpacaHistroy数据集: https://hf-mirror.com/datasets/lenML/oaast_rm_zh_jieba
+
+数据集下载可以基于网页直接下载，也可以基于命令行下载，比如：
+
+```bash
+mkdir dataset
+cd dataset/
+wget https://huggingface.co/datasets/lsb/enwiki20230101/blob/main/data/train-00000-of-00042-d964455e17e96d5a.parquet
+cd ..
+```
+
+### 3.2 数据集处理
+
+#### 3.2.1 预训练数据集处理方法
 ```shell
 # 请按照您的真实环境修改 set_env.sh 路径
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
@@ -76,13 +151,9 @@ python ./preprocess_data.py \
     --log-interval 1000  
 ```
 
-【--input】
+【--input】 可以直接输入到数据集目录或具体文件，如果是目录，则处理全部文件, 支持 .parquet \ .csv \ .json \ .jsonl \ .txt \ .arrow 格式， 同一个文件夹下的数据格式需要保持一致 
 
-可以直接输入到数据集目录或具体文件，如果是目录，则处理全部文件, 支持 .parquet \ .csv \ .json \ .jsonl \ .txt \ .arrow 格式， 同一个文件夹下的数据格式需要保持一致 
-
-【--handler-name】
-
-当前预训练默认使用 `GeneralPretrainHandler`，支持的是预训练数据风格，提取数据的`text`列，格式如下：
+【--handler-name】 当前预训练默认使用 `GeneralPretrainHandler`，支持的是预训练数据风格，提取数据的`text`列，格式如下：
 
 ```shell
 [
@@ -93,11 +164,17 @@ python ./preprocess_data.py \
 
 用户可结合具体数据处理需求添加新的Handler进行数据处理 
 
+【--json-keys】 从文件中提取的列名列表，默认为 text，可以为 text, input, title 等多个输入，结合具体需求及数据集内容使用，如：
+
+```bash
+--json-keys text input output \
+```
+
 ---
 
-## 大模型分布式预训练
+## 4. 大模型分布式预训练
 
-### 配置预训练参数
+### 4.1 配置预训练参数
 
 预训练脚本保存在 example 中各模型文件夹下：pretrain_xxx_xx.sh
 需根据实际情况修改路径和参数值
@@ -143,7 +220,7 @@ python ./preprocess_data.py \
 ```
                       
 
-### 启动预训练
+### 4.2 启动预训练
 
 ```shell
     bash example/模型文件夹/pretrain_xxx_xxx.sh
@@ -156,9 +233,9 @@ python ./preprocess_data.py \
 
 ---
 
-## 大模型分布式推理
+## 5. 大模型分布式推理
 
-### Generate：流式推理
+### 5.1 Generate：流式推理
 
 ModelLink 流式推理脚本命名风格及启动方法为：
 ```shell
@@ -179,7 +256,7 @@ bash examples/llama2/generate_llama2_7b_ptd.sh
 
 ---
 
-## 大模型分布式评估
+## 6. 大模型分布式评估
 
 ModelLink 基准评估脚本命名风格及启动方法为：
 ```shell
