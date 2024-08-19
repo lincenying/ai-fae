@@ -130,10 +130,12 @@ bash run_distribute.sh /user/config/jobstart_hccl.json /home/ma-user/work/mindfo
 
 # 5. 模型推理
 ## 5.1 编写推理脚本
-代码见 files/generate-infer.py
+代码见: [files/generate-infer.py](https://gitee.com/lincenying/ai-fea/raw/main/files/generate-infer.py)
 
 ## 5.2 启动推理脚本
 ```bash
 cd /home/ma-user/work/mindformers/
 python research/glm3/generate-infer.py
 ```
+
+# [过滤权重和权重合并](https://ai-fae.readthedocs.io/zh-cn/latest/过滤权重和权重合并.html)

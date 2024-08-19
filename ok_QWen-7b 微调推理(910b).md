@@ -276,3 +276,6 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 --predict_data 比较适合深度学习入门的书籍有" \
 /user/config/jobstart_hccl.json [0,2] 2
 ```
+
+
+# [过滤权重和权重合并](https://ai-fae.readthedocs.io/zh-cn/latest/过滤权重和权重合并.html)

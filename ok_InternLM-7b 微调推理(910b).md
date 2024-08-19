@@ -181,3 +181,6 @@ python run_internlm.py \
 --device_id 0
 
 ```
+
+
+# [过滤权重和权重合并](https://ai-fae.readthedocs.io/zh-cn/latest/过滤权重和权重合并.html)

@@ -170,3 +170,5 @@ cd /home/ma-user/work/mindformers
 
 python run_mindformer.py --config /home/ma-user/work/mindformers/research/llama2/run_llama2_7b_910b.yaml --run_mode predict --predict_data 'I love Beijing, because' --use_parallel False
 ```
+
+# [过滤权重和权重合并](https://ai-fae.readthedocs.io/zh-cn/latest/过滤权重和权重合并.html)

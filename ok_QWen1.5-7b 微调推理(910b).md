@@ -283,3 +283,5 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 /user/config/jobstart_hccl.json [0,4] 4
 
 ```
+
+# [过滤权重和权重合并](https://ai-fae.readthedocs.io/zh-cn/latest/过滤权重和权重合并.html)

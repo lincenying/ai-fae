@@ -315,3 +315,5 @@ unzip ../../ceval-exam.zip && cd ../../
 python evaluate_ceval.py -d data/ceval/
 
 ```
+
+# [过滤权重和权重合并](https://ai-fae.readthedocs.io/zh-cn/latest/过滤权重和权重合并.html)
