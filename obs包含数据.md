@@ -136,6 +136,36 @@ obs://model-data/chatglm32k/dev.json
 obs://model-data/chatglm32k/data.zip
 ```
 
+## qianwen
+
+### 7b-base
+```
+obs://model-data/qianwen/qwen_7b_base.ckpt
+```
+
+### 14b-base
+```
+obs://model-data/qianwen/qwen_14b_base.ckpt
+```
+
+### 14-chat
+
+原始权重
+```
+obs://model-data/qianwen/14b-chat
+```
+
+转换后权重
+```
+obs://model-data/qianwen/qwen_14b_chat.ckpt
+```
+
+### 数据集
+```
+obs://model-data/qianwen/qwen.tiktoken
+obs://model-data/qianwen/alpaca_data.json
+```
+
 ## qianwen1.5
 
 ### 7b-base
@@ -180,23 +210,6 @@ obs://model-data/qianwen1.5/14b/base/model-00008-of-00008.safetensors
 ### 72b-chat
 [见xiemingda账号](#qwen1_5-72b-chat_1)
 
-## qianwen
-
-### 7b-base
-```
-obs://model-data/qianwen/qwen_7b_base.ckpt
-```
-
-### 14b-base
-```
-obs://model-data/qianwen/qwen_14b_base.ckpt
-```
-
-### 数据集
-```
-obs://model-data/qianwen/qwen.tiktoken
-obs://model-data/qianwen/alpaca_data.json
-```
 
 ## llama2
 

@@ -65,19 +65,11 @@ obsutil cp obs://model-data/qianwen/qwen_7b_base.ckpt ./
 #### 2.1.2.1 使用huggingface下载权重
 
 ```bash
-# 1. 使用魔塔下载
+# 1. 使用魔搭下载
 pip install modelscope
 
 cd /home/ma-user/work/mindformers/research/qwen/
-vi down.py
-#--->写入以下内容
-from modelscope import snapshot_download
-model_dir = snapshot_download('qwen/Qwen-7B')
-#<---保存文件
-python down.py
-
-mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen-7B ./7b
-
+modelscope download --model 'qwen/Qwen-7B' --local_dir './7b'
 
 # 2. 通过hf-mirror克隆文件
 git clone https://hf-mirror.com/Qwen/Qwen-7B

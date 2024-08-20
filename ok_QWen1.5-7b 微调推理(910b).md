@@ -58,17 +58,11 @@ obsutil cp obs://model-data/qianwen1.5/7b/chat/qwen15_7b_chat.ckpt ./qwen15_7b_c
 #### 2.1.2.1 下载huggingface权重
 
 ```bash
-# 1. 使用魔塔下载
+# 1. 使用魔搭下载
 pip install modelscope
-vi down.py
-#--->写入以下内容
-from modelscope import snapshot_download
-model_dir = snapshot_download('qwen/Qwen1.5-7B-Chat')
-#<---保存文件
-python down.py
+cd /home/ma-user/work/mindformers/research/qwen1_5
 
-mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen1___5-7B-Chat ./7b_chat
-
+modelscope download --model 'qwen/Qwen1.5-7B-Chat' --local_dir './7b_chat'
 
 # 2. 通过hf-mirror克隆文件
 git clone https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat 7b_chat

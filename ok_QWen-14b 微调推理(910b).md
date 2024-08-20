@@ -57,6 +57,8 @@ cd /home/ma-user/work/mindformers/research/qwen/14b/
 ```bash
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/qwen/qwen_14b_base.ckpt
 obsutil cp obs://model-data/qianwen/qwen_14b_base.ckpt ./
+mkdir -p  /home/ma-user/work/mindformers/research/qwen/14b/rank_0
+mv /home/ma-user/work/mindformers/research/qwen/14b/qwen_14b_base.ckpt /home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt
 
 ```
 
@@ -65,18 +67,11 @@ obsutil cp obs://model-data/qianwen/qwen_14b_base.ckpt ./
 #### 2.1.2.1 使用huggingface下载权重
 
 ```bash
-# 1. 使用魔塔下载
+# 1. 使用魔搭下载
 pip install modelscope
 
 cd /home/ma-user/work/mindformers/research/qwen/
-vi down.py
-#--->写入以下内容
-from modelscope import snapshot_download
-model_dir = snapshot_download('qwen/Qwen-14B')
-#<---保存文件
-python down.py
-
-mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen-14B ./14b
+modelscope download --model 'qwen/Qwen-14B' --local_dir './14b'
 
 
 # 2. 通过hf-mirror克隆文件
@@ -126,7 +121,12 @@ python research/qwen/convert_weight.py \
 ImportError: /home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch/lib/../../torch.libs/libgomp-d22c30c5.so.1.0.0: cannot allocate memory in static TLS block
 执行:
 ```bash
-export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-d22c30c5.so.1.0.0'
+export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-4dbbc2f2.so.1.0.0'
+```
+
+```bash
+mkdir -p  /home/ma-user/work/mindformers/research/qwen/14b/rank_0
+mv /home/ma-user/work/mindformers/research/qwen/14b/qwen_14b_base.ckpt /home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt
 ```
  
 ## 2.2 分词器文件下载
@@ -179,8 +179,7 @@ python research/qwen/qwen_preprocess.py \
 ## 4.1 修改配置文件
 
 ```bash
-mkdir -p  /home/ma-user/work/mindformers/research/qwen/14b/rank_0
-mv /home/ma-user/work/mindformers/research/qwen/14b/qwen_14b_base.ckpt /home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt
+
 vi /home/ma-user/work/mindformers/research/qwen/run_qwen_14b_lora.yaml
 ```
 
@@ -267,9 +266,9 @@ cd /home/ma-user/work/mindformers/research/qwen/14b
 #单卡推理
 python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_14b.yaml \
---predict_data '详细介绍下APG除盐床' \
+--predict_data '书写一份颈椎病的诊断意见' \
 --run_mode predict \
---load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt \
+--load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b-chat/rank_0/qwen_14b_chat.ckpt \
 --device_id 0
 
 # 多卡推理
@@ -290,7 +289,7 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 
 ```bash
 cd /home/ma-user/work/mindformers/research/qwen/
-/home/ma-user/work/work/obsutil cp obs://model-data/eval.zip ./
+obsutil cp obs://model-data/eval.zip ./
 unzip eval.zip
 ```
 
@@ -309,10 +308,10 @@ group.add_argument('--config', default='run_qwen_14b.yaml', type=str, help='Conf
 ## 6.3 运行评测脚本
 ```bash
 cd /home/ma-user/work/mindformers/research/qwen/
-/home/ma-user/work/work/obsutil cp obs://model-data/ceval-exam.zip ./
+obsutil cp obs://model-data/ceval-exam.zip ./
 mkdir -p data/ceval && cd data/ceval
 unzip ../../ceval-exam.zip && cd ../../
-python evaluate_ceval.py -d data/ceval/
+python eval/evaluate_ceval.py -d data/ceval/
 
 ```
 

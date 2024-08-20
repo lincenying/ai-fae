@@ -46,7 +46,7 @@ cd /home/ma-user/work/mindformers/research/mixtral/8x7b/rank_0/
 ### 2.1.2 使用huggingface权重自行转换
 
 ```bash
-# 1. 使用魔塔下载
+# 1. 使用魔搭下载
 pip install modelscope
 
 mkdir /home/ma-user/work/mindformers/research/mixtral/8x7b

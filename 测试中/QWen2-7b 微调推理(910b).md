@@ -40,17 +40,9 @@ cd /home/ma-user/work/mindformers/research/qwen1_5/2_7b/rank_0/
 ### 2.1.2 使用huggingface权重自行转换
 
 ```bash
-# 1. 使用魔塔下载
+# 1. 使用魔搭下载
 pip install modelscope
-vi down.py
-#--->写入以下内容
-from modelscope import snapshot_download
-model_dir = snapshot_download('qwen/Qwen2-7B')
-#<---保存文件
-python down.py
-
-mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen2-7B ./2_7b
-
+modelscope download --model 'qwen/Qwen2-7B' --local_dir './2_7b'
 
 # 2. 通过hf-mirror克隆文件
 git clone https://hf-mirror.com/Qwen/Qwen2-7B

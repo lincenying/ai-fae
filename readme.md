@@ -33,7 +33,7 @@ https://docs.gaoxinai.com/zh-cn/usermanual/modelarts/modelarts_01_0001.html
 
 第三方模型库
  
-魔塔社区：
+魔搭社区：
 https://modelscope.cn/my/overview
 
 HuggingFace：

@@ -42,16 +42,10 @@ obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 mkdir /home/ma-user/work/mindformers/research/glm3/
 cd /home/ma-user/work/mindformers/research/glm3/
 
-# 1. 使用魔塔下载
+# 1. 使用魔搭下载
 pip install modelscope
-vi down.py
-#--->写入以下内容
-from modelscope import snapshot_download
-model_dir = snapshot_download("ZhipuAI/chatglm3-6b", revision = "v1.0.0")
-#<---保存文件
-python down.py
 
-mv /home/ma-user/.cache/modelscope/hub/ZhipuAI/chatglm3-6b ./6b
+modelscope download --model 'ZhipuAI/chatglm3-6b' --local_dir './6b'
 
 # 2. 直接使用已经转换完成的预训练权重
 cd /home/ma-user/work/mindformers/research/glm3/6b

@@ -27,17 +27,10 @@ export OBSSK="这里改成SK"
 ```bash
 cd /home/ma-user/work/mindformers/research/qwen1_5
 
-# 1. 使用魔塔下载
+# 1. 使用魔搭下载
 pip install modelscope
-vi down.py
-#--->写入以下内容
-from modelscope import snapshot_download
-model_dir = snapshot_download('qwen/Qwen1.5-14B-Chat')
-#<---保存文件
-python down.py
 
-mv /home/ma-user/.cache/modelscope/hub/qwen/Qwen1___5-14B-Chat ./14b_chat
-
+modelscope download --model 'qwen/Qwen1.5-14B-Chat' --local_dir './14b_chat'
 
 # 2. 通过hf-mirror克隆文件
 git clone https://hf-mirror.com/Qwen/Qwen1.5-14B-Chat
