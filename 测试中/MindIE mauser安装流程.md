@@ -9,7 +9,7 @@
 # 2 启动容器
 构建挂载4卡的容器，并且挂载个人目录到容器中，个人目录中有已经下载好的CANN和MindIE安装包，以及qwen1.5 chat模型文件。
 ```bash
-docker run -it -u ma-user --device=/dev/davinci4 --device=/dev/davinci5 --device=/dev/davinci6 --device=/dev/davinci7 --device=/dev/davinci_manager --device=/dev/devmm_svm --device=/dev/hisi_hdc --ipc=host -v /usr/local/Ascend/driver:/usr/local/Ascend/driver  -v /usr/local/dcmi:/usr/local/dcmi -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi -v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi -v /home/wangfeng:/home/ma-user/wangfeng/ --name test472 --entrypoint=/bin/bash hzaicc-makeimages-base:v1.0
+docker run -it -u ma-user --device=/dev/davinci4 --device=/dev/davinci5 --device=/dev/davinci6 --device=/dev/davinci7 --device=/dev/davinci_manager --device=/dev/devmm_svm --device=/dev/hisi_hdc --ipc=host -v /usr/local/Ascend/driver:/usr/local/Ascend/driver  -v /usr/local/dcmi:/usr/local/dcmi -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi -v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi -v /home/wangfeng:/home/ma-user/wangfeng/ --name test472 --entrypoint=/bin/bash swr.cn-east-292.mygaoxinai.com/huqs/torch2.1_cann8.0.rc2_py3.10_euler2.8.3_64gb:ma-user_base
 ```
 
 # 3 安装依赖
@@ -24,15 +24,16 @@ chmod +x Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run
 chmod +x Ascend-cann-kernels-910b_8.0.RC2_linux.run
 chmod +x Ascend-cann-nnal_8.0.RC2_linux-aarch64.run
 chmod +x Ascend-mindie_1.0.RC2_linux-aarch64.run
-./Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run --install --install-for-all --quiet
+./Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run --install --quiet
+echo 'source /home/ma-user/Ascend/ascend-toolkit/set_env.sh' >> ~/.bashrc
 source ~/.bashrc
-./Ascend-cann-kernels-910b_8.0.RC2_linux.run --install --install-for-all --quiet
+./Ascend-cann-kernels-910b_8.0.RC2_linux.run --install --quiet
 source ~/.bashrc
 ./Ascend-cann-nnal_8.0.RC2_linux-aarch64.run --install --quiet
-echo 'source /home/ma-user/Ascend/nnal/atb/set_env.sh' >> /home/ma-user/.bashrc
+echo 'source /home/ma-user/Ascend/nnal/atb/set_env.sh' >> ~/.bashrc
 source ~/.bashrc
 ./Ascend-mindie_1.0.RC2_linux-aarch64.run --install --quiet
-echo 'source /home/ma-user/Ascend/mindie/set_env.sh' >> /home/ma-user/.bashrc
+echo 'source /home/ma-user/Ascend/mindie/set_env.sh' >> ~/.bashrc
 # /home/ma-user/Ascend/driver/lib64/driver/
 source ~/.bashrc
 ```

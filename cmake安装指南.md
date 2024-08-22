@@ -23,7 +23,7 @@ yum install -y zlib-devel
 ```bash
 wget https://www.openssl.org/source/openssl-3.3.1.tar.gz  
 tar -zxvf openssl-3.3.1.tar.gz  
-cd openssl-3.3.1.tar.gz  
+cd openssl-3.3.1 
 ./config shared zlib  --prefix=/usr/local/openssl && make && make install  
 ./config -t  
 make depend  
@@ -41,7 +41,7 @@ vim /etc/ld.so.conf
 
 ```bash
 ldconfig  
-vim etc/profile
+vim /etc/profile
 ```  
 文件末尾添加
 
