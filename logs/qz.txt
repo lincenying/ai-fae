@@ -1,0 +1,34 @@
+[ma-user output]$ls
+checkpoint  checkpoint_network  log  softlink_ckpt  strategy  transformed_checkpoint
+[ma-user output]$ll
+total 24
+drwx------ 6 ma-user ma-group 4096 Aug 21 11:12 checkpoint
+drwx------ 6 ma-user ma-group 4096 Aug 21 16:13 checkpoint_network
+drwxr-x--- 6 ma-user ma-group 4096 Aug 21 11:11 log
+drwx------ 2 ma-user ma-group 4096 Aug 21 11:23 softlink_ckpt
+drwxr-x--- 2 ma-user ma-group 4096 Aug 21 11:14 strategy
+drwxr-x--- 3 ma-user ma-group 4096 Aug 21 11:23 transformed_checkpoint
+[ma-user output]$ll
+total 24
+drwx------ 6 ma-user ma-group 4096 Aug 21 11:12 checkpoint
+drwx------ 6 ma-user ma-group 4096 Aug 21 16:13 checkpoint_network
+drwxr-x--- 6 ma-user ma-group 4096 Aug 21 11:11 log
+drwx------ 2 ma-user ma-group 4096 Aug 21 11:23 softlink_ckpt
+drwxr-x--- 2 ma-user ma-group 4096 Aug 21 11:14 strategy
+drwxr-x--- 3 ma-user ma-group 4096 Aug 21 11:23 transformed_checkpoint
+[ma-user output]$ls transformed_checkpoint/14b/
+rank_0  rank_1  rank_2  rank_3  transform_succeed_rank_0.txt
+[ma-user output]$ll
+total 24
+drwx------ 6 ma-user ma-group 4096 Aug 21 11:12 checkpoint
+drwx------ 6 ma-user ma-group 4096 Aug 21 16:13 checkpoint_network
+drwxr-x--- 6 ma-user ma-group 4096 Aug 21 11:11 log
+drwx------ 2 ma-user ma-group 4096 Aug 21 11:23 softlink_ckpt
+drwxr-x--- 2 ma-user ma-group 4096 Aug 21 11:14 strategy
+drwxr-x--- 3 ma-user ma-group 4096 Aug 21 11:23 transformed_checkpoint
+[ma-user output]$ll checkpoint_network
+total 16
+drwx------ 2 ma-user ma-group 4096 Aug 21 17:38 rank_0
+drwx------ 2 ma-user ma-group 4096 Aug 21 17:38 rank_1
+drwx------ 2 ma-user ma-group 4096 Aug 21 17:38 rank_2
+drwx------ 2 ma-user ma-group 4096 Aug 21 17:38 rank_3
