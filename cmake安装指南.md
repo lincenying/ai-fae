@@ -41,17 +41,11 @@ vim /etc/ld.so.conf
 
 ```bash
 ldconfig  
-vim /etc/profile
+echo 'export OPENSSL=/usr/local/openssl/bin' >> /home/ma-user/.bashrc
+echo 'export PATH=$OPENSSL:$PATH:$HOME/bin' >> /home/ma-user/.bashrc
+echo 'export OPENSSL_ROOT_DIR=/usr/local/openssl' >> /home/ma-user/.bashrc
+source ./bashrc
 ```  
-文件末尾添加
-
-```sh
-export OPENSSL=/usr/local/openssl/bin  
-export PATH=$OPENSSL:$PATH:$HOME/bin  
-export OPENSSL_ROOT_DIR=/usr/local/openssl
-```  
-保存并退出
-重新登录镜像以完成安装
 
 # 6 安装cmake  
 `https://cmake.org/download/` 获取最新的下载链接，以3.30.0为例  
