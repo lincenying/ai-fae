@@ -33,13 +33,7 @@ ln -s openssl ssl
 
 # 5 修改配置文件  
 ```bash
-vim /etc/ld.so.conf
-```
-文件末尾添加`/usr/local/openssl/lib`  
-保存并退出
-执行指令
-
-```bash
+echo '/usr/local/openssl/lib' >> /etc/ld.so.conf
 ldconfig  
 echo 'export OPENSSL=/usr/local/openssl/bin' >> /home/ma-user/.bashrc
 echo 'export PATH=$OPENSSL:$PATH:$HOME/bin' >> /home/ma-user/.bashrc
