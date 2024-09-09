@@ -21,37 +21,25 @@ yum install -y zlib-devel
 `https://www.openssl.org/source/` 获取最新的下载链接，以3.3.1为例  
 
 ```bash
+cd /home/ma-user/work
 wget https://www.openssl.org/source/openssl-3.3.1.tar.gz  
 tar -zxvf openssl-3.3.1.tar.gz  
 cd openssl-3.3.1 
 ./config shared zlib  --prefix=/usr/local/openssl && make && make install  
 ./config -t  
 make depend  
-cd /usr/local  
-ln -s openssl ssl
+ln -s /usr/local/openssl /usr/local/ssl
 ```  
 
 # 5 修改配置文件  
 ```bash
-vim /etc/ld.so.conf
-```
-文件末尾添加`/usr/local/openssl/lib`  
-保存并退出
-执行指令
-
-```bash
+echo '/usr/local/openssl/lib' >> /etc/ld.so.conf
 ldconfig  
-vim /etc/profile
+echo 'export OPENSSL=/usr/local/openssl/bin' >> /home/ma-user/.bashrc
+echo 'export PATH=$OPENSSL:$PATH:$HOME/bin' >> /home/ma-user/.bashrc
+echo 'export OPENSSL_ROOT_DIR=/usr/local/openssl' >> /home/ma-user/.bashrc
+source ~/.bashrc
 ```  
-文件末尾添加
-
-```sh
-export OPENSSL=/usr/local/openssl/bin  
-export PATH=$OPENSSL:$PATH:$HOME/bin  
-export OPENSSL_ROOT_DIR=/usr/local/openssl
-```  
-保存并退出
-重新登录镜像以完成安装
 
 # 6 安装cmake  
 `https://cmake.org/download/` 获取最新的下载链接，以3.30.0为例  
