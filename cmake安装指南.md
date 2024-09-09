@@ -21,6 +21,7 @@ yum install -y zlib-devel
 `https://www.openssl.org/source/` 获取最新的下载链接，以3.3.1为例  
 
 ```bash
+cd /home/ma-user/work
 wget https://www.openssl.org/source/openssl-3.3.1.tar.gz  
 tar -zxvf openssl-3.3.1.tar.gz  
 cd openssl-3.3.1 
