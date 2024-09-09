@@ -37,7 +37,7 @@ ldconfig
 echo 'export OPENSSL=/usr/local/openssl/bin' >> /home/ma-user/.bashrc
 echo 'export PATH=$OPENSSL:$PATH:$HOME/bin' >> /home/ma-user/.bashrc
 echo 'export OPENSSL_ROOT_DIR=/usr/local/openssl' >> /home/ma-user/.bashrc
-source ./bashrc
+source ~/.bashrc
 ```  
 
 # 6 安装cmake  
