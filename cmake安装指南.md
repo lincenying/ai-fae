@@ -27,8 +27,7 @@ cd openssl-3.3.1
 ./config shared zlib  --prefix=/usr/local/openssl && make && make install  
 ./config -t  
 make depend  
-cd /usr/local  
-ln -s openssl ssl
+ln -s /usr/local/openssl /usr/local/ssl
 ```  
 
 # 5 修改配置文件  
