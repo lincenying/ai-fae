@@ -1,0 +1,18 @@
+[root@bms-430e ~]# npu-smi info -t common -i 1
+	NPU ID                         : 1
+	Chip Count                     : 1
+
+	Chip ID                        : 0
+	Memory Usage Rate(%)           : 0
+	HBM Usage Rate(%)              : 5
+	Aicore Usage Rate(%)           : 0
+	Aicore Freq(MHZ)               : 1850
+	Aicore curFreq(MHZ)            : 800
+	Aicore Count                   : 25
+	Temperature(C)                 : 33
+	NPU Real-time Power(W)         : 101.8
+
+	Chip Name                      : mcu
+	Temperature(C)                 : 38
+
+	

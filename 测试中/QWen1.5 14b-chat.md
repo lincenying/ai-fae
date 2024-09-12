@@ -6,18 +6,25 @@ Ascend: 8*ascend-d910b|CPU: 192核 1536GB
 ## 1.1 安装 Mindformers
 
 ```bash
-git clone -b r1.0 https://gitee.com/mindspore/mindformers.git # 建议选这个版本
+git clone -b r1.0.a https://gitee.com/mindspore/mindformers.git # 建议选这个版本
 cd mindformers
 bash build.sh
 
 cd /home/ma-user/work/
+# 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
 chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
 export OBSAK="这里改成AK"
 export OBSSK="这里改成SK"
-/home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
+# notebook停止后也需要重新执行下面两条命令
+export PATH=$PATH:/home/ma-user/work/obs_bin
+obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```
 
@@ -50,14 +57,14 @@ wget -O model-00007-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-14B-
 wget -O model-00008-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-14B-Chat/resolve/main/model-00008-of-00008.safetensors?download=true
 
 # 2.2 通过obs下载权重
-/home/ma-user/work/obsutil cp obs://wio/qwen1.5-14b-chat/model-00001-of-00008.safetensors ./
-/home/ma-user/work/obsutil cp obs://wio/qwen1.5-14b-chat/model-00002-of-00008.safetensors ./
-/home/ma-user/work/obsutil cp obs://wio/qwen1.5-14b-chat/model-00003-of-00008.safetensors ./
-/home/ma-user/work/obsutil cp obs://wio/qwen1.5-14b-chat/model-00004-of-00008.safetensors ./
-/home/ma-user/work/obsutil cp obs://wio/qwen1.5-14b-chat/model-00005-of-00008.safetensors ./
-/home/ma-user/work/obsutil cp obs://wio/qwen1.5-14b-chat/model-00006-of-00008.safetensors ./
-/home/ma-user/work/obsutil cp obs://wio/qwen1.5-14b-chat/model-00007-of-00008.safetensors ./
-/home/ma-user/work/obsutil cp obs://wio/qwen1.5-14b-chat/model-00008-of-00008.safetensors ./
+obsutil cp obs://wio/qwen1.5-14b-chat/model-00001-of-00008.safetensors ./
+obsutil cp obs://wio/qwen1.5-14b-chat/model-00002-of-00008.safetensors ./
+obsutil cp obs://wio/qwen1.5-14b-chat/model-00003-of-00008.safetensors ./
+obsutil cp obs://wio/qwen1.5-14b-chat/model-00004-of-00008.safetensors ./
+obsutil cp obs://wio/qwen1.5-14b-chat/model-00005-of-00008.safetensors ./
+obsutil cp obs://wio/qwen1.5-14b-chat/model-00006-of-00008.safetensors ./
+obsutil cp obs://wio/qwen1.5-14b-chat/model-00007-of-00008.safetensors ./
+obsutil cp obs://wio/qwen1.5-14b-chat/model-00008-of-00008.safetensors ./
 
 ```
 
@@ -75,16 +82,20 @@ cd /home/ma-user/work/mindformers/
 python research/qwen1_5/convert_weight.py \
 --torch_ckpt_dir ./research/qwen1_5/14b_chat/ \
 --mindspore_ckpt_path ./research/qwen1_5/14b_chat/qwen15_14b_chat.ckpt
+
 ```
 
 如果报错:
 ImportError: /home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch/lib/../../torch.libs/libgomp-d22c30c5.so.1.0.0: cannot allocate memory in static TLS block
 执行:
 ```bash
-export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-d22c30c5.so.1.0.0'
+export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-packages/torch.libs/libgomp-4dbbc2f2.so.1.0.0'
+```
 
+```bash
 mkdir -p /home/ma-user/work/mindformers/research/qwen1_5/14b_chat/rank_0/
 mv /home/ma-user/work/mindformers/research/qwen1_5/14b_chat/qwen15_14b_chat.ckpt /home/ma-user/work/mindformers/research/qwen1_5/14b_chat/rank_0/
+
 ```
 
 # 3. 直接使用基础权重推理
@@ -94,7 +105,7 @@ export MS_GE_TRAIN=0
 export MS_ENABLE_GE=1
 export MS_ENABLE_REF_MODE=1
 
-vi /home/ma-user/work/mindformers/research/qwen1_5/predict_qwen1_5_14b_chat.yaml
+vi /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_14b_infer.yaml
 
 ```yaml
 load_checkpoint: '/home/ma-user/work/mindformers/research/qwen1_5/14b_chat/rank_0/qwen15_14b_chat.ckpt'
@@ -127,7 +138,7 @@ cd /home/ma-user/work/mindformers/research
 
 # 单卡推理
 python /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5.py \
---config /home/ma-user/work/mindformers/research/qwen1_5/predict_qwen1_5_14b_chat.yaml \
+--config /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_14b_infer.yaml \
 --run_mode predict \
 --use_parallel False \
 --auto_trans_ckpt False \
@@ -137,7 +148,7 @@ python /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5.py \
 # 多卡推理
 bash run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5.py \
---config /home/ma-user/work/mindformers/research/qwen1_5/predict_qwen1_5_14b_chat.yaml \
+--config /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_14b_infer.yaml \
 --run_mode predict \
 --use_parallel True \
 --auto_trans_ckpt True \
@@ -153,7 +164,7 @@ bash run_singlenode.sh \
 ```bash
 cd /home/ma-user/work/mindformers/research/qwen1_5/14b_chat/
 
-/home/ma-user/work/obsutil cp obs://model-data/qianwen/alpaca_data.json ./
+obsutil cp obs://model-data/qianwen/alpaca_data.json ./
 
 ```
 
@@ -212,13 +223,13 @@ export MS_ASCEND_CHECK_OVERFLOW_MODE=INFNAN_MODE
 
 bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5.py \
---config /home/ma-user/work/mindformers/research/qwen1_5/finetune_qwen1_5_14b_chat.yaml \
+--config /home/ma-user/work/mindformers/research/qwen1_5/run_qwen1_5_14b_lora.yaml \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/14b_chat/ \
 --use_parallel True \
 --run_mode finetune \
 --auto_trans_ckpt True \
 --train_data /home/ma-user/work/mindformers/research/qwen1_5/14b_chat/alpaca-messages.mindrecord" \
-/user/config/jobstart_hccl.json [0,4] 4
+/user/config/jobstart_hccl.json [0,8] 8
 
 ```
 
