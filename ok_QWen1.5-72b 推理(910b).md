@@ -94,6 +94,7 @@ mv /home/ma-user/work/mindformers/research/qwen1_5/72b/qwen1_5-72b.ckpt /home/ma
 # 3. 直接使用基础权重推理
 
 ```bash
+# Atlas 800T A2上运行时需要设置如下环境变量，否则推理结果会出现精度问题
 export MS_GE_TRAIN=0
 export MS_ENABLE_GE=1
 export MS_ENABLE_REF_MODE=1

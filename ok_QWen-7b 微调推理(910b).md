@@ -211,6 +211,8 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh
 ## 5.1 单卡推理
 
 ```bash
+# 注意, 如果权重用lora微调过, 这里的配置需要用lora微调的配置文件做修改
+# vi /home/ma-user/work/mindformers/research/qwen/run_qwen_7b_lora.yaml
 vi /home/ma-user/work/mindformers/research/qwen/run_qwen_7b.yaml
 ```
 
@@ -246,8 +248,15 @@ processor:
 ```bash
 export PYTHONPATH=/home/ma-user/work/mindformers:$PYTHONPATH
 
+# Atlas 800T A2上运行时需要设置如下环境变量，否则推理结果会出现精度问题
+export MS_GE_TRAIN=0
+export MS_ENABLE_GE=1
+export MS_ENABLE_REF_MODE=1
+
 cd /home/ma-user/work/mindformers/research/qwen/7b
 
+# 注意, 如果权重用lora微调过, 这里的配置需要用lora微调的配置文件
+# --config /home/ma-user/work/mindformers/research/qwen/run_qwen_7b_lora.yaml
 # 单卡推理
 python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_7b.yaml \

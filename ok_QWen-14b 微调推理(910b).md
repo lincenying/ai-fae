@@ -146,6 +146,7 @@ mkdir /home/ma-user/work/mindformers/research/qwen/data
 cd /home/ma-user/work/mindformers/research/qwen/data
 # wget https://github.com/tatsu-lab/stanford_alpaca/raw/main/alpaca_data.json
 obsutil cp obs://model-data/qianwen/alpaca_data.json ./
+
 ```
 
 ## 3.3 数据格式转换
@@ -216,7 +217,7 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 --run_mode finetune \
 --auto_trans_ckpt True \
 --train_data /home/ma-user/work/mindformers/research/qwen/data/alpaca.mindrecord" \
-/user/config/jobstart_hccl.json [0,4] 4
+/user/config/jobstart_hccl.json [0,8] 8
 
 ```
 
@@ -227,6 +228,8 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 ## 5.1 单卡推理
 
 ```bash
+# 注意, 如果权重用lora微调过, 这里的配置需要用lora微调的配置文件做修改
+# vi /home/ma-user/work/mindformers/research/qwen/run_qwen_14b_lora.yaml
 vi /home/ma-user/work/mindformers/research/qwen/run_qwen_14b.yaml
 ```
 
@@ -261,14 +264,24 @@ processor:
 
 ```bash
 export PYTHONPATH=/home/ma-user/work/mindformers:$PYTHONPATH
+
+# Atlas 800T A2上运行时需要设置如下环境变量，否则推理结果会出现精度问题
+export MS_GE_TRAIN=0
+export MS_ENABLE_GE=1
+export MS_ENABLE_REF_MODE=1
+
 cd /home/ma-user/work/mindformers/research/qwen/14b
 
+# 注意, 如果权重用lora微调过, 这里的配置需要用lora微调的配置文件
+# --config /home/ma-user/work/mindformers/research/qwen/run_qwen_14b_lora.yaml
 #单卡推理
 python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_14b.yaml \
---predict_data '书写一份颈椎病的诊断意见' \
+--predict_data '杭州有什么好玩的地方' \
 --run_mode predict \
---load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b-chat/rank_0/qwen_14b_chat.ckpt \
+--auto_trans_ckpt False \
+--use_parallel False \
+--load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b/output/merged_ckpt/rank_0/checkpoint_0.ckpt \
 --device_id 0
 
 # 多卡推理
