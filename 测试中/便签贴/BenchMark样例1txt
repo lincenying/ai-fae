@@ -1,0 +1,39 @@
+The BenchMark test performance metric result is:
++---------------------+-----------------+-----------------+-----------------+----------------+-----------------+------+
+|              Metric |         average |             max |             min |            P75 |             P99 |    N |
++---------------------+-----------------+-----------------+-----------------+----------------+-----------------+------+
+|      FirstTokenTime |       52.554 ms |      86.5333 ms |      39.1817 ms |     54.4669 ms |      79.8776 ms | 1346 |
+|          DecodeTime |       12.187 ms |     132.2157 ms |       0.0196 ms |     12.4831 ms |      12.9316 ms | 1346 |
+|      LastDecodeTime |       12.409 ms |      21.9431 ms |       5.7802 ms |     12.5889 ms |      13.0035 ms | 1346 |
+|       MaxDecodeTime |      12.8863 ms |     132.2157 ms |      12.0065 ms |     12.7411 ms |      18.1685 ms | 1346 |
+|        GenerateTime |     284.0981 ms |     461.1931 ms |     143.8894 ms |    292.0384 ms |     321.5529 ms | 1346 |
+|         InputTokens |        526.9198 |            1195 |             275 |          606.0 |          1072.0 | 1346 |
+|     GeneratedTokens |         19.9792 |              20 |               7 |           20.0 |            20.0 | 1346 |
+| GeneratedTokenSpeed | 70.4752 token/s | 75.5107 token/s | 43.3658 token/s | 72.618 token/s | 75.1839 token/s | 1346 |
+| GeneratedCharacters |         32.2244 |              84 |               9 |           35.0 |           43.55 | 1346 |
+|           Tokenizer |            0 ms |            0 ms |            0 ms |           0 ms |            0 ms | 1346 |
+|         Detokenizer |            0 ms |            0 ms |            0 ms |           0 ms |            0 ms | 1346 |
+|  CharactersPerToken |          1.6129 |               - |               - |              - |               - | 1346 |
+|    PrefillBatchsize |             1.0 |               1 |               1 |            1.0 |             1.0 | 1346 |
+|    DecoderBatchsize |          1.0004 |               2 |               1 |            1.0 |             1.0 | 1346 |
+|       QueueWaitTime |     266.9299 μs |        35714 μs |            7 μs |        13.0 μs |       5057.0 μs | 1346 |
++---------------------+-----------------+-----------------+-----------------+----------------+-----------------+------+
+2024-09-11 09:52:23,568|INFO|/home/ma-user/anaconda3/lib/python3.10/site-packages/mindiebenchmark/common/output.py:display_common_metrics_as_table:91|
+The BenchMark test common metric result is:
++------------------------+-----------------------------------------------------------------+
+|          Common Metric |                                                           Value |
++------------------------+-----------------------------------------------------------------+
+|            CurrentTime |                                             2024-09-11 09:52:23 |
+|            TimeElapsed |                                                      384.4419 s |
+|             DataSource | /usr/local/Ascend/MindIE-LLM/tests/modeltest/dataset/full/CEval |
+|                 Failed |                                                       0( 0.0% ) |
+|               Returned |                                                  1346( 100.0% ) |
+|                  Total |                                                  1346[ 100.0% ] |
+|            Concurrency |                                                               1 |
+|              ModelName |                                                   baichuan2_13b |
+|                   lpct |                                                       0.0997 ms |
+|            Throughtput |                                                    3.5012 req/s |
+|          GenerateSpeed |                                                 69.9508 token/s |
+| GenerateSpeedPerClient |                                                 69.9508 token/s |
+|               accuracy |                                               70.06% (943/1346) |
++------------------------+-----------------------------------------------------------------+

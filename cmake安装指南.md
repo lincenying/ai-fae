@@ -40,7 +40,12 @@ echo 'export PATH=$OPENSSL:$PATH:$HOME/bin' >> /home/ma-user/.bashrc
 echo 'export OPENSSL_ROOT_DIR=/usr/local/openssl' >> /home/ma-user/.bashrc
 source ~/.bashrc
 ```  
-
+echo '/usr/local/openssl/lib' >> /etc/ld.so.conf
+ldconfig  
+echo 'export OPENSSL=/usr/local/openssl/bin' >> ~/.bashrc
+echo 'export PATH=$OPENSSL:$PATH:$HOME/bin' >> ~/.bashrc
+echo 'export OPENSSL_ROOT_DIR=/usr/local/openssl' >> ~/.bashrc
+source ~/.bashrc
 # 6 安装cmake  
 `https://cmake.org/download/` 获取最新的下载链接，以3.30.0为例  
 
