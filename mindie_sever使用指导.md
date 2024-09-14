@@ -27,14 +27,14 @@ docker run -it --privileged --name=mindie_server --net=host --ipc=host \
 -v /var/log/npu/:/usr/slog \
 -v /etc/hccn.conf:/etc/hccn.conf \
 -v /opt/data:/home/data \
--v /home/huangming:/home/huangming \
+-v /home/huangming:/home/work \
 mindie_server:910B.RC2 \
 /bin/bash
 ```
 
 ## 1.2 进入容器
 ```bash
-docker exec -it mindie_server bash
+docker exec -it mindie_server /bin/bash
 ```
 
 ## 1.3 配置环境变量（已写入bashrc，exec进入时自动source）
@@ -153,3 +153,150 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
   "stream": false}' http://127.0.0.1:2025/
 ```
 看到“generated_text”的返回结果不是乱码，而是正常的一句话。说明运行成功。
+
+# 4. 部署chatgpt-web
+
+## 4.1 安装nodejs
+
+```bash
+mkdir -p /usr/local/lib/nodejs
+
+cd /home/work/
+wget https://mirrors.aliyun.com/nodejs-release/v20.10.0/node-v20.10.0-linux-arm64.tar.gz
+
+tar -zxvf node-v20.10.0-linux-arm64.tar.gz -C /usr/local/lib/nodejs
+
+# 创建 node 软链
+ln -s /usr/local/lib/nodejs/node-v20.10.0-linux-arm64/bin/node /usr/bin/node 
+
+# 创建 npm 软链
+ln -s /usr/local/lib/nodejs/node-v20.10.0-linux-arm64/bin/npm /usr/bin/npm 
+
+# 创建 npx 软链
+ln -s /usr/local/lib/nodejs/node-v20.10.0-linux-arm64/bin/npx /usr/bin/npx
+
+```
+
+## 4.2 安装pnpm
+
+```bash
+# 设置 npm 镜像源
+npm config set registry https://registry.npmmirror.com
+# 安装pnpm
+npm install -g pnpm
+# 设置环境变量
+echo "export PATH=$PATH:/usr/local/lib/nodejs/node-v20.10.0-linux-arm64/bin" >> ~/.bashrc
+source ~/.bashrc
+```
+
+## 4.3 下载项目
+```bash
+git clone https://github.com/Chanzhaoyu/chatgpt-web.git
+cd chatgpt-web
+
+echo "shamefully-hoist = true"  >> .npmrc
+echo "scripts-prepend-node-path = true"  >> .npmrc
+echo "registry=https://registry.npmmirror.com/"  >> .npmrc
+
+# 安装子项目依赖
+cd service
+pnpm install
+
+# 安装依赖
+pnpm bootstrap
+```
+
+## 4.4 启动项目
+
+```bash
+mv ./service/.env.example ./service/.env
+
+```
+修改 ./service/.env
+
+```
+OPENAI_API_KEY=apikey
+OPENAI_API_BASE_URL=http://127.0.0.1:2025
+OPENAI_API_MODEL=qwen2
+```
+
+修改 vite.config.ts
+
+```
+port: 65504, # 端口号, 需要能外网访问
+```
+
+### 4.4.1 启动开发环境
+
+注意: 使用开发环境启动, 容器窗口不能关闭, 关闭则失效
+
+```bash
+# 启动服务端
+cd service
+pnpm start
+
+# 启动web端, 需要重新起一个容器
+cd ..
+pnpm dev
+```
+
+### 4.4.2 启动生产环境
+
+#### 4.4.2.1 安装pm2
+
+```bash
+npm install -g pm2
+```
+
+#### 4.4.2.2 构建服务
+
+修改 vite.config.ts, 在server下面添加preview配置
+
+```
+server: {
+  host: '0.0.0.0',
+  port: 65504,
+  open: false,
+  proxy: {
+    '/api': {
+      target: viteEnv.VITE_APP_API_BASE_URL,
+      changeOrigin: true, // 允许跨域
+      rewrite: path => path.replace('/api/', '/'),
+    },
+  },
+},
+preview: {
+  host: '0.0.0.0',
+  port: 65504,
+  open: false,
+  proxy: {
+    '/api': {
+      target: viteEnv.VITE_APP_API_BASE_URL,
+      changeOrigin: true, // 允许跨域
+      rewrite: path => path.replace('/api/', '/'),
+    },
+  },
+},
+```
+
+```bash
+cd /home/work/chatgpt-web/service
+pnpm build
+
+cd ..
+pnpm build-only
+```
+
+#### 4.4.2.3 启动服务
+```bash
+cd /home/work/chatgpt-web/service
+pm2 start pnpm --name service -- prod
+
+cd ..
+pm2 start pnpm --name frontend -- preview
+#页面监控
+pm2 list
+#取消服务
+pm2 stop all
+pm2 delete all
+```
