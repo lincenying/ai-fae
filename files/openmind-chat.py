@@ -13,6 +13,7 @@ def parse_args():
         help="Path to model files",
         default=None,
     )
+
     args = parser.parse_args()
     return args
 
@@ -23,7 +24,10 @@ def main():
         model_path = args.model_name_or_path
     else:
         model_path = snapshot_download(
-            "HangZhou_Ascend/nox-solar-10.7b-v4", revision="main", resume_download=True, ignore_patterns=["*.h5", "*.ot", "*.msgpack"]
+            "HangZhou_Ascend/nox-solar-10.7b-v4nox-solar-10.7b-v4",
+            revision="main",
+            resume_download=True,
+            ignore_patterns=["*.h5", "*.ot", "*.msgpack"],
         )
 
     model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.float16, trust_remote_code=True, device_map="auto")
