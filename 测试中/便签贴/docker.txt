@@ -1,0 +1,7 @@
+docker run -it -u root --device=/dev/davinci_manager --device=/dev/devmm_svm --device=/dev/hisi_hdc --privileged=true --ipc=host --net=host \
+-v /usr/local/Ascend/driver:/usr/local/Ascend/driver  \
+-v /usr/local/dcmi:/usr/local/dcmi \
+-v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
+-v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
+-v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
+--name gradio4-7 --entrypoint=/bin/bash gradio:test

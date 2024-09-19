@@ -2,10 +2,10 @@ The BenchMark test performance metric result is:
 +---------------------+-----------------+-----------------+-----------------+-----------------+----------------+------+
 |              Metric |         average |             max |             min |             P75 |            P99 |    N |
 +---------------------+-----------------+-----------------+-----------------+-----------------+----------------+------+
-|      FirstTokenTime |      52.6242 ms |     257.9331 ms |      39.2537 ms |      54.2838 ms |     80.5532 ms | 1346 |
-|          DecodeTime |      12.1321 ms |      32.6838 ms |       0.1833 ms |      12.4431 ms |     12.8301 ms | 1346 |
-|      LastDecodeTime |      12.3672 ms |      18.2452 ms |       0.2546 ms |      12.5538 ms |     12.9538 ms | 1346 |
-|       MaxDecodeTime |      12.7727 ms |      32.6838 ms |      11.9553 ms |      12.7006 ms |     18.6328 ms | 1346 |
+|      FirstTokenTime |      52.6536 ms |     257.9323 ms |      39.3537 ms |      54.2838 ms |     80.5532 ms | 1346 |
+|          DecodeTime |      12.1231 ms |      32.6838 ms |       0.1833 ms |      12.4431 ms |     12.8301 ms | 1346 |
+|      LastDecodeTime |      12.3252 ms |      18.1252 ms |       0.2546 ms |      12.5538 ms |     12.9538 ms | 1346 |
+|       MaxDecodeTime |      12.7727 ms |      32.5638 ms |      11.9553 ms |      12.7006 ms |     18.6328 ms | 1346 |
 |        GenerateTime |     283.1025 ms |      488.869 ms |      143.883 ms |     291.1722 ms |    320.0201 ms | 1346 |
 |         InputTokens |        526.9198 |            1195 |             275 |           606.0 |         1072.0 | 1346 |
 |     GeneratedTokens |         19.9792 |              20 |               7 |            20.0 |           20.0 | 1346 |
@@ -23,7 +23,7 @@ The BenchMark test common metric result is:
 +------------------------+-----------------------------------------------------------------+
 |          Common Metric |                                                           Value |
 +------------------------+-----------------------------------------------------------------+
-|            CurrentTime |                                             2024-09-12 01:39:00 |
+|            CurrentTime |                                             2024-09-14 15:32:30 |
 |            TimeElapsed |                                                      383.0042 s |
 |             DataSource | /usr/local/Ascend/MindIE-LLM/tests/modeltest/dataset/full/CEval |
 |                 Failed |                                                       0( 0.0% ) |
@@ -32,8 +32,8 @@ The BenchMark test common metric result is:
 |            Concurrency |                                                               1 |
 |              ModelName |                                                        qwen_14b |
 |                   lpct |                                                       0.0999 ms |
-|            Throughtput |                                                    3.5143 req/s |
-|          GenerateSpeed |                                                 70.2133 token/s |
-| GenerateSpeedPerClient |                                                 70.2133 token/s |
-|               accuracy |                                               69.99% (942/1346) |
+|            Throughtput |                                                    3.5123 req/s |
+|          GenerateSpeed |                                                 70.2142 token/s |
+| GenerateSpeedPerClient |                                                 70.2142 token/s |
+|               accuracy |                                              83.58% (1125/1346) |
 +------------------------+-----------------------------------------------------------------+

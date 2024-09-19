@@ -87,7 +87,6 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
       ],
       "temperature": 0.5,
       "top_k": 10,
-      "top_n_tokens": 5,
       "top_p": 0.95,
       "truncate": null,
       "typical_p": 0.95,
