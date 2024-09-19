@@ -75,8 +75,8 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
     "inputs": "You are a helpful assistant.<reserved_106>\n核电厂机组大修过程中一回路水位的管理可以分为哪几个阶段？<reserved_107>\n",
     "parameters": {
       "best_of": 1,
-      "decoder_input_details": true,
-      "details": true,
+      "decoder_input_details": false,
+      "details": false,
       "do_sample": true,
       "max_new_tokens": 300,
       "repetition_penalty": 1.03,
@@ -93,7 +93,7 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
       "typical_p": 0.95,
       "watermark": true
     },
-    "stream": false}' http://39.171.244.84:65504/ 
+    "stream": false}' http://39.171.244.84:65502/ 
   
 bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \

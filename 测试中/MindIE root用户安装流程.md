@@ -7,21 +7,19 @@
 构建挂载4卡的容器，并且挂载个人目录到容器中，个人目录中有已经下载好的CANN和MindIE安装包，以及qwen1.5 chat模型文件。
 ```bash
 docker run -it -u root \
---device=/dev/davinci4 \
---device=/dev/davinci5 \
---device=/dev/davinci6 \
---device=/dev/davinci7 \
+--privileged=true \
 --device=/dev/davinci_manager \
 --device=/dev/devmm_svm \
 --device=/dev/hisi_hdc \
 --ipc=host \
+--net=host \
 -v /usr/local/Ascend/driver:/usr/local/Ascend/driver  \
+-v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
 -v /usr/local/dcmi:/usr/local/dcmi \
 -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
--v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
 -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
 -v /home/wangfeng:/home/ma-user/wangfeng/ \
---name test475 \
+--name mindie-test \
 --entrypoint=/bin/bash \
 hzaicc-makeimages-base:v1.0
 ```
