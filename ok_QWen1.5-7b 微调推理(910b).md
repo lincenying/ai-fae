@@ -24,12 +24,11 @@ chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
 # 移动obsutil
 mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
 # 添加环境变量
-export OBSAK="这里改成AK"
-export OBSSK="这里改成SK"
-# notebook停止后也需要重新执行下面两条命令
-export PATH=$PATH:/home/ma-user/work/obs_bin
-obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
-
+echo "export OBSAK='这里改成AK'" >> ~/.bashrc
+echo "export OBSSK='这里改成SK'" >> ~/.bashrc
+echo "export PATH=\$PATH:/home/ma-user/work/obs_bin" >> ~/.bashrc
+echo "obsutil config -i=\${OBSAK} -k=\${OBSSK} -e=obs.cn-east-292.mygaoxinai.com" >> ~/.bashrc
+source ~/.bashrc
 
 ```
 
@@ -71,10 +70,10 @@ rm -rf ./7b_chat/*.safetensors
 cd 7b_chat
 
 # 2.1 使用hf-mirror下载权重
-wget -O model-00001-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00001-of-00008.safetensors?download=true
-wget -O model-00002-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00002-of-00008.safetensors?download=true
-wget -O model-00003-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00003-of-00008.safetensors?download=true
-wget -O model-00004-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00004-of-00008.safetensors?download=true
+wget -O model-00001-of-00004.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00001-of-00004.safetensors?download=true
+wget -O model-00002-of-00004.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00002-of-00004.safetensors?download=true
+wget -O model-00003-of-00004.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00003-of-00004.safetensors?download=true
+wget -O model-00004-of-00004.safetensors https://hf-mirror.com/Qwen/Qwen1.5-7B-Chat/resolve/main/model-00004-of-00004.safetensors?download=true
 
 # 2.2 通过obs下载权重
 
@@ -164,7 +163,7 @@ python qwen1_5/run_qwen1_5.py \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/qwen15_7b_chat.ckpt \
 --auto_trans_ckpt False \
 --predict_length 2048 \
---predict_data 帮助我制定一份去杭州的旅游攻略
+--predict_data 舆情监督:只要系统留有后门，就会有安全隐患，不管是信息安全还是人生安全，后门就是留给偷偷安装恶意发热软件的，照成瞬间发热电池爆炸，种种隐患已经影响到我们国家的公共安全，必须采取措施，谁包庇谁就是“他”。分析这段话的情感倾向
 
 # 多卡推理
 bash run_singlenode.sh \

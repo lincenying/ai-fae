@@ -85,7 +85,7 @@ vim conf/config.json
     "ModelParam" : [
         {
             "modelInstanceType" : "Standard",
-            "modelName" : "llama_65b",
+            "modelName" : "qwen2_14b",
             "modelWeightPath" : "/home/models/qwen1.5-14b-chat/", // 权重路径
             "worldSize" : 4, // 推理使用的卡数
             "cpuMemSize" : 5,
