@@ -163,7 +163,7 @@ python qwen1_5/run_qwen1_5.py \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/rank_0/qwen15_7b_chat.ckpt \
 --auto_trans_ckpt False \
 --predict_length 2048 \
---predict_data 舆情监督:只要系统留有后门，就会有安全隐患，不管是信息安全还是人生安全，后门就是留给偷偷安装恶意发热软件的，照成瞬间发热电池爆炸，种种隐患已经影响到我们国家的公共安全，必须采取措施，谁包庇谁就是“他”。分析这段话的情感倾向
+--predict_data '舆情监督:  只要系统留有后门，就会有安全隐患，不管是信息安全还是人生安全，后门就是留给偷偷安装恶意发热软件的，照成瞬间发热电池爆炸，种种隐患已经影响到我们国家的公共安全，必须采取措施，谁包庇谁就是“他”。分析这段话的情感倾向'
 
 # 多卡推理
 bash run_singlenode.sh \
@@ -174,7 +174,7 @@ bash run_singlenode.sh \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen1_5/7b_chat/ \
 --auto_trans_ckpt True \
 --predict_length 2048 \
---predict_data 帮助我制定一份去杭州的旅游攻略" \
+--predict_data '帮助我制定一份 去杭州的 旅游攻略'" \
 /user/config/jobstart_hccl.json [0,4] 4
 
 ```

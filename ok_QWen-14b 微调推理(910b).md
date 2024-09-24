@@ -49,16 +49,18 @@ obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ## 2.1 创建权重存放目录及下载
 ```bash
-mkdir -p /home/ma-user/work/mindformers/research/qwen/14b/
-cd /home/ma-user/work/mindformers/research/qwen/14b/
+mkdir -p /home/ma-user/work/mindformers/research/qwen/14b_base/
+cd /home/ma-user/work/mindformers/research/qwen/14b_base/
 ```
+
+2.1.1 / 2.1.2 根据情况 2选1 即可
 
 ### 2.1.1 直接使用转换完成的权重
 ```bash
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/qwen/qwen_14b_base.ckpt
 obsutil cp obs://model-data/qianwen/qwen_14b_base.ckpt ./
-mkdir -p  /home/ma-user/work/mindformers/research/qwen/14b/rank_0
-mv /home/ma-user/work/mindformers/research/qwen/14b/qwen_14b_base.ckpt /home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt
+mkdir -p  /home/ma-user/work/mindformers/research/qwen/14b_base/rank_0
+mv /home/ma-user/work/mindformers/research/qwen/14b_base/qwen_14b_base.ckpt /home/ma-user/work/mindformers/research/qwen/14b_base/rank_0/qwen_14b_base.ckpt
 
 ```
 
@@ -71,38 +73,52 @@ mv /home/ma-user/work/mindformers/research/qwen/14b/qwen_14b_base.ckpt /home/ma-
 pip install modelscope
 
 cd /home/ma-user/work/mindformers/research/qwen/
-modelscope download --model 'qwen/Qwen-14B' --local_dir './14b'
+modelscope download --model 'qwen/Qwen-14B' --local_dir './14b_base'
 
 
 # 2. 通过hf-mirror克隆文件
 git clone https://hf-mirror.com/Qwen/Qwen-14B
 # 删除无效的权重
 rm -rf ./Qwen-14B/*.safetensors
-mv Qwen-14B 14b
-cd 14b
+mv Qwen-14B 14b_base
+cd 14b_base
+
+# 2.1 / 2.2 二选一下载即可
 
 # 2.1 使用hf-mirror下载权重
-wget -O model-00001-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00001-of-00008.safetensors?download=true
-wget -O model-00002-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00002-of-00008.safetensors?download=true
-wget -O model-00003-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00003-of-00008.safetensors?download=true
-wget -O model-00004-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00004-of-00008.safetensors?download=true
-wget -O model-00005-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00005-of-00008.safetensors?download=true
-wget -O model-00006-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00006-of-00008.safetensors?download=true
-wget -O model-00007-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00007-of-00008.safetensors?download=true
-wget -O model-00008-of-00008.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00008-of-00008.safetensors?download=true
+wget -O model-00001-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00001-of-00015.safetensors?download=true
+wget -O model-00002-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00002-of-00015.safetensors?download=true
+wget -O model-00003-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00003-of-00015.safetensors?download=true
+wget -O model-00004-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00004-of-00015.safetensors?download=true
+wget -O model-00005-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00005-of-00015.safetensors?download=true
+wget -O model-00006-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00006-of-00015.safetensors?download=true
+wget -O model-00007-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00007-of-00015.safetensors?download=true
+wget -O model-00008-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00008-of-00015.safetensors?download=true
+wget -O model-00008-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00009-of-00015.safetensors?download=true
+wget -O model-00008-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00010-of-00015.safetensors?download=true
+wget -O model-00008-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00011-of-00015.safetensors?download=true
+wget -O model-00008-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00012-of-00015.safetensors?download=true
+wget -O model-00008-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00013-of-00015.safetensors?download=true
+wget -O model-00008-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00014-of-00015.safetensors?download=true
+wget -O model-00008-of-00015.safetensors https://hf-mirror.com/Qwen/Qwen-14B/resolve/main/model-00015-of-00015.safetensors?download=true
 
 # 2.2 通过obs下载权重
 
-mkdir -p /home/ma-user/work/mindformers/research/qwen/14b
-cd /home/ma-user/work/mindformers/research/qwen/14b
-obsutil cp obs://model-data/qianwen1.5/14b/base/model-00001-of-00008.safetensors ./
-obsutil cp obs://model-data/qianwen1.5/14b/base/model-00002-of-00008.safetensors ./
-obsutil cp obs://model-data/qianwen1.5/14b/base/model-00003-of-00008.safetensors ./
-obsutil cp obs://model-data/qianwen1.5/14b/base/model-00004-of-00008.safetensors ./
-obsutil cp obs://model-data/qianwen1.5/14b/base/model-00005-of-00008.safetensors ./
-obsutil cp obs://model-data/qianwen1.5/14b/base/model-00006-of-00008.safetensors ./
-obsutil cp obs://model-data/qianwen1.5/14b/base/model-00007-of-00008.safetensors ./
-obsutil cp obs://model-data/qianwen1.5/14b/base/model-00008-of-00008.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00001-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00002-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00003-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00004-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00005-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00006-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00007-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00008-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00009-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00010-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00011-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00012-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00013-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00014-of-00015.safetensors ./
+obsutil cp obs://model-data/qianwen/14b_base/model-00015-of-00015.safetensors ./
 
 ```
 
@@ -113,8 +129,8 @@ obsutil cp obs://model-data/qianwen1.5/14b/base/model-00008-of-00008.safetensors
 cd /home/ma-user/work/mindformers/
 
 python research/qwen/convert_weight.py \
---torch_ckpt_dir ./research/qwen/14b/ \
---mindspore_ckpt_path ./research/qwen/14b/qwen_14b_base.ckpt
+--torch_ckpt_dir ./research/qwen/14b_base/ \
+--mindspore_ckpt_path ./research/qwen/14b_base/qwen_14b_base.ckpt
 ```
 
 如果报错:
@@ -125,8 +141,8 @@ export LD_PRELOAD='/home/ma-user/anaconda3/envs/MindSpore/lib/python3.9/site-pac
 ```
 
 ```bash
-mkdir -p  /home/ma-user/work/mindformers/research/qwen/14b/rank_0
-mv /home/ma-user/work/mindformers/research/qwen/14b/qwen_14b_base.ckpt /home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt
+mkdir -p  /home/ma-user/work/mindformers/research/qwen/14b_base/rank_0
+mv /home/ma-user/work/mindformers/research/qwen/14b_base/qwen_14b_base.ckpt /home/ma-user/work/mindformers/research/qwen/14b_base/rank_0/qwen_14b_base.ckpt
 ```
  
 ## 2.2 分词器文件下载
@@ -169,7 +185,7 @@ cd /home/ma-user/work/mindformers/
 
 python research/qwen/qwen_preprocess.py \
 --input_glob /home/ma-user/work/mindformers/research/qwen/data/alpaca-data-conversation.json \
---model_file /home/ma-user/work/mindformers/research/qwen/14b/qwen.tiktoken \
+--model_file /home/ma-user/work/mindformers/research/qwen/14b_base/qwen.tiktoken \
 --seq_length 2048 \
 --output_file /home/ma-user/work/mindformers/research/qwen/data/alpaca.mindrecord
 
@@ -187,7 +203,7 @@ vi /home/ma-user/work/mindformers/research/qwen/run_qwen_14b_lora.yaml
 ### 4.1.1 配置权重路径
 
 ```yaml
-load_checkpoint: '/home/ma-user/work/mindformers/research/qwen/14b/'
+load_checkpoint: '/home/ma-user/work/mindformers/research/qwen/14b_base/'
 
 train_dataset: &train_dataset
   data_loader:
@@ -199,20 +215,20 @@ model:
 
 processor:
   tokenizer:
-    vocab_file: "/home/ma-user/work/mindformers/research/qwen/14b/qwen.tiktoken"
+    vocab_file: "/home/ma-user/work/mindformers/research/qwen/14b_base/qwen.tiktoken"
 ```
 
 ## 4.2 启动训练脚本
 
 ```bash
-cd /home/ma-user/work/mindformers/research/qwen/14b/
+cd /home/ma-user/work/mindformers/research/qwen/14b_base/
 
 export MS_ASCEND_CHECK_OVERFLOW_MODE=INFNAN_MODE
 
 bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_14b_lora.yaml \
---load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b/ \
+--load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b_base/ \
 --use_parallel True \
 --run_mode finetune \
 --auto_trans_ckpt True \
@@ -245,7 +261,7 @@ param_init_type: "float32"
 
 ```yaml
 # 填写权重路径
-load_checkpoint: '/home/ma-user/work/mindformers/research/qwen/14b/'
+load_checkpoint: '/home/ma-user/work/mindformers/research/qwen/14b_base/'
 # 关闭自动权重转换
 auto_trans_ckpt: False
 # 关闭并行模式
@@ -253,12 +269,12 @@ use_parallel: False
 # 使用增量推理
 model:
   model_config:
-    checkpoint_name_or_path: "/home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt"
+    checkpoint_name_or_path: "/home/ma-user/work/mindformers/research/qwen/14b_base/rank_0/qwen_14b_base.ckpt"
     use_past: True
 # 配置词表路径
 processor:
   tokenizer:
-    vocab_file: "/home/ma-user/work/mindformers/research/qwen/14b/qwen.tiktoken"
+    vocab_file: "/home/ma-user/work/mindformers/research/qwen/14b_base/qwen.tiktoken"
 
 ```
 
@@ -270,18 +286,18 @@ export MS_GE_TRAIN=0
 export MS_ENABLE_GE=1
 export MS_ENABLE_REF_MODE=1
 
-cd /home/ma-user/work/mindformers/research/qwen/14b
+cd /home/ma-user/work/mindformers/research/qwen/14b_base
 
 # 注意, 如果权重用lora微调过, 这里的配置需要用lora微调的配置文件
 # --config /home/ma-user/work/mindformers/research/qwen/run_qwen_14b_lora.yaml
 #单卡推理
 python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_14b.yaml \
---predict_data '杭州有什么好玩的地方' \
+--predict_data '小孩挑食怎么办?' \
 --run_mode predict \
 --auto_trans_ckpt False \
 --use_parallel False \
---load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b/output/merged_ckpt/rank_0/checkpoint_0.ckpt \
+--load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b-chat/rank_0/qwen_14b_chat.ckpt \
 --device_id 0
 
 # 多卡推理
@@ -290,7 +306,7 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_14b.yaml \
 --run_mode predict \
 --use_parallel True \
---load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b/rank_0/qwen_14b_base.ckpt \
+--load_checkpoint /home/ma-user/work/mindformers/research/qwen/14b_base/rank_0/qwen_14b_base.ckpt \
 --auto_trans_ckpt True \
 --predict_data  APG除盐床隔离排空后投运的操作过程" \
 /user/config/jobstart_hccl.json [0,2] 2

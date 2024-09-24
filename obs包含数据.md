@@ -38,9 +38,9 @@ obsutil cp obs://xxxx/abc.zip ./
 # 将notebook上的文件上传到obs
 obsutil cp ./def.zip obs://xxxx/
 # 同步文件夹, 如将notebook的 ./xyz 文件夹同步到obs上
-obsutil sync ./xyz obs://xxxx/xyz -f -r
+obsutil sync ./xyz obs://xxxx/xyz
 # 同步文件夹, 如将obs上的 xyz 文件夹同步到notebook上
-obsutil sync obs://xxxx/xyz ./xyz -f -r
+obsutil sync obs://xxxx/xyz ./xyz
 ```
 
 复制文件夹
@@ -166,6 +166,9 @@ obs://model-data/qianwen/7b_chat/model-00008-of-00008.safetensors
 
 ### 14b-base
 ```
+# 转换后权重
+obs://model-data/qianwen/14b_base
+# 原始权重
 obs://model-data/qianwen/qwen_14b_base.ckpt
 ```
 
