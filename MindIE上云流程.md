@@ -26,7 +26,7 @@ hzaicc-makeimages-base:v1.0
 ```
 
 # 3 安装依赖
-# 3.1 CANN+MindIE
+## 3.1 CANN+MindIE
 CANN需要按顺序安装toolkit, kernel, nnal加速库  
 安装文件可从[Ascend社区版资源下载](https://www.hiascend.cn/developer/download/community/result?module=ie+pt+cann)页面获取，cpu架构选择AArch64，格式选择run  
 需要下载`Ascend-mindie_1.0.RC2_linux-aarch64.run`, `Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run`, `Ascend-cann-kernels-910b_8.0.RC2_linux.run`, `Ascend-cann-nnal_8.0.RC2_linux-aarch64.run`这四个包
@@ -85,7 +85,8 @@ cd /home/ma-user/Ascend/MindIE-LLM
 bash examples/models/qwen/run_fa.sh -m /home/ma-user/wangfeng/qwen15/7b/
 ```
 
-# 5.1 测试mindie servece
+# 5 测试mindie servece
+## 5.1 启动服务
 ```bash
 cd /home/ma-user/Ascend/mindie/latest/mindie-service/conf
 vi config.json
@@ -98,7 +99,7 @@ cd /home/ma-user/Ascend/mindie/latest/mindie-service
 ```
 
 
-# 5.2 测试
+## 5.2 测试接口
 新开一个容器链接，输入测试文本
 ```bash
 curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
@@ -136,7 +137,7 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
 pip install gradio==4.44.0
 ```
 
-## 6.2 测试gradio helloworld
+## 6.2 测试gradio服务
 ```python
 import gradio as gr
 def greet(name):
