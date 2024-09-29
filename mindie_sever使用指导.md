@@ -1,12 +1,14 @@
 [当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/mindie_sever使用指导.html)
 
+docker pull swr.cn-east-292.mygaoxinai.com/huqs/mindie_server_chatgpt_web_910b:20240923_T65
+
 # 1. 环境搭建
 ## 1.1 启动容器
 
 执行以下命令启动容器，新增映射物理机上存放代码的目录，如物理机上存放代码路径为/home，则将下述的{code_path}替换为/home
 
 ```bash
-docker run -it --privileged --name=mindie_server --net=host --ipc=host \
+docker run -it --privileged --name=mindie_server_hm --net=host --ipc=host \
 --device=/dev/davinci0 \
 --device=/dev/davinci1 \
 --device=/dev/davinci2 \
@@ -27,14 +29,15 @@ docker run -it --privileged --name=mindie_server --net=host --ipc=host \
 -v /var/log/npu/:/usr/slog \
 -v /etc/hccn.conf:/etc/hccn.conf \
 -v /opt/data:/home/data \
--v /home/huangming:/home/work \
-mindie_server:910B.RC2 \
+-v /home/huangming:/home/huangming \
+mindie_server:910B.T65 \
 /bin/bash
+
 ```
 
 ## 1.2 进入容器
 ```bash
-docker exec -it mindie_server /bin/bash
+docker exec -it mindie_server_hm /bin/bash
 ```
 
 ## 1.3 配置环境变量（已写入bashrc，exec进入时自动source）
@@ -85,7 +88,7 @@ vim conf/config.json
     "ModelParam" : [
         {
             "modelInstanceType" : "Standard",
-            "modelName" : "llama_65b",
+            "modelName" : "qwen2_14b",
             "modelWeightPath" : "/home/models/qwen1.5-14b-chat/", // 权重路径
             "worldSize" : 4, // 推理使用的卡数
             "cpuMemSize" : 5,
@@ -160,6 +163,7 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
 
 ```bash
 mkdir -p /usr/local/lib/nodejs
+mkdir -p /home/work
 
 cd /home/work/
 wget https://mirrors.aliyun.com/nodejs-release/v20.10.0/node-v20.10.0-linux-arm64.tar.gz
@@ -185,8 +189,9 @@ npm config set registry https://registry.npmmirror.com
 # 安装pnpm
 npm install -g pnpm
 # 设置环境变量
-echo "export PATH=$PATH:/usr/local/lib/nodejs/node-v20.10.0-linux-arm64/bin" >> ~/.bashrc
+echo "export PATH=\$PATH:/usr/local/lib/nodejs/node-v20.10.0-linux-arm64/bin" >> ~/.bashrc
 source ~/.bashrc
+
 ```
 
 ## 4.3 下载项目
@@ -203,7 +208,9 @@ cd service
 pnpm install
 
 # 安装依赖
+cd ..
 pnpm bootstrap
+
 ```
 
 ## 4.4 启动项目
@@ -220,7 +227,7 @@ OPENAI_API_BASE_URL=http://127.0.0.1:2025
 OPENAI_API_MODEL=qwen2
 ```
 
-修改 vite.config.ts
+修改 ./vite.config.ts
 
 ```
 port: 65504, # 端口号, 需要能外网访问

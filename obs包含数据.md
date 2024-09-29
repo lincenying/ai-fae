@@ -38,9 +38,9 @@ obsutil cp obs://xxxx/abc.zip ./
 # 将notebook上的文件上传到obs
 obsutil cp ./def.zip obs://xxxx/
 # 同步文件夹, 如将notebook的 ./xyz 文件夹同步到obs上
-obsutil sync ./xyz obs://xxxx/xyz -f -r
+obsutil sync ./xyz obs://xxxx/xyz
 # 同步文件夹, 如将obs上的 xyz 文件夹同步到notebook上
-obsutil sync obs://xxxx/xyz ./xyz -f -r
+obsutil sync obs://xxxx/xyz ./xyz
 ```
 
 复制文件夹
@@ -140,11 +140,35 @@ obs://model-data/chatglm32k/data.zip
 
 ### 7b-base
 ```
+# 原始权重
+obs://model-data/qianwen/7b_base/
+# 转换后权重
 obs://model-data/qianwen/qwen_7b_base.ckpt
+```
+
+### 7b-instruct
+```
+obs://model-data/qianwen/7b-instruct/
+```
+
+### 7b-chat
+```
+obs://model-data/qianwen/7b_chat/model-00001-of-00008.safetensors
+obs://model-data/qianwen/7b_chat/model-00002-of-00008.safetensors
+obs://model-data/qianwen/7b_chat/model-00003-of-00008.safetensors
+obs://model-data/qianwen/7b_chat/model-00004-of-00008.safetensors
+obs://model-data/qianwen/7b_chat/model-00005-of-00008.safetensors
+obs://model-data/qianwen/7b_chat/model-00006-of-00008.safetensors
+obs://model-data/qianwen/7b_chat/model-00007-of-00008.safetensors
+obs://model-data/qianwen/7b_chat/model-00008-of-00008.safetensors
+
 ```
 
 ### 14b-base
 ```
+# 转换后权重
+obs://model-data/qianwen/14b_base
+# 原始权重
 obs://model-data/qianwen/qwen_14b_base.ckpt
 ```
 
@@ -152,7 +176,7 @@ obs://model-data/qianwen/qwen_14b_base.ckpt
 
 原始权重
 ```
-obs://model-data/qianwen/14b-chat
+obs://model-data/qianwen/14b-chat/
 ```
 
 转换后权重
