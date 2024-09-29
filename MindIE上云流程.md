@@ -1,5 +1,7 @@
-- 本次以HF上的qwen1.5 7b chat模型为例，CANN 8.0RC2，MindIE 1.0.RC2，python3.10.12
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/MindIE上云流程.html)  
 
+- 本次以HF上的qwen1.5 7b chat模型为例，CANN 8.0RC2，MindIE 1.0.RC2，python3.10.12
+- 云上服务器使用专属资源池，驱动版本24.1.rc1
 # 1 基础镜像
 使用杭州AICC基础镜像进行制作 `hzaicc-makeimages-base:v1.0`
 
@@ -17,7 +19,7 @@ docker run -it -u ma-user \
 -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
 -v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
 -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
--v /home/wangfeng:/home/ma-user/wangfeng/ \
+-v /opt/data2/wangfeng:/home/ma-user/wangfeng/ \
 --name mindie_modelarts \
 --entrypoint=/bin/bash \
 hzaicc-makeimages-base:v1.0
@@ -78,7 +80,7 @@ echo 'export no_proxy=127.0.0.1,$no_proxy' >> ~/.bashrc
 # 4 测试ATB Models
 
 ```bash
-cd /usr/local/Ascend/MindIE-LLM
+cd /home/ma-user/Ascend/MindIE-LLM
 # -m 参数为模型权重的文件夹路径
 bash examples/models/qwen/run_fa.sh -m /home/ma-user/wangfeng/qwen15/7b/
 ```
@@ -180,52 +182,41 @@ Running on public URL: https://a7f6d7882947e7747d.gradio.live
 如果public URL能够正常访问服务，即安装正常
 
 # 7 Gradio转发MindIE端口服务测试
-需要启动两个容器连接，一个用于mindie服务，一个用于gradio服务
-- MindIE
-```bash
-cd /home/ma-user/Ascend/mindie/latest/mindie-service
-./bin/mindieservice_daemon
-```
-- Gradio
+需要启动mindie服务，并复制如下代码后启动Gradio服务
+
 ```python demo.py
 import gradio as gr
 import requests
 import json
 
 def generate_text(input_text):
-    url = "http://127.0.0.1:1025/"
+    url = "http://127.0.0.1:1025/v1/chat/completions"
     headers = {
         "Accept": "application/json",
         "Content-Type": "application/json"
     }
     
     payload = {
-        "inputs": input_text,
-        "parameters": {
-            "best_of": 1,
-            "decoder_input_details": False,
-            "details": False,
-            "do_sample": True,
-            "max_new_tokens": 50,
-            "repetition_penalty": 1.03,
-            "return_full_text": False,
-            "seed": None,
-            "stop": ["photographer"],
-            "temperature": 0.5,
-            "top_k": 10,
-            "top_n_tokens": 5,
-            "top_p": 0.95,
-            "truncate": None,
-            "typical_p": 0.95,
-            "watermark": True
-        },
+         "model": "qwen",
+         "messages": [{
+                "role": "system",
+                "content": "You are a helpful assistant."
+            },{
+                "role": "user",
+                "content": input_text
+            }],
+        "max_tokens": 500,
+        "presence_penalty": 1.03,
+        "frequency_penalty": 1.0,
+        "temperature": 0.5,
+        "top_p": 0.95,
         "stream": False
     }
     response = requests.post(url, headers=headers, data=json.dumps(payload))
     if response.status_code == 200:
         result = response.json()
         print(result)
-        return result[0]["generated_text"]
+        return result['choices'][0]['message']['content']
     else:
         print(response)
         return f"Error: {response.status_code}"
