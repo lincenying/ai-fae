@@ -1,19 +1,16 @@
-- 目前无法通过，暂时存档
 - 本次以HF上的qwen1.5 7b chat模型为例，CANN 8.0RC2，MindIE 1.0.RC2，python3.10.12
-- 更正为使用ma-user用户安装依赖，默认安装路径为/home/ma-user/Ascend
-
 
 # 1 基础镜像
 使用杭州AICC基础镜像进行制作 `hzaicc-makeimages-base:v1.0`
 
 # 2 启动容器
-构建挂载4卡的容器，并且挂载个人目录到容器中，个人目录中有已经下载好的CANN和MindIE安装包，以及qwen1.5 chat模型文件。
+构建容器，并且挂载个人目录到容器中，个人目录中有已经下载好的CANN和MindIE安装包，以及qwen1.5 chat模型文件。
 ```bash
 docker run -it -u ma-user \
 --device=/dev/davinci4 \
 --device=/dev/davinci5 \
 --device=/dev/davinci6 \
---device=/dev/davinci7 \
+--privileged=true \
 --device=/dev/davinci_manager \
 --device=/dev/devmm_svm \
 --device=/dev/hisi_hdc \
@@ -24,9 +21,8 @@ docker run -it -u ma-user \
 -v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
 -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
 -v /home/wangfeng:/home/ma-user/wangfeng/ \
---name test472 \
 --entrypoint=/bin/bash \
-swr.cn-east-292.mygaoxinai.com/huqs/torch2.1_cann8.0.rc2_py3.10_euler2.8.3_64gb:ma-user_base
+hzaicc-makeimages-base:v1.0
 ```
 
 # 3 安装依赖
@@ -34,69 +30,83 @@ swr.cn-east-292.mygaoxinai.com/huqs/torch2.1_cann8.0.rc2_py3.10_euler2.8.3_64gb:
 CANN需要按顺序安装toolkit, kernel, nnal加速库  
 安装文件可从[Ascend社区版资源下载](https://www.hiascend.cn/developer/download/community/result?module=ie+pt+cann)页面获取，cpu架构选择AArch64，格式选择run  
 需要下载`Ascend-mindie_1.0.RC2_linux-aarch64.run`, `Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run`, `Ascend-cann-kernels-910b_8.0.RC2_linux.run`, `Ascend-cann-nnal_8.0.RC2_linux-aarch64.run`这四个包
-- MindIE ATB Models 也需要获取，目前需要在下载页面申请，也可以直接联系FAE索取软件包  
-执行安装脚本
+- MindIE ATB Models 也需要获取，目前需要在下载页面申请  
+- 执行安装脚本，安装目录选择 /home/ma-user/Ascend/ 防止可能出现的权限问题
+- 以下操作都由ma-user用户进行操作安装
 ```bash
-chmod +x Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run
-chmod +x Ascend-cann-kernels-910b_8.0.RC2_linux.run
-chmod +x Ascend-cann-nnal_8.0.RC2_linux-aarch64.run
-chmod +x Ascend-mindie_1.0.RC2_linux-aarch64.run
-./Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run --install --quiet
+# toolkit
+./Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run --full --install-path=/home/ma-user/Ascend/ --quiet
 echo 'source /home/ma-user/Ascend/ascend-toolkit/set_env.sh' >> ~/.bashrc
-source ~/.bashrc
-./Ascend-cann-kernels-910b_8.0.RC2_linux.run --install --quiet
-source ~/.bashrc
-./Ascend-cann-nnal_8.0.RC2_linux-aarch64.run --install --quiet
-echo 'source /home/ma-user/Ascend/nnal/atb/set_env.sh' >> ~/.bashrc
-source ~/.bashrc
-./Ascend-mindie_1.0.RC2_linux-aarch64.run --install --quiet
-echo 'source /home/ma-user/Ascend/mindie/set_env.sh' >> ~/.bashrc
-# /home/ma-user/Ascend/driver/lib64/driver/
-source ~/.bashrc
-```
-# 3.2 安装torch
-```bash 
-# 获取torch npu包
-# wget https://gitee.com/ascend/pytorch/releases/download/v6.0.rc2-pytorch2.1.0/torch_npu-2.1.0.post6-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
-# 安装torch和torch npu
-pip install torch==2.1.0
-pip install torch_npu-2.1.0.post6-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
-```
+source /home/ma-user/Ascend/ascend-toolkit/set_env.sh
 
-# 3.3 ATB Models
-将下载的ATB Models解压，并复制到/home/ma-user/Ascend/目录下
-```bash
+# kernel
+./Ascend-cann-kernels-910b_8.0.RC2_linux.run --install --install-path=/home/ma-user/Ascend/ --quiet
+source /home/ma-user/Ascend/ascend-toolkit/set_env.sh
+
+# nnal
+./Ascend-cann-nnal_8.0.RC2_linux-aarch64.run --install --install-path=/home/ma-user/Ascend/ --quiet
+echo 'source /home/ma-user/Ascend/nnal/atb/set_env.sh' >> ~/.bashrc
+source /home/ma-user/Ascend/nnal/atb/set_env.sh
+
+# mindie
+./Ascend-mindie_1.0.RC2_linux-aarch64.run --install --install-path=/home/ma-user/Ascend/ --quiet
+echo 'source /home/ma-user/Ascend/mindie/set_env.sh' >> ~/.bashrc
+source /home/ma-user/Ascend/mindie/set_env.sh
+
+# atb models
 mkdir MindIE-LLM
 tar -xzf Ascend-mindie-atb-models_1.0.RC2_linux-aarch64_torch2.1.0-abi0.tar.gz -C MindIE-LLM
 mv MindIE-LLM /home/ma-user/Ascend/
+
+# pytorch
+pip install torch==2.1.0
+pip install torch_npu-2.1.0.post6.dev20240716-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
+
+# atb models的其他依赖
+pip install apex-0.1.dev20240716+ascend-cp310-cp310-linux_aarch64.whl
 pip install /home/ma-user/Ascend/MindIE-LLM/atb_llm-0.0.1-py3-none-any.whl
 pip install -r /home/ma-user/Ascend/MindIE-LLM/requirements/requirements.txt
 pip install -r /home/ma-user/Ascend/MindIE-LLM/requirements/models/requirements_qwen1.5.txt
-echo 'export LD_LIBRARY_PATH=/home/ma-user/anaconda3/lib/:$LD_LIBRARY_PATH' >> /home/ma-user/.bashrc
-echo 'source /home/ma-user/Ascend/MindIE-LLM/set_env.sh' >> /home/ma-user/.bashrc
-source ~/.bashrc
+echo 'export LD_LIBRARY_PATH=/home/ma-user/anaconda3/lib/:$LD_LIBRARY_PATH' >> ~/.bashrc
+echo 'source /home/ma-user/Ascend/MindIE-LLM/set_env.sh' >> ~/.bashrc
+source /home/ma-user/Ascend/MindIE-LLM/set_env.sh
+
+# 下面这行是为了上云后本地端口访问不被转发
+echo 'export no_proxy=127.0.0.1,$no_proxy' >> ~/.bashrc
+
 ```
 
-# 4 运行ATB
+
+# 4 测试ATB Models
+
+```bash
+cd /usr/local/Ascend/MindIE-LLM
+# -m 参数为模型权重的文件夹路径
+bash examples/models/qwen/run_fa.sh -m /home/ma-user/wangfeng/qwen15/7b/
+```
+
+# 5.1 测试mindie servece
 ```bash
 cd /home/ma-user/Ascend/mindie/latest/mindie-service/conf
 vi config.json
 # 修改 https false
-# 修改seq长度 4096
-# 修改模型路径 /home/ma-user/wangfeng/model_from_hf/qwen1.5/7b/chat/chat
+# 修改seq长度 4096 （可选）
+# 修改模型路径 /home/ma-user/wangfeng/qwen15/7b/
 cd /home/ma-user/Ascend/mindie/latest/mindie-service
+# 启动服务
 ./bin/mindieservice_daemon
 ```
 
-# 5 测试
+
+# 5.2 测试
 新开一个容器链接，输入测试文本
 ```bash
 curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
   "inputs": "My name is Olivier and I",
   "parameters": {
     "best_of": 1,
-    "decoder_input_details": true,
-    "details": true,
+    "decoder_input_details": false,
+    "details": false,
     "do_sample": true,
     "max_new_tokens": 50,
     "repetition_penalty": 1.03,
@@ -115,18 +125,41 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
   },
   "stream": false}' http://127.0.0.1:1025/
 ```
+返回结果
+```bash
+[{"generated_text":" am a French photographer living in the Netherlands. I have been working as a professional photographer for over 10 years, and I specialize in portrait photography, lifestyle photography, and commercial photography.\nI am passionate about capturing the unique personality of each individual I"}
+```
 
-# 6 安装gradio
+# 6 Gradio 内网穿透服务
+## 6.1 安装
 ```
-pip install gradio
+pip install gradio==4.44.0
 ```
-pip安装的gradio无法进行外网分享，缺少frpc文件，需要用go编译，[解决办法参考](https://github.com/gradio-app/gradio/issues/6053)
+
+## 6.2 测试gradio helloworld
+```python
+import gradio as gr
+def greet(name):
+    return "Hello " + name + "!"
+demo = gr.Interface(fn=greet, inputs="text", outputs="text")
+demo.launch(share=True)
+```
+一般这一步会无法生成外网访问链接，并出现如下的报错信息
+```bash
+[ma-user mindie-service]$python 1.py 
+Running on local URL:  http://127.0.0.1:7860
+
+Could not create share link. Missing file: /home/ma-user/anaconda3/lib/python3.10/site-packages/gradio/frpc_linux_aarch64_v0.2. 
+```
+这一步是因为缺少frpc文件，需要编译后复制文件到报错中的指定位置
+
+## 6.3 编译frpc文件
 ```bash 
 clone https://github.com/huggingface/frp
 cd frp
 # 根据frp文件夹下的go.mod确定go版本
 wget https://golang.google.cn/dl/go1.18.10.linux-arm64.tar.gz
-tar -C /usr/local -zxvf go1.23.0.linux-arm64.tar.gz
+tar -C /usr/local -zxvf go1.18.0.linux-arm64.tar.gz
 echo 'export GOROOT=/home/ma-user/go' >> /home/ma-user/.bashrc
 echo 'export PATH=$PATH:$GOROOT/bin' >> /home/ma-user/.bashrc
 echo 'export GOPATH=$HOME/go' >> /home/ma-user/.bashrc
@@ -137,28 +170,18 @@ go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 # 编译frpc
 make frpc
+# 复制frpc文件到之前报错的位置
 cp bin/frpc /home/ma-user/anaconda3/lib/python3.10/site-packages/gradio/frpc_linux_aarch64_v0.2
 ```
 
-# 7 测试gradio demo
-```python
-import gradio as gr
-
-def greet(name):
-    return "Hello " + name + "!"
-
-
-demo = gr.Interface(fn=greet, inputs="text", outputs="text")
-demo.launch(share=True)
-```
-输出内容
+## 6.4 修复后输出内容
 ```
 Running on local URL:  http://127.0.0.1:7860
 Running on public URL: https://a7f6d7882947e7747d.gradio.live
 ```
-如果访问public URL，能够正常访问服务，即安装正常；有其他问题需自行排查
+如果public URL能够正常访问服务，即安装正常
 
-# 8 启动服务
+# 7 Gradio转发MindIE端口服务测试
 需要启动两个容器连接，一个用于mindie服务，一个用于gradio服务
 - MindIE
 ```bash
@@ -182,8 +205,8 @@ def generate_text(input_text):
         "inputs": input_text,
         "parameters": {
             "best_of": 1,
-            "decoder_input_details": True,
-            "details": True,
+            "decoder_input_details": False,
+            "details": False,
             "do_sample": True,
             "max_new_tokens": 50,
             "repetition_penalty": 1.03,
@@ -219,26 +242,5 @@ demo = gr.Interface(
 
 demo.launch(share=True)
 ```
-
-# 9 转换权限给ma-user
-
-chown -R ma-user:ma-group /usr/local/Ascend/MindIE-LLM/
-chown -R ma-user:ma-group /usr/local/Ascend/mindie/
-chown -R ma-user:ma-group /usr/local/Ascend/nnal/
-chown -R ma-user:ma-group /home/ma-user
-chmod 750 -R /usr/local/Ascend/MindIE-LLM/
-chmod 550 -R /usr/local/Ascend/mindie/
-chmod 750 -R /usr/local/Ascend/nnal/
-chmod 750 -R /home/ma-user
-
-rm -rf /usr/local/Ascend/mindie/latest/mindie-service/logs
-cd /usr/local/Ascend/mindie/latest/mindie-service
-./bin/mindieservice_daemon
-LD_LIBRARY_PATH=/home/ma-user/anaconda3/pkgs/openssl-3.1.1-h31becfc_1/lib/:/home/ma-user/anaconda3/pkgs/openssl-3.1.4-h31becfc_0/lib/:$LD_LIBRARY_PATH
-登录ma-user，执行npu-smi info检查权限
-<!-- 执行npu-smi info，发现无权限访问/usr/local/Ascend/driver/lib64/driver/，无法识别其中的/usr/local/Ascend/driver/lib64/driver/libdrvdsmi_host.so
-root权限复制driver下文件到/usr/local/lib
-cp /usr/local/Ascend/driver/lib64/driver/* /usr/local/lib
-chown -R ma-user:ma-group /usr/local/lib
-chmod 750 -R /usr/local/lib
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH -->
+访问生成的外网链接，左侧聊天框输入提示词，如果右边能正常返回服务即部署完成  
+保存镜像上传到ModelArts测试服务即可

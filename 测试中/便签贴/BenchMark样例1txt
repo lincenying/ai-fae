@@ -37,3 +37,88 @@ The BenchMark test common metric result is:
 | GenerateSpeedPerClient |                                                 69.9508 token/s |
 |               accuracy |                                               70.06% (943/1346) |
 +------------------------+-----------------------------------------------------------------+
+
+
+2024-09-23 17:57:12,427|INFO|/home/ma-user/anaconda3/lib/python3.10/site-packages/mindiebenchmark/common/output.py:display_metrics_as_table:76|
+The BenchMark test performance metric result is:
++---------------------+-----------------+-----------------+-----------------+--------------+-----------------+------+
+|              Metric |         average |             max |             min |          P75 |             P99 |    N |
++---------------------+-----------------+-----------------+-----------------+--------------+-----------------+------+
+|      FirstTokenTime |      52.0198 ms |      84.9042 ms |      38.5036 ms |   53.7926 ms |      79.2684 ms | 1346 |
+|          DecodeTime |        12.06 ms |      18.9819 ms |       0.0341 ms |   12.3813 ms |      12.8178 ms | 1346 |
+|      LastDecodeTime |      12.3157 ms |      15.1796 ms |      10.2732 ms |   12.5065 ms |      12.8279 ms | 1346 |
+|       MaxDecodeTime |      12.6112 ms |      18.9819 ms |      11.8411 ms |   12.6739 ms |      15.3184 ms | 1346 |
+|        GenerateTime |     281.1115 ms |     323.8411 ms |      65.7954 ms |  289.4536 ms |     318.2551 ms | 1346 |
+|         InputTokens |        526.9198 |            1195 |             275 |        606.0 |          1072.0 | 1346 |
+|     GeneratedTokens |         19.9866 |              20 |               2 |         20.0 |            20.0 | 1346 |
+| GeneratedTokenSpeed | 71.2234 token/s | 76.5179 token/s | 30.3973 token/s | 73.4 token/s | 76.1015 token/s | 1346 |
+| GeneratedCharacters |         32.3581 |              84 |               2 |         35.0 |            43.0 | 1346 |
+|           Tokenizer |            0 ms |            0 ms |            0 ms |         0 ms |            0 ms | 1346 |
+|         Detokenizer |            0 ms |            0 ms |            0 ms |         0 ms |            0 ms | 1346 |
+|  CharactersPerToken |           1.619 |               - |               - |            - |               - | 1346 |
+|    PrefillBatchsize |             1.0 |               1 |               1 |          1.0 |             1.0 | 1346 |
+|    DecoderBatchsize |             1.0 |               1 |               1 |          1.0 |             1.0 | 1346 |
+|       QueueWaitTime |     262.5312 μs |         5074 μs |            7 μs |      11.0 μs |       5056.0 μs | 1346 |
++---------------------+-----------------+-----------------+-----------------+--------------+-----------------+------+
+2024-09-23 17:57:12,442|INFO|/home/ma-user/anaconda3/lib/python3.10/site-packages/mindiebenchmark/common/output.py:display_common_metrics_as_table:91|
+The BenchMark test common metric result is:
++------------------------+-----------------------------------------------------------------+
+|          Common Metric |                                                           Value |
++------------------------+-----------------------------------------------------------------+
+|            CurrentTime |                                             2024-09-23 17:57:12 |
+|            TimeElapsed |                                                      380.3387 s |
+|             DataSource | /usr/local/Ascend/MindIE-LLM/tests/modeltest/dataset/full/CEval |
+|                 Failed |                                                       0( 0.0% ) |
+|               Returned |                                                  1346( 100.0% ) |
+|                  Total |                                                  1346[ 100.0% ] |
+|            Concurrency |                                                               1 |
+|              ModelName |                                                        Qwen-14B |
+|                   lpct |                                                       0.0987 ms |
+|            Throughtput |                                                     3.539 req/s |
+|          GenerateSpeed |                                                 70.7317 token/s |
+| GenerateSpeedPerClient |                                                 70.7317 token/s |
+|               accuracy |                                               70.58% (950/1346) |
++------------------------+-----------------------------------------------------------------+
+
+
+The BenchMark test performance metric result is:
++---------------------+----------------+----------------+-----------------+-----------------+-----------------+------+
+|              Metric |        average |            max |             min |             P75 |             P99 |    N |
++---------------------+----------------+----------------+-----------------+-----------------+-----------------+------+
+|      FirstTokenTime |     51.7932 ms |     84.6021 ms |       38.511 ms |      53.6513 ms |      79.5621 ms | 1346 |
+|          DecodeTime |      12.044 ms |     18.9168 ms |       0.5076 ms |      12.3687 ms |      12.6939 ms | 1346 |
+|      LastDecodeTime |     12.3042 ms |     15.7607 ms |      11.7838 ms |      12.4926 ms |      12.8216 ms | 1346 |
+|       MaxDecodeTime |     12.5428 ms |     18.9168 ms |      11.8084 ms |      12.6042 ms |      15.2074 ms | 1346 |
+|        GenerateTime |     280.489 ms |    323.0567 ms |     143.1701 ms |     288.8498 ms |     317.8561 ms | 1346 |
+|         InputTokens |       526.9198 |           1195 |             275 |           606.0 |          1072.0 | 1346 |
+|     GeneratedTokens |        19.9792 |             20 |               7 |            20.0 |            20.0 | 1346 |
+| GeneratedTokenSpeed | 71.368 token/s | 76.378 token/s | 48.8929 token/s | 73.5771 token/s | 76.0886 token/s | 1346 |
+| GeneratedCharacters |        32.1961 |             84 |               9 |            34.0 |           42.55 | 1346 |
+|           Tokenizer |           0 ms |           0 ms |            0 ms |            0 ms |            0 ms | 1346 |
+|         Detokenizer |           0 ms |           0 ms |            0 ms |            0 ms |            0 ms | 1346 |
+|  CharactersPerToken |         1.6115 |              - |               - |               - |               - | 1346 |
+|    PrefillBatchsize |            1.0 |              1 |               1 |             1.0 |             1.0 | 1346 |
+|    DecoderBatchsize |            1.0 |              1 |               1 |             1.0 |             1.0 | 1346 |
+|       QueueWaitTime |    262.4352 μs |        5078 μs |            7 μs |         11.0 μs |       5056.0 μs | 1346 |
++---------------------+----------------+----------------+-----------------+-----------------+-----------------+------+
+2024-09-23 08:19:15,598|INFO|/home/ma-user/anaconda3/lib/python3.10/site-packages/mindiebenchmark/common/output.py:display_common_metrics_as_table:91|
+The BenchMark test common metric result is:
++------------------------+-----------------------------------------------------------------+
+|          Common Metric |                                                           Value |
++------------------------+-----------------------------------------------------------------+
+|            CurrentTime |                                             2024-09-23 08:19:15 |
+|            TimeElapsed |                                                       379.421 s |
+|             DataSource | /usr/local/Ascend/MindIE-LLM/tests/modeltest/dataset/full/CEval |
+|                 Failed |                                                       0( 0.0% ) |
+|               Returned |                                                  1346( 100.0% ) |
+|                  Total |                                                  1346[ 100.0% ] |
+|            Concurrency |                                                               1 |
+|              ModelName |                                                        Qwen-14B |
+|                   lpct |                                                       0.0983 ms |
+|            Throughtput |                                                    3.5475 req/s |
+|          GenerateSpeed |                                                 70.8764 token/s |
+| GenerateSpeedPerClient |                                                 70.8764 token/s |
+|               accuracy |                                               72.21% (972/1346) |
++------------------------+-----------------------------------------------------------------+
+
+

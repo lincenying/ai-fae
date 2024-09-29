@@ -60,6 +60,7 @@ obsutil cp obs://model-data/0726/dataset/train-00000-of-00001-a09b74b3ef9c3b56.p
 cd /home/ma-user/work/ModelLink/
 mkdir ./dataset/qwen15-0.5b-hf/
 python ./tools/preprocess_data.py \
+python ./preprocess_data.py \
     --input ./dataset/train-00000-of-00001-a09b74b3ef9c3b56.parquet \
     --tokenizer-name-or-path ./model_from_hf/qwen15-0.5b-hf/ \
     --output-prefix ./dataset/qwen15-0.5b-hf/alpaca \

@@ -4,14 +4,16 @@ vi /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 cd /usr/local/Ascend/mindie/latest/mindie-service
 ./bin/mindieservice_daemon
 
+pip install prettytable pyarrow jsonlines
+
 
 benchmark \
 --DatasetPath "/usr/local/Ascend/MindIE-LLM/tests/modeltest/dataset/full/CEval" \
 --DatasetType "ceval" \
 --ModelName "llama_65b" \
---ModelPath "/home/ma-user/huangming/wang/qwen/Qwen-14B" \
+--ModelPath "/home/ma-user/huangming/wang/qwen/qwen-14b" \
 --TestType client \
---Http http://39.171.244.84:65505 \
+--Http http://127.0.0.1:1025 \
 --Concurrency 1 \
 --MaxOutputLen 20 \
 --TaskKind stream \
@@ -21,10 +23,10 @@ benchmark \
 benchmark \
 --DatasetPath "/usr/local/Ascend/MindIE-LLM/tests/modeltest/dataset/full/CEval" \
 --DatasetType "ceval" \
---ModelName "baichuan2_13b" \
+--ModelName "llama_65b" \
 --ModelPath "/home/ma-user/huangming/wang/baichuan-inc/Baichuan2-13B" \
 --TestType client \
---Http http://39.171.244.84:65504  \
+--Http http://127.0.0.1:1025  \
 --Concurrency 1 \
 --MaxOutputLen 20 \
 --TaskKind stream \
@@ -38,14 +40,14 @@ benchmark \
 --ModelName "baichuan2_13b" \
 --ModelPath "/home/ma-user/huangming/wang/qwen/Qwen-14B" \
 --TestType client \
---Http http://39.171.244.84:65505  \
+--Http http://127.0.0.1/1025  \
 --Concurrency 1 \
 --MaxOutputLen 20 \
 --TaskKind stream \
 --Tokenizer True \
 --TestAccuracy True
 
-
+# qwen
 curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
   "inputs": "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>请介绍三线圈电磁步进式设计。<|im_end|>\n<|im_start|>assistant",
   "parameters": {
@@ -68,9 +70,9 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
     "typical_p": 0.95,
     "watermark": true
   },  
-  "stream": false}' http://39.171.244.84:65505/ 
+  "stream": false}' http://127.0.0.1:1025/ 
 
-
+# baichuan
   curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
     "inputs": "You are a helpful assistant.<reserved_106>\n核电厂机组大修过程中一回路水位的管理可以分为哪几个阶段？<reserved_107>\n",
     "parameters": {
@@ -92,7 +94,7 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
       "typical_p": 0.95,
       "watermark": true
     },
-    "stream": false}' http://39.171.244.84:65502/ 
+    "stream": false}' http://127.0.0.1/1025 
   
 bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \

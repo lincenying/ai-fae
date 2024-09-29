@@ -1,4 +1,5 @@
 - 本次以HF上的qwen1.5 7b chat模型为例，CANN 8.0RC2，MindIE 1.0.RC2，python3.10.12
+- 注意/dev/shm/权限共享
 
 # 1 基础镜像
 使用杭州AICC基础镜像进行制作 `hzaicc-makeimages-base:v1.0`
@@ -12,16 +13,17 @@ docker run -it -u root \
 --device=/dev/devmm_svm \
 --device=/dev/hisi_hdc \
 --ipc=host \
---net=host \
 -v /usr/local/Ascend/driver:/usr/local/Ascend/driver  \
 -v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
 -v /usr/local/dcmi:/usr/local/dcmi \
 -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
 -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
 -v /home/wangfeng:/home/ma-user/wangfeng/ \
+-v /opt/data/huangming:/home/ma-user/huangming/ \
 --name mindie-test \
 --entrypoint=/bin/bash \
 hzaicc-makeimages-base:v1.0
+# --net=host \
 ```
 
 # 3 安装依赖
