@@ -7,9 +7,6 @@
 构建容器，并且挂载个人目录到容器中，个人目录中有已经下载好的CANN和MindIE安装包，以及qwen1.5 chat模型文件。
 ```bash
 docker run -it -u ma-user \
---device=/dev/davinci4 \
---device=/dev/davinci5 \
---device=/dev/davinci6 \
 --privileged=true \
 --device=/dev/davinci_manager \
 --device=/dev/devmm_svm \
@@ -21,6 +18,7 @@ docker run -it -u ma-user \
 -v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
 -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
 -v /home/wangfeng:/home/ma-user/wangfeng/ \
+--name mindie_modelarts \
 --entrypoint=/bin/bash \
 hzaicc-makeimages-base:v1.0
 ```

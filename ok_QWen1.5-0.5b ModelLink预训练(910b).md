@@ -1,11 +1,31 @@
 [当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/ok_QWen1.5-0.5b%20ModelLink预训练(910b).html)
 
 - 需要专属资源池，升级内核驱动版本为24.1.rc2
-- 镜像: `swr.cn-east-292.mygaoxinai.com/cloud/pytorch2.1.0-cann8.0.rc2-python3.9-910b:202407261154`  
+- 镜像：`pytorch2.1.0_cann8.0.rc1.alpha002_py3.9_euler2.8.3_910b:v9`
+- 镜像源：待更新  
 - 硬件：Ascend: 8*ascend-d910b|CPU: 192核 1536GB
 
 # 依赖安装
 ```bash
+git clone https://gitee.com/ascend/ModelLink.git 
+git clone https://github.com/NVIDIA/Megatron-LM.git
+cd Megatron-LM
+git checkout core_r0.6.0
+cp -r megatron ../ModelLink/
+cd ..
+cd ModelLink
+mkdir logs
+mkdir model_from_hf
+mkdir dataset
+mkdir ckpt
+git clone https://gitee.com/ascend/MindSpeed.git
+cd MindSpeed
+# checkout commit from MindSpeed core_r0.6.0 in 0923
+git checkout 4ea42a23 
+pip install -r requirements.txt 
+pip3 install -e .
+cd ..
+
 pip install numpy==1.22.4
 pip install datasets
 ```
@@ -59,7 +79,6 @@ obsutil cp obs://model-data/0726/dataset/train-00000-of-00001-a09b74b3ef9c3b56.p
 ```bash
 cd /home/ma-user/work/ModelLink/
 mkdir ./dataset/qwen15-0.5b-hf/
-python ./tools/preprocess_data.py \
 python ./preprocess_data.py \
     --input ./dataset/train-00000-of-00001-a09b74b3ef9c3b56.parquet \
     --tokenizer-name-or-path ./model_from_hf/qwen15-0.5b-hf/ \
