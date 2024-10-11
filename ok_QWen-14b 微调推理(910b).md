@@ -147,7 +147,7 @@ mv /home/ma-user/work/mindformers/research/qwen/14b_base/qwen_14b_base.ckpt /hom
  
 ## 2.2 分词器文件下载
 ```bash
-cd /home/ma-user/work/mindformers/research/qwen/14b
+cd /home/ma-user/work/mindformers/research/qwen/14b_base
 # wget https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/MindFormers/qwen/qwen.tiktoken
 obsutil cp obs://model-data/qianwen/qwen.tiktoken ./
 
