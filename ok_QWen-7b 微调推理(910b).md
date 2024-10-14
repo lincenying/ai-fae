@@ -128,6 +128,7 @@ mkdir /home/ma-user/work/mindformers/research/qwen/data
 cd /home/ma-user/work/mindformers/research/qwen/data
 # wget https://github.com/tatsu-lab/stanford_alpaca/raw/main/alpaca_data.json
 obsutil cp obs://model-data/qianwen/alpaca_data.json ./
+
 ```
 
 ## 3.3 数据格式转换
@@ -176,9 +177,13 @@ train_dataset: &train_dataset
   data_loader:
     dataset_dir: "/home/ma-user/work/mindformers/research/qwen/data/alpaca.mindrecord"
 
+
 model:
   model_config:
-    seq_length: 2048
+    seq_length: 2048 
+    pet_config:
+      # 使用chat权重进行微调时删除该配置
+      freeze_exclude: ["*wte*", "*lm_head*"]
 
 processor:
   tokenizer:
@@ -192,7 +197,7 @@ cd /home/ma-user/work/mindformers/research/qwen/7b/
 
 export MS_ASCEND_CHECK_OVERFLOW_MODE=INFNAN_MODE
 
-bash /home/ma-user/work/mindformers/research/run_singlenode.sh
+bash /home/ma-user/work/mindformers/research/run_singlenode.sh \
 "python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_7b_lora.yaml \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen/7b/ \
@@ -200,7 +205,7 @@ bash /home/ma-user/work/mindformers/research/run_singlenode.sh
 --run_mode finetune \
 --auto_trans_ckpt True \
 --train_data /home/ma-user/work/mindformers/research/qwen/data/alpaca.mindrecord" \
-/user/config/jobstart_hccl.json [0,4] 4
+/user/config/jobstart_hccl.json [0,8] 8
 
 ```
 
@@ -262,7 +267,20 @@ python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
 --config /home/ma-user/work/mindformers/research/qwen/run_qwen_7b.yaml \
 --predict_data '如何治疗口腔溃疡' \
 --run_mode predict \
+--auto_trans_ckpt False \
+--use_parallel False \
 --load_checkpoint /home/ma-user/work/mindformers/research/qwen/7b/rank_0/qwen_7b_base.ckpt \
+--device_id 0
+
+# 单卡推理 (lora微调后)
+python /home/ma-user/work/mindformers/research/qwen/run_qwen.py \
+--config /home/ma-user/work/mindformers/research/qwen/run_qwen_7b_lora.yaml \
+--predict_data '<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nGive three tips for staying healthy<|im_end|>\n<|im_start|>assistant\n' \
+--run_mode predict \
+--auto_trans_ckpt False \
+--use_parallel False \
+--use_past True \
+--load_checkpoint /home/ma-user/work/mindformers/research/qwen/7b/output_1/merged_ckpt/rank_0/checkpoint_0.ckpt \
 --device_id 0
 
 # 多卡推理

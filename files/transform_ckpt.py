@@ -43,18 +43,20 @@ def get_strategy(startegy_path, rank_id=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--src_ckpt_strategy", default="/home/ma-user/work/mindformers/research/baichuan2/7b/output/strategy", help="path of src ckpt strategy"
+        "--src_ckpt_strategy", default="/home/ma-user/work/mindformers/research/qwen/7b/output/strategy", help="path of src ckpt strategy"
     )
     parser.add_argument("--dst_ckpt_strategy", default="", help="path of dst ckpt strategy")
     parser.add_argument(
         "--src_ckpt_dir",
-        default="/home/ma-user/work/mindformers/research/baichuan2/7b/output/filter_out",
+        default="/home/ma-user/work/mindformers/research/qwen/7b/output/filter_out",
+        # 没经过 filter_ckpt_param.py 清洗, 地址可用下面的地址
+        # default="/home/ma-user/work/mindformers/research/qwen/7b/output/checkpoint_network",
         type=str,
         help="path of src ckpt",
     )
     parser.add_argument(
         "--dst_ckpt_dir",
-        default="/home/ma-user/work/mindformers/research/baichuan2/7b/output/merged_ckpt",
+        default="/home/ma-user/work/mindformers/research/qwen/7b/output/merged_ckpt",
         type=str,
         help="path where to save dst ckpt",
     )

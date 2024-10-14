@@ -36,14 +36,14 @@ def only_save_model_param(ckpt_path, save_path):
 
 if __name__ == "__main__":
 
-    ckpt_path_or_dir = "/home/ma-user/work/mindformers/research/baichuan2/7b/output/checkpoint_network"
+    ckpt_path_or_dir = "/home/ma-user/work/mindformers/research/qwen/7b/output/checkpoint_network"
     assert os.path.exists(ckpt_path_or_dir), f"{ckpt_path_or_dir} not exists!"
     if os.path.isfile(ckpt_path_or_dir):
         ckpt_paths = [ckpt_path_or_dir]
     elif os.path.isdir(ckpt_path_or_dir):
         ckpt_paths = glob(os.path.join(ckpt_path_or_dir, "rank*/*.ckpt"))
 
-    save_root = "/home/ma-user/work/mindformers/research/baichuan2/7b/output/filter_out"
+    save_root = "/home/ma-user/work/mindformers/research/qwen/7b/output/filter_out"
     for ckpt_path in ckpt_paths:
         replace_part = ckpt_path.split("/rank")[0]
         save_path = ckpt_path.replace(replace_part, save_root)

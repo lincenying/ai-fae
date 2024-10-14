@@ -1,7 +1,7 @@
 import re
 import matplotlib.pyplot as plt
 
-with open("./logs/qwen/14b/mindformer.log", "r", encoding="utf-8") as log_file:
+with open("./logs/qwen/7b/mindformer.log", "r", encoding="utf-8") as log_file:
     log_content = log_file.read()
 LOSS_PATTERN = r"loss: (\d+\.\d+)"
 loss_values = re.findall(LOSS_PATTERN, log_content)
