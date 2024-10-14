@@ -1,11 +1,4 @@
 
-# 获取代码仓并编译
-```bash
-git clone https://github.com/ggerganov/llama.cpp
-cd llama.cpp
-make
-```
-
 # 升级gcc版本
 https://blog.csdn.net/imxiaoqy/article/details/120131541 
 
@@ -25,31 +18,9 @@ echo '/usr/lib64' >> /etc/ld.so.conf
 echo '/usr/local/lib' >> /etc/ld.so.conf
 echo '/usr/local/lib64' >> /etc/ld.so.conf
 ldconfig -v
-
 ./contrib/download_prerequisites
 
-```
-
-
-
-```bash
-cd /usr/local/src/gcc-14.2.0/gmp-6.2.1
-./configure --prefix=/usr/local/gmp-6.2.1
-make && make install
-
-cd /usr/local/src/gcc-14.2.0/mpfr-4.1.0
-./configure --prefix=/usr/local/mpfr-4.1.0 --with-gmp=/usr/local/gmp-6.2.1
-make && make install
-
-cd /usr/local/src/gcc-14.2.0/mpc-1.2.1
-./configure --prefix=/usr/local/mpc-1.2.1 --with-gmp=/usr/local/gmp-6.2.1 --with-mpfr=/usr/local/mpfr-4.1.0
-make && make install
-
-cd /usr/local/src/gcc-14.2.0/isl-0.24
-./configure --prefix=/usr/local/isl-0.24  --with-gmp-prefix=/usr/local/gmp-6.2.1
-make && make install
-
-cd ..
+cd /usr/local/src/gcc-14.2.0/
 mkdir build
 cd build
 ../configure  -prefix=/usr/local/gcc-12.2.0 --enable-checking=release --enable-languages=c,c++ --disable-multilib
