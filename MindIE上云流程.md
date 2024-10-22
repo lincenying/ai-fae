@@ -35,10 +35,11 @@ CANN需要按顺序安装toolkit, kernel, nnal加速库
 - 以下操作都由ma-user用户进行操作安装
 ```bash
 # toolkit
+echo""
+
 ./Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run --full --install-path=/home/ma-user/Ascend/ --quiet
 echo 'source /home/ma-user/Ascend/ascend-toolkit/set_env.sh' >> ~/.bashrc
 source /home/ma-user/Ascend/ascend-toolkit/set_env.sh
-
 # kernel
 ./Ascend-cann-kernels-910b_8.0.RC2_linux.run --install --install-path=/home/ma-user/Ascend/ --quiet
 source /home/ma-user/Ascend/ascend-toolkit/set_env.sh
@@ -54,9 +55,8 @@ echo 'source /home/ma-user/Ascend/mindie/set_env.sh' >> ~/.bashrc
 source /home/ma-user/Ascend/mindie/set_env.sh
 
 # atb models
-mkdir MindIE-LLM
-tar -xzf Ascend-mindie-atb-models_1.0.RC2_linux-aarch64_torch2.1.0-abi0.tar.gz -C MindIE-LLM
-mv MindIE-LLM /home/ma-user/Ascend/
+mkdir /home/ma-user/Ascend/MindIE-LLM
+tar -xzf Ascend-mindie-atb-models_1.0.RC2_linux-aarch64_torch2.1.0-abi0.tar.gz -C /home/ma-user/Ascend/MindIE-LLM
 
 # pytorch
 pip install torch==2.1.0
@@ -84,7 +84,7 @@ cd /home/ma-user/Ascend/MindIE-LLM
 # -m 参数为模型权重的文件夹路径
 bash examples/models/qwen/run_fa.sh -m /home/ma-user/wangfeng/qwen15/7b/
 ```
-
+/home/ma-user/Ascend/MindIE-LLM/examples/models/qwen/run_fa.sh
 # 5 测试mindie servece
 ## 5.1 启动服务
 ```bash
@@ -169,11 +169,12 @@ source ~/.bashrc
 # 启用go模块 设置代理，以便国内下载依赖包加速
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
+go get -u golang.org/x/net
 # 编译frpc
 make frpc
 # 复制frpc文件到之前报错的位置
-cp bin/frpc /home/ma-user/anaconda3/lib/python3.10/site-packages/gradio/frpc_linux_aarch64_v0.2
-```
+cp bin/frpc /home/ma-user/anaconda3/envs/py310/lib/python3.10/site-packages/gradio/frpc_linux_aarch64_v0.2
+```         
 
 ## 6.4 修复后输出内容
 ```
