@@ -7,7 +7,7 @@
 
 # 依赖安装
 ```bash
-git clone https://gitee.com/ascend/ModelLink.git 
+git clone https://gitee.com/ascend/ModelLink.git -b 1.0.RC3
 git clone https://github.com/NVIDIA/Megatron-LM.git
 cd Megatron-LM
 git checkout core_r0.6.0
