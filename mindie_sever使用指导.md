@@ -30,7 +30,7 @@ docker run -it --privileged --name=mindie_server_hm --net=host --ipc=host \
 -v /etc/hccn.conf:/etc/hccn.conf \
 -v /opt/data:/home/data \
 -v /home/huangming:/home/huangming \
-mindie_server:910B.T65 \
+mindie_server_chatgpt_web_910b:20240923_T65 \
 /bin/bash
 
 ```
@@ -47,6 +47,7 @@ source /usr/local/Ascend/ascend-toolkit/set_env.sh
 source /usr/local/Ascend/mindie/set_env.sh
 source /usr/local/Ascend/mindie/latest/mindie-service/set_env.sh
 source /opt/atb-models/set_env.sh
+
 ```
 
 # 2. 纯模型性能测试
@@ -75,28 +76,37 @@ bash run.sh pa_fp16 performance [[256,256],[512,512],[1024,1024],[2048,2048]] 16
 ```bash
 cd /usr/local/Ascend/mindie/latest/mindie-service
 vim conf/config.json
+
 ```
-修改权重路径以及worldsize（推理使用的卡数）
+修改服务端口, 权重路径以及worldsize（推理使用的卡数）
 ```json
 {
-    "engineName" : "mindieservice_llm_engine",
-    "modelInstanceNumber" : 1,
-    "tokenizerProcessNumber" : 8,
-    "maxSeqLen" : 4096,
-    "npuDeviceIds" : [[0,1,2,3]], // 推理使用的卡数
-    "multiNodesInferEnabled" : false,
-    "ModelParam" : [
-        {
-            "modelInstanceType" : "Standard",
-            "modelName" : "qwen2_14b",
-            "modelWeightPath" : "/home/models/qwen1.5-14b-chat/", // 权重路径
-            "worldSize" : 4, // 推理使用的卡数
-            "cpuMemSize" : 5,
-            "npuMemSize" : 8,
-            "backendType" : "atb",
-            "pluginParams" : ""
-        }
-    ]
+  "ServerConfig" : {
+    "ipAddress" : "127.0.0.1",
+    "managementIpAddress": "127.0.0.2",
+    "port" : 2025,
+    "managementPort" : 2026,
+  },
+  "BackendConfig": {
+      "engineName" : "mindieservice_llm_engine",
+      "modelInstanceNumber" : 1,
+      "tokenizerProcessNumber" : 8,
+      "maxSeqLen" : 4096,
+      "npuDeviceIds" : [[0,1,2,3]], // 推理使用的卡数
+      "multiNodesInferEnabled" : false,
+      "ModelParam" : [
+          {
+              "modelInstanceType" : "Standard",
+              "modelName" : "qwen2_14b",
+              "modelWeightPath" : "/home/data/weights/chatglm3-6b/", // 权重路径
+              "worldSize" : 4, // 推理使用的卡数
+              "cpuMemSize" : 5,
+              "npuMemSize" : 8,
+              "backendType" : "atb",
+              "pluginParams" : ""
+          }
+      ]
+  }
 }
 ```
 ```json
@@ -132,13 +142,13 @@ cd /usr/local/Ascend/mindie/latest/mindie-service
 另外新起一个窗口（也要进入docker），输入命令发送POST请求：
 ```bash
 curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
-  "inputs": "My name is Olivier and I",
+  "inputs": "变压器油中溶解气体以CH4、C2H4为主要组分时，其故障类型是什么。",
   "parameters": {
     "best_of": 1,
-    "decoder_input_details": true,
-    "details": true,
+    "decoder_input_details": false,
+    "details": false,
     "do_sample": true,
-    "max_new_tokens": 20,
+    "max_new_tokens": 1024,
     "repetition_penalty": 1.03,
     "return_full_text": false,
     "seed": null,
@@ -307,3 +317,18 @@ pm2 list
 pm2 stop all
 pm2 delete all
 ```
+
+
+========== mindie 录制视频步骤 ===========
+
+配置 mindie config
+启动 mindie
+
+配置 chatweb config
+启动 chatweb service
+启动 chatweb client
+
+npu-smi info
+curl https://ifconfig.me
+
+打开web, 测试问题/回答
