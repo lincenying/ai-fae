@@ -73,7 +73,7 @@ cd ..
 ```
 ### 下载数据集备选方案
 ```bash
-obsutil cp obs://model-data/0726/dataset/train-00000-of-00001-a09b74b3ef9c3b56.parquet /home/ma-user/work/ModelLink/dataset/train-00000-of-00001-a09b74b3ef9c3b56.parquet
+obsutil cp obs://model-data/qianwen1.5/train-00000-of-00001-a09b74b3ef9c3b56.parquet /home/ma-user/work/ModelLink/dataset/train-00000-of-00001-a09b74b3ef9c3b56.parquet
 ```
 ## 处理数据   
 ```bash
