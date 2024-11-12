@@ -61,7 +61,7 @@ export OBSSK="这里改成SK"
 export PATH=$PATH:/home/ma-user/work/obs_bin
 obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
-obsutil cp -r -f obs://model-data/0726/model/qwen15-0.5b-hf/ /home/ma-user/work/ModelLink/model_from_hf/
+obsutil cp -r -f -flat obs://model-data/qianwen1.5/0.5b/ /home/ma-user/work/ModelLink/model_from_hf/qwen15-0.5b-hf/
 cd /home/ma-user/work/ModelLink/
 ```
 
