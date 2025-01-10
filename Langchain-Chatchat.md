@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/Langchain-Chatchat.html)
+
 ```bash
 # ↓↓↓↓↓↓↓↓↓ 安装conda 可不装 ↓↓↓↓↓↓↓↓↓
 

@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/CANN安装.html)
+
 ```bash
 docker run -it --name=pytorch2.1.0_cann8_0_rc3_py310 --net=host --ipc=host \
 --device=/dev/davinci0 \
