@@ -136,6 +136,9 @@ vim conf/config.json
 
 ## 3.3 启动daemon服务
 ```bash
+export MINDIE_LOG_LEVEL=debug
+export MINDIE_LOG_TO_STDOUT=1
+
 cd /usr/local/Ascend/mindie/latest/mindie-service
 ./bin/mindieservice_daemon
 ```
