@@ -136,11 +136,17 @@ vim conf/config.json
 
 ## 3.3 启动daemon服务
 ```bash
+cd /usr/local/Ascend/mindie/latest/mindie-service
+./bin/mindieservice_daemon
+
+# 如果启动失败, 可以执行下面两行命令开启debug, 然后执行启动mindie
 export MINDIE_LOG_LEVEL=debug
 export MINDIE_LOG_TO_STDOUT=1
 
-cd /usr/local/Ascend/mindie/latest/mindie-service
-./bin/mindieservice_daemon
+# 开启debug调试启动成功后, 先停了服务, 执行下面两行命令关闭debug, 然后执行启动mindie
+unset MINDIE_LOG_LEVEL
+unset MINDIE_LOG_TO_STDOUT
+
 ```
 另外新起一个窗口（也要进入docker），输入命令发送POST请求：
 ```bash
