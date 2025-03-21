@@ -22,7 +22,7 @@ docker run -it -u ma-user \
 -v /opt/data2/wangfeng:/home/ma-user/wangfeng/ \
 --name mindie_modelarts \
 --entrypoint=/bin/bash \
-hzaicc-makeimages-base:v1.0
+hzaicc-makeimages-base:v2
 ```
 
 # 3 安装依赖
@@ -37,20 +37,33 @@ CANN需要按顺序安装toolkit, kernel, nnal加速库
 # toolkit
 echo""
 
-./Ascend-cann-toolkit_8.0.RC2_linux-aarch64.run --full --install-path=/home/ma-user/Ascend/ --quiet
+wget -O ascend-cann-toolkit-910b_8.0.RC3_linux.run \
+https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%208.0.RC3/Ascend-cann-toolkit_8.0.RC3_linux-aarch64.run?response-content-type=application/octet-stream
+
+./ascend-cann-toolkit-910b_8.0.RC3_linux.run --full --install-path=/home/ma-user/Ascend/ --quiet
 echo 'source /home/ma-user/Ascend/ascend-toolkit/set_env.sh' >> ~/.bashrc
 source /home/ma-user/Ascend/ascend-toolkit/set_env.sh
+
 # kernel
-./Ascend-cann-kernels-910b_8.0.RC2_linux.run --install --install-path=/home/ma-user/Ascend/ --quiet
+wget -O ascend-cann-kernels-910b_8.0.RC3_linux-aarch64.run \
+https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%208.0.RC3/Ascend-cann-kernels-910b_8.0.RC3_linux-aarch64.run?response-content-type=application/octet-stream
+
+./ascend-cann-kernels-910b_8.0.RC3_linux-aarch64.run --install --install-path=/home/ma-user/Ascend/ --quiet
 source /home/ma-user/Ascend/ascend-toolkit/set_env.sh
 
 # nnal
-./Ascend-cann-nnal_8.0.RC2_linux-aarch64.run --install --install-path=/home/ma-user/Ascend/ --quiet
+wget -O ascend-cann-nnal_8.0.RC3_linux-aarch64.run \
+https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%208.0.RC3/Ascend-cann-nnal_8.0.RC3_linux-aarch64.run?response-content-type=application/octet-stream
+
+./ascend-cann-nnal_8.0.RC3_linux-aarch64.run --install --install-path=/home/ma-user/Ascend/ --quiet
 echo 'source /home/ma-user/Ascend/nnal/atb/set_env.sh' >> ~/.bashrc
 source /home/ma-user/Ascend/nnal/atb/set_env.sh
 
 # mindie
-./Ascend-mindie_1.0.RC2_linux-aarch64.run --install --install-path=/home/ma-user/Ascend/ --quiet
+wget -O ascend-mindie_1.0.RC3_linux-aarch64.run \
+https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/MindIE/MindIE%201.0.RC3/Ascend-mindie_1.0.RC3_linux-aarch64.run?response-content-type=application/octet-stream
+
+./ascend-mindie_1.0.RC3_linux-aarch64.run --install --install-path=/home/ma-user/Ascend/ --quiet
 echo 'source /home/ma-user/Ascend/mindie/set_env.sh' >> ~/.bashrc
 source /home/ma-user/Ascend/mindie/set_env.sh
 

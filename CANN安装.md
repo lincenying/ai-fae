@@ -52,7 +52,7 @@ https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%208.0.RC3/Ascend-c
 # https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%207.0.0/Ascend-cann-toolkit_7.0.0_linux-aarch64.run?response-content-type=application/octet-stream
 ```
 
-5. 解压 Ascend-cann-kernels
+5. 下载 Ascend-cann-kernels
 可以筛选`run`包, 根据服务器是310,910,910b等选择对应的软件包
 ```bash
 wget -O ascend-cann-kernels-910b_8.0.RC3_linux-aarch64.run \
@@ -60,6 +60,15 @@ https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%208.0.RC3/Ascend-c
 
 # wget -O ascend-cann-kernels-910b_7.0.0_linux.run \
 # https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%207.0.0/Ascend-cann-kernels-910b_7.0.0_linux.run?response-content-type=application/octet-stream
+```
+
+6. 下载 Ascend-cann-nnal
+可以筛选`run`包, 根据服务器是310,910,910b等选择对应的软件包
+```bash
+wget -O ascend-cann-nnal_8.0.RC3_linux-aarch64.run \
+https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%208.0.RC3/Ascend-cann-nnal_8.0.RC3_linux-aarch64.run?response-content-type=application/octet-stream
+
+```
 
 # 2.准备安装及运行用户
 

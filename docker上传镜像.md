@@ -24,5 +24,6 @@ docker push swr.cn-east-292.mygaoxinai.com/huqs/mindie_server_chatgpt_web_910b:2
 ```bash
 docker save mindie_server_chatgpt_web_910b > /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar
 
+
 obsutil cp /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar obs://docker_images/
 ```
