@@ -236,7 +236,7 @@ vi Gradio_Chat.py
     }
 ```
 ```bash
-get -O /home/ma-user/python3/lib/python3.10/site-packages/gradio/frpc_linux_arm64_v0.3 https://gitee.com/lincenying/ai-fea/raw/main/files/frpc_linux_arm64_v0.3
+get -O /home/ma-user/python3/lib/python3.10/site-packages/gradio/frpc_linux_arm64_v0.3 https://gitee.com/lincenying/public/raw/master/frpc_linux_arm64_v0.3
 
 chmod +x /home/ma-user/python3/lib/python3.10/site-packages/gradio/frpc_linux_arm64_v0.3
 
