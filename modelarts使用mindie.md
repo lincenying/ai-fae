@@ -9,6 +9,10 @@ swr.cn-east-292.mygaoxinai.com/cloud/cann8.0.rc3_python3.10.15_torch2.1.0_910b:2
 
 ## 1.2 安装MindIE
 ```bash
+cd /home/ma-user/packages
+# 下载torch_npu安装包
+wget -O torch_npu-2.1.0.post8-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl https://gitee.com/ascend/pytorch/releases/download/v6.0.rc3-pytorch2.1.0/torch_npu-2.1.0.post8-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
+
 cd /home/ma-user/work
 # 获取安装脚本
 wget http://39.171.244.84:30011/package_dependencies/script/mindie_new.sh
@@ -16,7 +20,20 @@ wget http://39.171.244.84:30011/package_dependencies/script/mindie_new.sh
 chmod +x mindie_new.sh
 # 一键安装
 bash mindie_new.sh
+```
 
+## 1.3 设置代理
+```bash
+echo 'export no_proxy=*.cn-east-292.mygaoxinai.com,*.cn-east-292.myhuaweicloud.com,pip.modelarts.private.com,localhost,127.0.0.1,192.168.1.1' >> ~/.bashrc
+
+source ~/.bashrc
+```
+
+## 1.4 安装缺失依赖
+```bash
+pip install pydantic
+pip install pytz
+pip install gradio
 ```
 
 # 2.下载模型
@@ -26,6 +43,7 @@ bash mindie_new.sh
 ```bash
 pip install modelscope
 
+cd /home/ma-user/work
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --local_dir ./DeepSeek-R1-Distill-Qwen-32B
 
 ```
@@ -166,6 +184,8 @@ unset MINDIE_LOG_TO_STDOUT
 ```
 
 # 5.http请求测试
+另起一个Terminal
+
 ```bash
 curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
   "inputs": "你是谁？",
@@ -196,7 +216,31 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
 # 6.Gradio内网穿透
 ```bash
 # 获取脚本
+cd /home/ma-user/work
 wget https://gitee.com/csw-assdasd8sa8d7as78/aicc_-docs/raw/master/source/part3/Gradio_Chat.py
+
+vi Gradio_Chat.py
+```
+```py
+    payload = {
+        "model": "DeepSeek-R1-Distill-Qwen-32B", # 修改model为mindie配置中对应的模型名字
+        "max_tokens": 2048,
+        "messages": messages,
+        "max_tokens": max_tokens,
+        "presence_penalty": 1.03,
+        "frequency_penalty": 1.0,
+        "temperature": temperature,
+        "top_p": top_p,
+        "top_k": top_k,
+        "stream": False
+    }
+```
+```bash
+get -O /home/ma-user/python3/lib/python3.10/site-packages/gradio/frpc_linux_arm64_v0.3 https://gitee.com/lincenying/ai-fea/raw/main/files/frpc_linux_arm64_v0.3
+
+chmod +x /home/ma-user/python3/lib/python3.10/site-packages/gradio/frpc_linux_arm64_v0.3
+
+python Gradio_Chat.py
 # 执行脚本文件，会返回一个公共链接
 # 浏览器输入返回的公共链接，即可打开Gradio界面
 ```
@@ -231,7 +275,7 @@ pip install jsonlines pyarrow prettytable
 benchmark \
 --DatasetPath "/home/ma-user/work/data/GSM8K" \
 --DatasetType "gsm8k" \
---ModelName "deepseekr1" \
+--ModelName "DeepSeek-R1-Distill-Qwen-32B" \
 --ModelPath "/home/ma-user/work/DeepSeek-R1-Distill-Qwen-32B" \
 --TestType client \
 --Concurrency 100 \
