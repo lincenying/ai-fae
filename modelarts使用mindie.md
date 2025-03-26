@@ -2,6 +2,8 @@
 
 # 1.环境准备
 
+硬件要求: 910B + 驱动24+
+
 ## 1.1 使用镜像
 ```
 swr.cn-east-292.mygaoxinai.com/cloud/cann8.0.t63_python3.10.15_torch2.1.0_910b:20250208
