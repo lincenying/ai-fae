@@ -4,7 +4,7 @@
 
 ## 1.1 使用镜像
 ```
-swr.cn-east-292.mygaoxinai.com/cloud/cann8.0.rc3_python3.10.15_torch2.1.0_910b:20250114
+swr.cn-east-292.mygaoxinai.com/cloud/cann8.0.t63_python3.10.15_torch2.1.0_910b:20250208
 ```
 
 ## 1.2 安装MindIE
