@@ -27,6 +27,7 @@ bash mindie_new.sh
 ## 1.3 设置代理
 ```bash
 echo 'export no_proxy=*.cn-east-292.mygaoxinai.com,*.cn-east-292.myhuaweicloud.com,pip.modelarts.private.com,localhost,127.0.0.1,192.168.1.1' >> ~/.bashrc
+echo 'export NO_PROXY=*.cn-east-292.mygaoxinai.com,*.cn-east-292.myhuaweicloud.com,pip.modelarts.private.com,localhost,127.0.0.1,192.168.1.1' >> ~/.bashrc
 
 source ~/.bashrc
 ```
@@ -130,7 +131,7 @@ vi conf/config.json
             "ModelConfig" : [
                 {
                     "modelInstanceType" : "Standard",
-                    "modelName" : "deepseekr1", // 模型名称
+                    "modelName" : "DeepSeek-R1-Distill-Qwen-32B", // 模型名称
                     "modelWeightPath" : "/home/ma-user/work/DeepSeek-R1-Distill-Qwen-32B", // 模型权重所在路径
                     "worldSize" : 4, // 加载卡的数量，指定8卡推理则修改为8
                     "cpuMemSize" : 5,
