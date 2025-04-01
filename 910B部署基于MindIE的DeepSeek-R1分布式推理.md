@@ -24,14 +24,14 @@ https://www.hiascend.com/developer/ascendhub/detail/af85b724a7e5469ebd7ea13c3439
 ```bash
 yum update
 yum install wget
-wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run
-wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910-npu-firmware_7.5.0.1.129.run
-chmod +x Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910-npu-firmware_7.5.0.1.129.run
+wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run
+wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
+chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
 
 # 更新驱动
-./Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run  ----upgrade
+./Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run  ----upgrade
 # 安装驱动
-./Ascend-hdk-910-npu-firmware_7.5.0.1.129.run --full
+./Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run --full
 
 # 安装docker
 yum install docker-ce docker-ce-cli containerd.io

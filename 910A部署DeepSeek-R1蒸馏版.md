@@ -126,10 +126,11 @@ chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
 # 移动obsutil
 mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
 # 添加环境变量
-export OBSAK="替换成AK"
-export OBSSK="替换成SK"
-# notebook停止后也需要重新执行下面两条命令
-export PATH=$PATH:/home/hm/obs_bin
+echo 'export OBSAK="替换成AK"' >> ~/.bashrc
+echo 'export OBSSK="替换成SK"' >> ~/.bashrc
+echo 'export PATH=$PATH:/home/hm/obs_bin' >> ~/.bashrc
+source ~/.bashrc
+
 obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-14B/ ./DeepSeek-R1-Distill-Qwen-14B/ -f -r -flat
