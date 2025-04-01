@@ -132,7 +132,9 @@ export OBSSK="替换成SK"
 export PATH=$PATH:/home/hm/obs_bin
 obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
+obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-14B/ ./DeepSeek-R1-Distill-Qwen-14B/ -f -r -flat
 obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-32B/ ./DeepSeek-R1-Distill-Qwen-32B/ -f -r -flat
+obsutil cp obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B/ ./DeepSeek-R1-Distill-Llama-70B/ -f -r -flat
 
 ```
 
@@ -209,12 +211,12 @@ vi conf/config.json
         "logLevel" : "Info",
         "logFileSize" : 20,
         "logFileNum" : 20,
-        "logPath" : "logs/mindservice.log"
+        "logPath" : "logs/mindie-server.log"
     },
 
     "ServerConfig" :
     {
-        "ipAddress" : "127.0.0.1",
+        "ipAddress" : "192.168.0.24",
         "managementIpAddress" : "127.0.0.2",
         "port" : 1025,
         "managementPort" : 1026,
@@ -228,22 +230,26 @@ vi conf/config.json
         "tlsCert" : "security/certs/server.pem",
         "tlsPk" : "security/keys/server.key.pem",
         "tlsPkPwd" : "security/pass/key_pwd.txt",
-        "tlsCrl" : "security/certs/server_crl.pem",
+        "tlsCrlPath" : "security/certs/",
+        "tlsCrlFiles" : ["server_crl.pem"],
         "managementTlsCaFile" : ["management_ca.pem"],
         "managementTlsCert" : "security/certs/management/server.pem",
         "managementTlsPk" : "security/keys/management/server.key.pem",
         "managementTlsPkPwd" : "security/pass/management/key_pwd.txt",
-        "managementTlsCrl" : "security/certs/management/server_crl.pem",
+        "managementTlsCrlPath" : "security/management/certs/",
+        "managementTlsCrlFiles" : ["server_crl.pem"],
         "kmcKsfMaster" : "tools/pmt/master/ksfa",
         "kmcKsfStandby" : "tools/pmt/standby/ksfb",
         "inferMode" : "standard",
-        "interCommTLSEnabled" : false,
+        "interCommTLSEnabled" : true,
         "interCommPort" : 1121,
-        "interCommTlsCaFile" : "security/grpc/ca/ca.pem",
+        "interCommTlsCaPath" : "security/grpc/ca/",
+        "interCommTlsCaFiles" : ["ca.pem"],
         "interCommTlsCert" : "security/grpc/certs/server.pem",
         "interCommPk" : "security/grpc/keys/server.key.pem",
         "interCommPkPwd" : "security/grpc/pass/key_pwd.txt",
-        "interCommTlsCrl" : "security/certs/server_crl.pem",
+        "interCommTlsCrlPath" : "security/grpc/certs/",
+        "interCommTlsCrlFiles" : ["server_crl.pem"],
         "openAiSupport" : "vllm"
     },
 
@@ -255,27 +261,30 @@ vi conf/config.json
         "multiNodesInferEnabled" : false,
         "multiNodesInferPort" : 1120,
         "interNodeTLSEnabled" : true,
-        "interNodeTlsCaFile" : "security/grpc/ca/ca.pem",
+        "interNodeTlsCaPath" : "security/grpc/ca/",
+        "interNodeTlsCaFiles" : ["ca.pem"],
         "interNodeTlsCert" : "security/grpc/certs/server.pem",
         "interNodeTlsPk" : "security/grpc/keys/server.key.pem",
         "interNodeTlsPkPwd" : "security/grpc/pass/mindie_server_key_pwd.txt",
-        "interNodeTlsCrl" : "security/grpc/certs/server_crl.pem",
+        "interNodeTlsCrlPath" : "security/grpc/certs/",
+        "interNodeTlsCrlFiles" : ["server_crl.pem"],
         "interNodeKmcKsfMaster" : "tools/pmt/master/ksfa",
         "interNodeKmcKsfStandby" : "tools/pmt/standby/ksfb",
         "ModelDeployConfig" :
         {
             "maxSeqLen" : 25600, // 1
             "maxInputTokenLen" : 20480,
-            "truncation" : false,
+            "truncation" : true, // 2
             "ModelConfig" : [
                 {
                     "modelInstanceType" : "Standard",
-                    "modelName" : "DeepSeek-R1-Distill-Qwen-32B", // 模型名称
-                    "modelWeightPath" : "/home/hm/DeepSeek-R1-Distill-Qwen-32B", // 模型权重所在路径
-                    "worldSize" : 8, // 加载卡的数量，指定8卡推理则修改为8, 和npuDeviceIds对齐
+                    "modelName" : "DeepSeek-R1-Distill-Qwen-32B",
+                    "modelWeightPath" : "/home/hm/DeepSeek-R1-Distill-Qwen-32B",
+                    "worldSize" : 8,
                     "cpuMemSize" : 5,
                     "npuMemSize" : -1,
-                    "backendType" : "atb"
+                    "backendType" : "atb",
+                    "trustRemoteCode" : false
                 }
             ]
         },
@@ -286,16 +295,16 @@ vi conf/config.json
             "templateName" : "Standard_LLM",
             "cacheBlockSize" : 128,
 
-            "maxPrefillBatchSize" : 50,
-            "maxPrefillTokens" : 81920, // 2
+            "maxPrefillBatchSize" : 1, // 3
+            "maxPrefillTokens" : 25600, // 4
             "prefillTimeMsPerReq" : 150,
             "prefillPolicyType" : 0,
 
             "decodeTimeMsPerReq" : 50,
             "decodePolicyType" : 0,
 
-            "maxBatchSize" : 200,
-            "maxIterTimes" : 512,
+            "maxBatchSize" : 50, // 5
+            "maxIterTimes" : 20480, // 6
             "maxPreemptCount" : 0,
             "supportSelectBatch" : false,
             "maxQueueDelayMicroseconds" : 5000
@@ -324,28 +333,23 @@ unset MINDIE_LOG_TO_STDOUT
 另外新起一个窗口（也要进入docker），输入命令发送POST请求：
 ```bash
 curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
-  "inputs": "帮我写一份去杭州的游玩攻略",
-  "parameters": {
-    "best_of": 1,
-    "decoder_input_details": false,
-    "details": false,
-    "do_sample": true,
-    "max_new_tokens": 5012,
-    "repetition_penalty": 1.03,
-    "return_full_text": false,
-    "seed": null,
-    "stop": [
-      "photographer"
-    ],
-    "temperature": 0.5,
-    "top_k": 10,
-    "top_n_tokens": 5,
-    "top_p": 0.95,
-    "truncate": null,
-    "typical_p": 0.95,
-    "watermark": true
-  },
-  "stream": false}' http://127.0.0.1:1025/
+    "inputs": "你是谁",
+    "parameters": {
+        "max_new_tokens": 5012
+    },
+    "stream": false
+}' http://192.168.0.24:1025/
+
+curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{
+    "model": "DeepSeek-R1-Distill-Qwen-32B",
+    "messages": [{
+        "role": "user",
+        "content": "介绍下杭州西湖"
+    }],
+    "max_tokens": 512,
+    "stream": false
+}' http://127.0.0.1:1025/v1/chat/completions
+
 ```
 
 ## 4.5 结束mindie服务
