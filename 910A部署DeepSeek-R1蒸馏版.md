@@ -40,9 +40,15 @@ npu-smi info
 cd /home/hm/drivers
 ./Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
 ```
+## 2.2 安装docker
 
+### 2.2.1 方法1, 使用yum安装
 ```bash
-# 安装docker
+yum install docker-ce docker-ce-cli containerd.io
+
+```
+### 2.2.2 方法2, 通过二进制包手动安装
+```bash
 cd ~
 cat > docker.sh << 'EOF'
 
@@ -94,7 +100,10 @@ docker version
 
 EOF
 
+```
 
+```bash
+# 执行docker.sh
 bash ./docker.sh
 
 # 安装docker-runtime
