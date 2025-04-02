@@ -10,16 +10,21 @@
 使用`ssh`连接裸金属后, 执行以下命令:
 ```bash
 mkdir -p /home/hm
-yum update
+yum update -y
 # 解决 Do you want to try build driver after input kernel absolute path? 报错
-yum install kernel-devel
-yum install wget
+yum install kernel-devel -y
+yum install wget -y
+mkdir -p /home/hm/drivers
+cd /home/hm/drivers
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910-npu-firmware_7.5.0.1.129.run
 chmod +x Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910-npu-firmware_7.5.0.1.129.run
 
 # 更新驱动
 ./Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
+
+# 如果安装kernel-devel还报Do you want to try build driver after input kernel absolute path?错误, 则输两次y, 然后输入下面路径
+# /lib/modules/4.19.36-vhulk1907.1.0.h1665.eulerosv2r8.aarch64/build
 
 # 安装驱动
 ./Ascend-hdk-910-npu-firmware_7.5.0.1.129.run --full
@@ -40,7 +45,7 @@ vi docker.sh
 #!/bin/bash
 
 #下载docker包
-wget https://download.docker.com/linux/static/stable/aarch64/docker-28.0.4.tgz
+wget https://mirrors.aliyun.com/docker-ce/linux/static/stable/aarch64/docker-28.0.4.tgz
 
 #解压
 tar zxf docker-28.0.4.tgz
@@ -92,6 +97,7 @@ chmod +x Ascend-docker-runtime_6.0.0_linux-aarch64.run
 ./Ascend-docker-runtime_6.0.0_linux-aarch64.run --install
 
 systemctl daemon-reload && systemctl restart docker
+
 ```
 
 # 3. 准备容器
@@ -100,6 +106,7 @@ systemctl daemon-reload && systemctl restart docker
 ```bash
 # 下载镜像
 docker pull swr.cn-central-221.ovaijisuan.com/wh-aicc-fae/mindie:910A-ascend_24.1.rc3-cann_8.0.t63-py_3.10-ubuntu_20.04-aarch64-mindie_1.0.T71.05
+
 ```
 
 ## 3.2下载模型
@@ -133,8 +140,8 @@ source ~/.bashrc
 
 obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
-obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-14B/ ./DeepSeek-R1-Distill-Qwen-14B/ -f -r -flat
 obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-32B/ ./DeepSeek-R1-Distill-Qwen-32B/ -f -r -flat
+obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-14B/ ./DeepSeek-R1-Distill-Qwen-14B/ -f -r -flat
 obsutil cp obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B/ ./DeepSeek-R1-Distill-Llama-70B/ -f -r -flat
 
 ```
@@ -257,7 +264,7 @@ vi conf/config.json
     "BackendConfig" : {
         "backendName" : "mindieservice_llm_engine",
         "modelInstanceNumber" : 1,
-        "npuDeviceIds" : [[0,1,2,3]], // 启用几卡推理，8卡则修改为[[0,1,2,3,4,5,6,7]]
+        "npuDeviceIds" : [[0,1,2,3]], // 启用几卡推理，910A推荐4卡
         "tokenizerProcessNumber" : 8,
         "multiNodesInferEnabled" : false,
         "multiNodesInferPort" : 1120,
