@@ -31,6 +31,14 @@ chmod +x Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910-npu
 
 # 重启系统
 reboot
+
+# 过一段时间后重新连接ssh
+
+# 进入服务器后, 执行下面命令, 如果出现卡的信息, 说明更像成功
+npu-smi info
+# 如果报`dcmi module initialize failed. ret is -8005`错误, 那么需要重新执行下面命令
+cd /home/hm/drivers
+./Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
 ```
 
 ```bash
@@ -117,7 +125,11 @@ docker pull swr.cn-central-221.ovaijisuan.com/wh-aicc-fae/mindie:910A-ascend_24.
 pip install modelscope
 
 cd /home/hm
+# 根据情况下载所需要模型
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --local_dir ./DeepSeek-R1-Distill-Qwen-32B
+modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B --local_dir ./DeepSeek-R1-Distill-Qwen-7B
+modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-14B --local_dir ./DeepSeek-R1-Distill-Qwen-14B
+modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Llama-70B --local_dir ./DeepSeek-R1-Distill-Llama-70B
 
 ```
 或者使用`obsutil`下载
@@ -140,6 +152,7 @@ source ~/.bashrc
 
 obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
+# 根据情况下载所需要模型
 obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-32B/ ./DeepSeek-R1-Distill-Qwen-32B/ -f -r -flat
 obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-14B/ ./DeepSeek-R1-Distill-Qwen-14B/ -f -r -flat
 obsutil cp obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B/ ./DeepSeek-R1-Distill-Llama-70B/ -f -r -flat
@@ -189,8 +202,8 @@ docker run -itd --privileged=true --name=mindie-server --net=host --ipc=host \
 
 进入容器:
 ```bash
-# docker ps 查看下容器ID
-docker exec -it bdf31455d47a /bin/bash
+# docker ps 查看下容器ID 
+docker exec -it mindie-server /bin/bash
 ```
 
 # 4. MindIE服务化启动
