@@ -257,7 +257,7 @@ vi conf/config.json
     "BackendConfig" : {
         "backendName" : "mindieservice_llm_engine",
         "modelInstanceNumber" : 1,
-        "npuDeviceIds" : [[0,1,2,3,4,5,6,7]], // 启用几卡推理，8卡则修改为[[0,1,2,3,4,5,6,7]]
+        "npuDeviceIds" : [[0,1,2,3]], // 启用几卡推理，8卡则修改为[[0,1,2,3,4,5,6,7]]
         "tokenizerProcessNumber" : 8,
         "multiNodesInferEnabled" : false,
         "multiNodesInferPort" : 1120,
@@ -281,7 +281,7 @@ vi conf/config.json
                     "modelInstanceType" : "Standard",
                     "modelName" : "DeepSeek-R1-Distill-Qwen-32B",
                     "modelWeightPath" : "/home/hm/DeepSeek-R1-Distill-Qwen-32B",
-                    "worldSize" : 8,
+                    "worldSize" : 4,
                     "cpuMemSize" : 5,
                     "npuMemSize" : -1,
                     "backendType" : "atb",
