@@ -32,12 +32,17 @@ chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-n
 ./Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
 # 安装驱动
 ./Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run --full
+```
 
-# 安装docker
-# 方法1, 使用yum安装
+## 2.2 安装docker
+
+### 2.2.1 方法1, 使用yum安装
+```bash
 yum install docker-ce docker-ce-cli containerd.io
 
-# 方法2, 通过二进制包手动安装
+```
+### 2.2.2 方法2, 通过二进制包手动安装
+```bash
 cd ~
 
 cat > docker.sh << 'EOF'
