@@ -44,25 +44,22 @@ cd /home/hm/drivers
 ```bash
 # 安装docker
 cd ~
-vi docker.sh
-```
+cat > docker.sh << 'EOF'
 
-写入以下内容
-
-```
 #!/bin/bash
 
-#下载docker包
+# 下载docker包
+# 根据架构适当修改, 详情见: https://mirrors.aliyun.com/docker-ce/linux/static/stable/
 wget https://mirrors.aliyun.com/docker-ce/linux/static/stable/aarch64/docker-28.0.4.tgz
 
-#解压
+# 解压
 tar zxf docker-28.0.4.tgz
 
-#移动解压后的文件夹到/usr/bin
+# 移动解压后的文件夹到/usr/bin
 mv docker/* /usr/bin
 
-#写入docker.service
-cat >/usr/lib/systemd/system/docker.service <<EOF
+# 写入docker.service
+cat > /usr/lib/systemd/system/docker.service << 'EOF_DOCKER_SERVICE'
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
@@ -82,21 +79,22 @@ StartLimitBurst=3
 StartLimitInterval=60s
 [Install]
 WantedBy=multi-user.target
-EOF
+EOF_DOCKER_SERVICE
 
 systemctl daemon-reload
 
-#启动docker
+# 启动docker
 systemctl start docker
 
-#设置开机自启动
+# 设置开机自启动
 systemctl enable docker
 
-#查看docker版本
+# 查看docker版本
 docker version
-```
 
-```bash
+EOF
+
+
 bash ./docker.sh
 
 # 安装docker-runtime
@@ -165,6 +163,9 @@ obsutil cp obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B/ ./DeepSeek-R1-Distill
 使用下面启动命令(参考)：
 
 ```bash
+# 如果报 owner not right /usr/bin/runc 1000 错误, 执行:
+chown root:root /usr/bin/runc
+
 docker run -itd --privileged  --name=mindie-server --net=host \
 --shm-size 500g \
 --device=/dev/davinci0 \
@@ -186,8 +187,6 @@ docker run -itd --privileged  --name=mindie-server --net=host \
 -v /home/hm:/home/hm \
 swr.cn-central-221.ovaijisuan.com/wh-aicc-fae/mindie:910A-ascend_24.1.rc3-cann_8.0.t63-py_3.10-ubuntu_20.04-aarch64-mindie_1.0.T71.05
 
-# 如果报 owner not right /usr/bin/runc 1000 错误, 执行:
-chown root:root /usr/bin/runc
 ```
 
 或者使用:
@@ -202,7 +201,7 @@ docker run -itd --privileged=true --name=mindie-server --net=host --ipc=host \
 
 进入容器:
 ```bash
-# docker ps 查看下容器ID 
+# docker ps 查看下容器ID 或者使用 容器name
 docker exec -it mindie-server /bin/bash
 ```
 
@@ -223,7 +222,7 @@ cd /usr/local/Ascend/mindie/latest/mindie-service
 vi conf/config.json
 
 ```
-修改以下参数:
+修改以下带注释的参数:
 ```json
 {
     "Version" : "1.0.0",

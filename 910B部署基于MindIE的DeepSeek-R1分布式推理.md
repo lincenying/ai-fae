@@ -22,8 +22,8 @@ https://www.hiascend.com/developer/ascendhub/detail/af85b724a7e5469ebd7ea13c3439
 ## 2.1 安装驱动
 使用`ssh`连接裸金属后, 执行以下命令:
 ```bash
-yum update
-yum install wget
+yum update -y
+yum install wget -y
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
 chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
@@ -34,7 +34,65 @@ chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-n
 ./Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run --full
 
 # 安装docker
+# 方法1, 使用yum安装
 yum install docker-ce docker-ce-cli containerd.io
+
+# 方法2, 通过二进制包手动安装
+cd ~
+
+cat > docker.sh << 'EOF'
+
+#!/bin/bash
+
+# 下载docker包
+# 根据架构适当修改, 详情见: https://mirrors.aliyun.com/docker-ce/linux/static/stable/
+wget https://mirrors.aliyun.com/docker-ce/linux/static/stable/aarch64/docker-28.0.4.tgz
+
+# 解压
+tar zxf docker-28.0.4.tgz
+
+# 移动解压后的文件夹到/usr/bin
+mv docker/* /usr/bin
+
+# 写入docker.service
+cat >/usr/lib/systemd/system/docker.service << 'EOF_DOCKER_SERVICE'
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network-online.target firewalld.service
+Wants=network-online.target
+[Service]
+Type=notify
+ExecStart=/usr/bin/dockerd
+ExecReload=/bin/kill -s HUP $MAINPID
+LimitNOFILE=infinity
+LimitNPROC=infinity
+TimeoutStartSec=0
+Delegate=yes
+KillMode=process
+Restart=on-failure
+StartLimitBurst=3
+StartLimitInterval=60s
+[Install]
+WantedBy=multi-user.target
+EOF_DOCKER_SERVICE
+
+systemctl daemon-reload
+
+# 启动docker
+systemctl start docker
+
+# 设置开机自启动
+systemctl enable docker
+
+# 查看docker版本
+docker version
+
+EOF
+
+
+bash ./docker.sh
+
 # 安装docker-runtime
 wget https://gitee.com/ascend/mind-cluster/releases/download/v6.0.0/Ascend-docker-runtime_6.0.0_linux-aarch64.run
 chmod +x Ascend-docker-runtime_6.0.0_linux-aarch64.run
