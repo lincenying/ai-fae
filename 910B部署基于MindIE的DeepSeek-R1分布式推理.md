@@ -29,7 +29,7 @@ wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-firmw
 chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
 
 # 更新驱动
-./Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run  ----upgrade
+./Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
 # 安装驱动
 ./Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run --full
 
