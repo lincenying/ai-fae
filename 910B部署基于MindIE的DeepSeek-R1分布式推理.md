@@ -46,7 +46,6 @@ yum install docker-ce docker-ce-cli containerd.io
 cd ~
 
 cat > docker.sh << 'EOF'
-
 #!/bin/bash
 
 # 下载docker包
