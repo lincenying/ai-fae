@@ -82,6 +82,7 @@ StartLimitInterval=60s
 WantedBy=multi-user.target
 EOF_DOCKER_SERVICE
 
+# 重新加载 systemd配置
 systemctl daemon-reload
 
 # 启动docker
@@ -94,8 +95,10 @@ systemctl enable docker
 docker version
 
 EOF
+```
 
-
+```bash
+# 执行docker.sh
 bash ./docker.sh
 
 # 安装docker-runtime
