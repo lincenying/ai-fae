@@ -63,8 +63,8 @@ tar zxf docker-28.0.4.tgz
 # 移动解压后的文件夹到/usr/bin
 mv docker/* /usr/bin
 
-# 写入docker.service
-cat > /usr/lib/systemd/system/docker.service << 'EOF_DOCKER_SERVICE'
+# 写入docker.service开始 ===>
+cat > /usr/lib/systemd/system/docker.service << EOF_DOCKER_SERVICE
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
@@ -86,6 +86,9 @@ StartLimitInterval=60s
 WantedBy=multi-user.target
 EOF_DOCKER_SERVICE
 
+# <=== 写入docker.service结束
+
+# 重新加载服务
 systemctl daemon-reload
 
 # 启动docker
@@ -99,12 +102,12 @@ docker version
 
 EOF
 
-```
-
-```bash
 # 执行docker.sh
 bash ./docker.sh
 
+```
+
+```bash
 # 安装docker-runtime
 wget https://gitee.com/ascend/mind-cluster/releases/download/v6.0.0/Ascend-docker-runtime_6.0.0_linux-aarch64.run
 chmod +x Ascend-docker-runtime_6.0.0_linux-aarch64.run
