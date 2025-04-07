@@ -90,3 +90,6 @@ obs://deepseekv3/deepseekv3-bf16
 obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B
 obs://bigmodel/DeepSeek-R1-Distill-Qwen-32B
 obs://bigmodel/DeepSeek-R1-Distill-Qwen-14B
+obs://bigmodel/Qwen2.5-14B
+obs://bigmodel/Qwen2.5-32B-Instruct
+obs://bigmodel/qwen2-72b-instruct

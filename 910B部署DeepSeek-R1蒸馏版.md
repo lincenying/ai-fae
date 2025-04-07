@@ -1,4 +1,4 @@
-[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910A部署DeepSeek-R1蒸馏版.html)
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署DeepSeek-R1蒸馏版.html)
 
 # 1. 环境准备
 ## 1.1 服务器要求
@@ -16,29 +16,15 @@ yum install kernel-devel -y
 yum install wget -y
 mkdir -p /data/hm/drivers
 cd /data/hm/drivers
-wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run
-wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910-npu-firmware_7.5.0.1.129.run
-chmod +x Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910-npu-firmware_7.5.0.1.129.run
+wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run
+wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
+chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
 
 # 更新驱动
-./Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
-
-# 如果安装kernel-devel还报Do you want to try build driver after input kernel absolute path?错误, 则输两次y, 然后输入下面路径
-# /lib/modules/4.19.36-vhulk1907.1.0.h1665.eulerosv2r8.aarch64/build
-
+./Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
 # 安装驱动
-./Ascend-hdk-910-npu-firmware_7.5.0.1.129.run --full
+./Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run --full
 
-# 重启系统
-reboot
-
-# 过一段时间后重新连接ssh
-
-# 进入服务器后, 执行下面命令, 如果出现卡的信息, 说明更像成功
-npu-smi info
-# 如果报`dcmi module initialize failed. ret is -8005`错误, 那么需要重新执行下面命令
-cd /data/hm/drivers
-./Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
 ```
 ## 2.2 安装docker
 
@@ -122,7 +108,7 @@ systemctl daemon-reload && systemctl restart docker
 
 ```bash
 # 下载镜像
-docker pull swr.cn-central-221.ovaijisuan.com/wh-aicc-fae/mindie:910A-ascend_24.1.rc3-cann_8.0.t63-py_3.10-ubuntu_20.04-aarch64-mindie_1.0.T71.05
+docker pull swr.cn-south-1.myhuaweicloud.com/ascendhub/mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64
 
 ```
 
@@ -139,6 +125,9 @@ modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --local_dir
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B --local_dir ./DeepSeek-R1-Distill-Qwen-7B
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-14B --local_dir ./DeepSeek-R1-Distill-Qwen-14B
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Llama-70B --local_dir ./DeepSeek-R1-Distill-Llama-70B
+modelscope download --model Qwen/Qwen2.5-32B-Instruct --local_dir ./Qwen2.5-32B-Instruct
+modelscope download --model Qwen/Qwen2.5-72B-Instruct --local_dir ./Qwen2.5-72B-Instruct
+modelscope download --model Qwen/Qwen2.5-VL-32B-Instruct --local_dir ./Qwen2.5-VL-32B-Instruct
 
 ```
 或者使用`obsutil`下载
@@ -174,10 +163,7 @@ obsutil cp obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B/ ./DeepSeek-R1-Distill
 使用下面启动命令(参考)：
 
 ```bash
-# 如果报 owner not right /usr/bin/runc 1000 错误, 执行:
-chown root:root /usr/bin/runc
-
-docker run -itd --privileged  --name=mindie-server --net=host \
+docker run -itd --privileged  --name=mindie-server-qw-32b --net=host \
 --shm-size 500g \
 --device=/dev/davinci0 \
 --device=/dev/davinci1 \
@@ -196,37 +182,21 @@ docker run -itd --privileged  --name=mindie-server --net=host \
 -v /usr/local/sbin:/usr/local/sbin \
 -v /etc/hccn.conf:/etc/hccn.conf \
 -v /data/hm:/data/hm \
-swr.cn-central-221.ovaijisuan.com/wh-aicc-fae/mindie:910A-ascend_24.1.rc3-cann_8.0.t63-py_3.10-ubuntu_20.04-aarch64-mindie_1.0.T71.05
+swr.cn-south-1.myhuaweicloud.com/ascendhub/mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64 \
+/bin/bash
 
 ```
 
-或者使用:
-
-```bash
-docker run -itd --privileged=true --name=mindie-server --net=host --ipc=host \
---shm-size 500g \
--e ASCEND_VISIBLE_DEVICES=0-7 \
--v /data/hm:/data/hm \
-0d1f23321380
-```
 
 进入容器:
 ```bash
 # docker ps 查看下容器ID 或者使用 容器name
-docker exec -it mindie-server /bin/bash
+docker exec -it mindie-server-qw-32b /bin/bash
 ```
 
 # 4. MindIE服务化启动
-## 4.1 修改模型配置文件
 
-修改权重路径中config.json中的torch_dtype为float16
-
-```bash
-vi /data/hm/DeepSeek-R1-Distill-Qwen-32B/config.json
-# 将 "torch_dtype": "bfloat16" 该成 "torch_dtype": "float16"
-```
-
-## 4.2 修改服务化参数
+## 4.1 修改服务化参数
 
 ```bash
 cd /usr/local/Ascend/mindie/latest/mindie-service
@@ -243,8 +213,6 @@ vi conf/config.json
         "port" : 1025,
         "managementPort" : 1026,
         "metricsPort" : 1027,
-        "allowAllZeroIpListening" : false,
-        "maxLinkNum" : 1000,
         "httpsEnabled" : false, // 关闭https
     },
 
@@ -253,8 +221,8 @@ vi conf/config.json
         "ModelDeployConfig" :
         {
             "maxSeqLen" : 25600, // 1
-            "maxInputTokenLen" : 20480,
-            "truncation" : true, // 2
+            "maxInputTokenLen" : 20480, // 2
+            "truncation" : true,
             "ModelConfig" : [
                 {
                     "modelInstanceType" : "Standard",
@@ -296,23 +264,26 @@ vi conf/config.json
 快速修改
 
 ```bash
+# 修改模型文件夹权限
+chmod -R 750 /data/hm/Qwen2.5-32B
 # 替换IP
 sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.23",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换端口
-sed -i 's/"port"[[:space:]]*:[[:space:]]*.*,/"port" : 2025,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"port"[[:space:]]*:[[:space:]]*.*,/"port" : 1025,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 关闭https
 sed -i 's/"httpsEnabled"[[:space:]]*:[[:space:]]*.*,/"httpsEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 启用几卡
-sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[0,1,2,3,4,5,6,7]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[4,5,6,7]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换模型名称
-sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "DeepSeek-R1-Distill-Qwen-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "Qwen2.5-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换模型路径
-sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/home\/hm\/DeepSeek-R1-Distill-Qwen-32B\/",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data\/hm\/Qwen2.5-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 启用几卡
 sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 4,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 其他修改
 sed -i 's/"maxPrefillBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxPrefillBatchSize" : 1,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 sed -i 's/"maxPrefillTokens"[[:space:]]*:[[:space:]]*.*,/"maxPrefillTokens" : 25600,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxInputTokenLen"[[:space:]]*:[[:space:]]*.*,/"maxInputTokenLen" : 20480,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 sed -i 's/"maxBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxBatchSize" : 50,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 sed -i 's/"maxIterTimes"[[:space:]]*:[[:space:]]*.*,/"maxIterTimes" : 20480,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 查看结果
@@ -325,12 +296,14 @@ cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep model
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep worldSize
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillBatchSize
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillTokens
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxInputTokenLen
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxBatchSize
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxIterTimes
 
+
 ```
 
-## 4.3 拉起服务
+## 4.2 拉起服务
 ```bash
 cd /usr/local/Ascend/mindie/latest/mindie-service
 ./bin/mindieservice_daemon
@@ -345,7 +318,7 @@ unset MINDIE_LOG_TO_STDOUT
 
 ```
 
-## 4.4 openai接口
+## 4.3 openai接口
 
 另外新起一个窗口（也要进入docker），输入命令发送POST请求：
 ```bash
