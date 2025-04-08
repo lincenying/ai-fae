@@ -3,13 +3,16 @@
 # 1. 环境准备
 ## 1.1 服务器要求
 
-910A
+910B
 
 # 2. 配置裸金属相关环境
 ## 2.1 安装驱动
 使用`ssh`连接裸金属后, 执行以下命令:
 ```bash
 mkdir -p /data/hm
+
+npu-smp info # 如果驱动版本是24.1.rc3, 以下步骤可省略
+
 yum update -y
 # 解决 Do you want to try build driver after input kernel absolute path? 报错
 yum install kernel-devel -y
@@ -186,7 +189,6 @@ swr.cn-south-1.myhuaweicloud.com/ascendhub/mindie:1.0.T71-800I-A2-py311-ubuntu22
 /bin/bash
 
 ```
-
 
 进入容器:
 ```bash
