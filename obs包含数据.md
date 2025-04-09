@@ -86,10 +86,19 @@ obs://deepseekv3/deepseekR1-bf16
 obs://deepseekv3/deepseekR1
 obs://deepseekv3/deepseekr1-w4a16
 obs://deepseekv3/deepseekv3-bf16
+obs://deepseekv3/DeepSeek-V3-0324-w8a8
 
-obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B
-obs://bigmodel/DeepSeek-R1-Distill-Qwen-32B
 obs://bigmodel/DeepSeek-R1-Distill-Qwen-14B
+obs://bigmodel/DeepSeek-R1-Distill-Qwen-32B
+obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B
+
+obs://bigmodel/qwen2-72b-instruct
+
+obs://bigmodel/Qwen2-VL-72B-Instruct
+
 obs://bigmodel/Qwen2.5-14B
 obs://bigmodel/Qwen2.5-32B-Instruct
-obs://bigmodel/qwen2-72b-instruct
+obs://bigmodel/Qwen2.5-72B-Instruct
+
+obs://bigmodel/Qwen2.5-VL-3B-Instruct
+obs://bigmodel/Qwen2.5-VL-72B-Instruct

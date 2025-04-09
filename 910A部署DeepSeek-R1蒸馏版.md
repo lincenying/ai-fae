@@ -293,7 +293,7 @@ vi conf/config.json
 }
 ```
 
-快速修改
+或者通过命令行快速修改
 
 ```bash
 # 替换IP
@@ -312,6 +312,7 @@ sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\
 sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 4,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 其他修改
 sed -i 's/"maxPrefillBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxPrefillBatchSize" : 1,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxSeqLen"[[:space:]]*:[[:space:]]*.*,/"maxSeqLen" : 25600,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 sed -i 's/"maxPrefillTokens"[[:space:]]*:[[:space:]]*.*,/"maxPrefillTokens" : 25600,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 sed -i 's/"maxBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxBatchSize" : 50,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 sed -i 's/"maxIterTimes"[[:space:]]*:[[:space:]]*.*,/"maxIterTimes" : 20480,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
@@ -324,6 +325,7 @@ cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep model
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep modelWeightPath
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep worldSize
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillBatchSize
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxSeqLen
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillTokens
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxBatchSize
 cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxIterTimes

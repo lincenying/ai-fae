@@ -110,119 +110,8 @@ chmod +x Ascend-docker-runtime_6.0.0_linux-aarch64.run
 systemctl daemon-reload && systemctl restart docker
 ```
 
-# 3. 准备容器
-## 3.1 准备容器
-
-Deepseek-R1 16浮点的镜像包
-```bash
-# 下载镜像
-wget http://39.171.244.84:30011/docker_images/mindie%3A1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
-
-# 加载镜像
-docker load -i mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
-```
-
-如果需要开启量化W8A8的服务，需要使用mindie-2.0.T3的镜像
-```bash
-# 下载镜像
-wget http://39.171.244.84:30011/DistributedCommunication/20T3-800I-A2-py311-openeuler2403-lts.tar
-
-# 加载镜像
-docker load -i 20T3-800I-A2-py311-openeuler2403-lts.tar
-```
-
-## 3.2 启动容器
-
-使用`docker images`查看下载下来的`image`的ID，
-使用下面启动命令(参考)：
-
-```bash
-docker run -itd --privileged  --name=容器名称 --net=host \
---shm-size 500g \
---device=/dev/davinci0 \
---device=/dev/davinci1 \
---device=/dev/davinci2 \
---device=/dev/davinci3 \
---device=/dev/davinci4 \
---device=/dev/davinci5 \
---device=/dev/davinci6 \
---device=/dev/davinci7 \
---device=/dev/davinci_manager \
---device=/dev/hisi_hdc \
---device /dev/devmm_svm \
--v /usr/local/Ascend/driver:/usr/local/Ascend/driver \
--v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
--v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
--v /usr/local/sbin:/usr/local/sbin \
--v /etc/hccn.conf:/etc/hccn.conf \
--v /权重路径:/权重路径 \
-mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64
-
-```
-
-或者使用:
-
-```bash
-docker run -itd --privileged=true --name=deep1 --net=host --ipc=host \
---shm-size 500g \
--e ASCEND_VISIBLE_DEVICES=0-7 \
--v /权重路径:/权重路径 \
-images_id
-```
-
-## 3.3 设置变量
-
-```bash
-vi ~/.bashrc # 加入下面变量
-```
-
-```bash
-source /usr/local/Ascend/ascend-toolkit/set_env.sh
-source /usr/local/Ascend/nnal/atb/set_env.sh
-source /usr/local/Ascend/atb-models/set_env.sh
-source /usr/local/Ascend/mindie/set_env.sh
-# 通信变量
-export ATB_LLM_HCCL_ENABLE=1
-export ATB_LLM_COMM_BACKEND="hccl"
-export HCCL_CONNECT_TIMEOUT=7200
-export WORLD_SIZE=32 # 卡数
-export HCCL_EXEC_TIMEOUT=0
-export MIES_CONTAINER_IP=x.x.x.x # (物理机中使用ifconfig 查看)
-export RANKTABLEFILE=xxx.json #(rank_table_file.json 的路径,生成详见第5节) 
-export HCCL_DETERMINISTIC=true
-export NPU_MEMORY_FRACTION=0.95 # 显存比
-export PYTORCH_NPU_ALLOC_CONF=expandable_segments:True #虚拟内存
-export ASDOPS_LOG_LEVEL=ERROR	#日志等级
-export ASDOPS_LOG_TO_STDOUT=1	#是否打屏
-export MINDIE_LOG_LEVEL=ERROR 
-export MINDIE_LOG_TO_STDOUT=1	#是否打屏
-export ATB__LOG_LEVEL=ERROR # atb日志等级
-export ATB_LOG_TO_STDOUT=1
-
-```
-
-```bash
-source ~/.bashrc
-```
-
-# 4. 权重下载与转换
-
-# 4.1 权重下载
-
-Deepseek-R1:
-https://modelers.cn/models/xieyuxiang/deepseek-r1/tree/main
-
-deepseek-r1 BF-16:
-https://modelers.cn/models/xieyuxiang/deepseek-r1-fp16/tree/main
-
-deepseek-v3 BF-16:
-https://modelers.cn/models/State_Cloud/DeepSeek-V3-BF16/tree/main
-
-deepseek-r1 W8A8:
-https://modelers.cn/models/State_Cloud/DeepSeek-R1-W8A8/tree/main
-
-# 5. 配置分布式通信
-## 5.1 检查机器网络情况
+# 3. 配置分布式通信
+## 3.1 检查机器网络情况
 
 ```bash
 # 检查物理链接
@@ -243,18 +132,23 @@ for i in {0..7}; do hccn_tool -i $i -tls -s enable 0; done
 for i in {0..7}; do hccn_tool -i $i -ip -g; done
 ```
 
-## 5.2 配置rank_table_file.json
+## 3.2 配置rank_table_file.json
 
 每台物理机都需要运行下面命令
 ```bash
+mkdir -p /data/hm
+cd /data/hm
 wget  http://39.171.244.84:30011/DistributedCommunication/hccl_tools.py 
-python hcc_tools.py
+python ./hcc_tools.py
+
 ```
 在你当前目录下生成一个 hccl_xx_(当前物理机ip).json 的文件
 将其他的机器生成的hccl.json文件放在主物理机的统一文件夹中，使用下面命令获取合并脚本。
 ```bash
 wget  http://39.171.244.84:30011/DistributedCommunication/merge_hccl.py
-python merge_hccl.py
+# 改成对应的json文件名
+python ./merge_hccl.py hccl_8p_01234567_xx.xx.xx.xx.json hccl_8p_01234567_xx.xx.xx.xx.json
+
 ```
 运行结束后会生成一个总的hccl*.json. 需要在每个`server_id`下加入一行`”container_ip”:`和`”server_id”:`, value一样。
 并且按照ip从大到小排列，且将rank_id手动排序，从0 开始。
@@ -285,6 +179,128 @@ python merge_hccl.py
 }
 ```
 
+# 4. 准备容器
+## 4.1 准备容器
+
+Deepseek-R1 16浮点的镜像包
+```bash
+# 下载镜像
+wget http://39.171.244.84:30011/docker_images/mindie%3A1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
+
+# 加载镜像
+docker load -i mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
+```
+
+如果需要开启量化W8A8的服务，需要使用mindie-2.0.T3的镜像
+```bash
+# 下载镜像
+wget http://39.171.244.84:30011/DistributedCommunication/20T3-800I-A2-py311-openeuler2403-lts.tar
+
+# 加载镜像
+docker load -i 20T3-800I-A2-py311-openeuler2403-lts.tar
+```
+
+## 4.2 启动容器
+
+使用`docker images`查看下载下来的`image`的ID，
+使用下面启动命令(参考)：
+
+```bash
+# 如果报 owner not right /usr/bin/runc 1000 错误, 执行:
+chown root:root /usr/bin/runc
+
+docker run -itd --privileged  --name=mindie-dsv3-w8a8 --net=host \
+--shm-size 500g \
+--device=/dev/davinci0 \
+--device=/dev/davinci1 \
+--device=/dev/davinci2 \
+--device=/dev/davinci3 \
+--device=/dev/davinci4 \
+--device=/dev/davinci5 \
+--device=/dev/davinci6 \
+--device=/dev/davinci7 \
+--device=/dev/davinci_manager \
+--device=/dev/hisi_hdc \
+--device /dev/devmm_svm \
+-v /usr/local/Ascend/driver:/usr/local/Ascend/driver \
+-v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
+-v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
+-v /usr/local/sbin:/usr/local/sbin \
+-v /etc/hccn.conf:/etc/hccn.conf \
+-v /data:/data \
+mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64
+
+```
+
+或者使用:
+
+```bash
+docker run -itd --privileged=true --name=mindie-dsv3-w8a8 --net=host --ipc=host \
+--shm-size 500g \
+-e ASCEND_VISIBLE_DEVICES=0-7 \
+-v /权重路径:/权重路径 \
+images_id
+```
+
+进入容器:
+```bash
+# docker ps 查看下容器ID 或者使用 容器name
+docker exec -it mindie-dsv3-w8a8 /bin/bash
+```
+
+## 4.3 设置变量
+
+```bash
+vi ~/.bashrc # 加入下面变量
+```
+
+```bash
+source /usr/local/Ascend/ascend-toolkit/set_env.sh
+source /usr/local/Ascend/nnal/atb/set_env.sh
+source /usr/local/Ascend/atb-models/set_env.sh
+source /usr/local/Ascend/mindie/set_env.sh
+# 通信变量
+export ATB_LLM_HCCL_ENABLE=1
+export ATB_LLM_COMM_BACKEND="hccl"
+export HCCL_CONNECT_TIMEOUT=7200
+export WORLD_SIZE=16 # 总卡数
+export HCCL_EXEC_TIMEOUT=0
+export MIES_CONTAINER_IP=192.168.0.20 # (物理机中使用ifconfig 查看)
+export RANKTABLEFILE=/data/hm/hccl_2s_16p.json #(rank_table_file.json 的路径,生成详见第3节) 
+export HCCL_DETERMINISTIC=true
+export NPU_MEMORY_FRACTION=0.95 # 显存比
+export PYTORCH_NPU_ALLOC_CONF=expandable_segments:True #虚拟内存
+export ASDOPS_LOG_LEVEL=ERROR	#日志等级
+export ASDOPS_LOG_TO_STDOUT=1	#是否打屏
+export MINDIE_LOG_LEVEL=ERROR 
+export MINDIE_LOG_TO_STDOUT=1	#是否打屏
+export ATB__LOG_LEVEL=ERROR # atb日志等级
+export ATB_LOG_TO_STDOUT=1
+
+```
+
+```bash
+source ~/.bashrc
+```
+
+# 5. 权重下载与转换
+
+# 5.1 权重下载
+
+Deepseek-R1:
+https://modelers.cn/models/xieyuxiang/deepseek-r1/tree/main
+
+deepseek-r1 BF-16:
+https://modelers.cn/models/xieyuxiang/deepseek-r1-fp16/tree/main
+
+deepseek-v3 BF-16:
+https://modelers.cn/models/State_Cloud/DeepSeek-V3-BF16/tree/main
+
+deepseek-r1 W8A8:
+https://modelers.cn/models/State_Cloud/DeepSeek-R1-W8A8/tree/main
+
+
+
 # 6. MindIE服务化启动
 ## 6.1 配置服务化环境变量
 
@@ -310,8 +326,57 @@ vi conf/config.json
 
 ```
 
+或者通过命令行快速修改
+
+```bash
+# 修改模型文件夹权限
+chmod -R 750 /data/hm/DeepSeek-V3-0324-w8a8
+# 替换IP
+sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.23",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 替换端口
+sed -i 's/"port"[[:space:]]*:[[:space:]]*.*,/"port" : 1025,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 关闭https
+sed -i 's/"httpsEnabled"[[:space:]]*:[[:space:]]*.*,/"httpsEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 开启开启多机推理
+sed -i 's/"multiNodesInferEnabled"[[:space:]]*:[[:space:]]*.*,/"multiNodesInferEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 启用几卡
+sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[0,1,2,3,4,5,6,7]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 替换模型名称
+sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "DeepSeek-V3-0324-w8a8",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 替换模型路径
+sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data\/hm\/DeepSeek-V3-0324-w8a8",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 启用几卡
+sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 8,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 其他修改
+sed -i 's/"maxPrefillBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxPrefillBatchSize" : 1,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxSeqLen"[[:space:]]*:[[:space:]]*.*,/"maxSeqLen" : 25600,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxPrefillTokens"[[:space:]]*:[[:space:]]*.*,/"maxPrefillTokens" : 25600,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxInputTokenLen"[[:space:]]*:[[:space:]]*.*,/"maxInputTokenLen" : 20480,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxBatchSize" : 50,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxIterTimes"[[:space:]]*:[[:space:]]*.*,/"maxIterTimes" : 20480,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 查看结果
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep ipAddress
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep port
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep httpsEnabled
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep npuDeviceIds
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep modelName
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep modelWeightPath
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep worldSize
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillBatchSize
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxSeqLen
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillTokens
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxInputTokenLen
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxBatchSize
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxIterTimes
+
+
+```
+
 ## 6.3 拉起服务
 ```bash
+chmod -R 750 /data2/DeepSeek-V3-0324-w8a8/
+chmod 640 /data/hm/hccl_2s_16p.json
+
 cd /usr/local/Ascend/mindie/latest/mindie-service
 ./bin/mindieservice_daemon
 
@@ -351,5 +416,5 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
     "typical_p": 0.95,
     "watermark": true
   },
-  "stream": false}' http://127.0.0.1:2025/
+  "stream": false}' http://192.168.0.20:1025/
 ```
