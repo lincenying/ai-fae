@@ -102,3 +102,9 @@ obs://bigmodel/Qwen2.5-72B-Instruct
 
 obs://bigmodel/Qwen2.5-VL-3B-Instruct
 obs://bigmodel/Qwen2.5-VL-72B-Instruct
+
+docker
+
+obs://docker/1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
+obs://docker/2.0.T3-800I-A2-py311-openeuler2403-lts.tar
+obs://docker/2.0.T3.1-800I-A2-py311-openeuler24.03-lts.tar

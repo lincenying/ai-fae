@@ -22,8 +22,11 @@ https://www.hiascend.com/developer/ascendhub/detail/af85b724a7e5469ebd7ea13c3439
 ## 2.1 安装驱动
 使用`ssh`连接裸金属后, 执行以下命令:
 ```bash
+npu-smi info # 如果驱动版本是24.1.rc3, 以下步骤可省略
+
 yum update -y
 yum install wget -y
+
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
 chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
@@ -32,6 +35,7 @@ chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-n
 ./Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
 # 安装驱动
 ./Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run --full
+
 ```
 
 ## 2.2 安装docker
@@ -108,6 +112,7 @@ chmod +x Ascend-docker-runtime_6.0.0_linux-aarch64.run
 ./Ascend-docker-runtime_6.0.0_linux-aarch64.run --install
 
 systemctl daemon-reload && systemctl restart docker
+
 ```
 
 # 3. 配置分布式通信
@@ -150,7 +155,7 @@ wget  http://39.171.244.84:30011/DistributedCommunication/merge_hccl.py
 python ./merge_hccl.py hccl_8p_01234567_xx.xx.xx.xx.json hccl_8p_01234567_xx.xx.xx.xx.json
 
 ```
-运行结束后会生成一个总的hccl*.json. 需要在每个`server_id`下加入一行`”container_ip”:`和`”server_id”:`, value一样。
+运行结束后会生成一个总的hccl*.json. 需要在每个`server_id`下加入一行`"container_ip":`和`"server_id":`, value一样。
 并且按照ip从大到小排列，且将rank_id手动排序，从0 开始。
 
 然后将整合好的json文件发送到每一个从物理机中。
@@ -228,7 +233,8 @@ docker run -itd --privileged  --name=mindie-dsv3-w8a8 --net=host \
 -v /usr/local/sbin:/usr/local/sbin \
 -v /etc/hccn.conf:/etc/hccn.conf \
 -v /data:/data \
-mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64
+-v /data2:/data2 \
+mindie:2.0.T9.B020-800I-A2-py3.11-openeuler24.03-lts-aarch64
 
 ```
 
@@ -259,21 +265,21 @@ source /usr/local/Ascend/ascend-toolkit/set_env.sh
 source /usr/local/Ascend/nnal/atb/set_env.sh
 source /usr/local/Ascend/atb-models/set_env.sh
 source /usr/local/Ascend/mindie/set_env.sh
-# 通信变量
+ # 通信变量
 export ATB_LLM_HCCL_ENABLE=1
 export ATB_LLM_COMM_BACKEND="hccl"
 export HCCL_CONNECT_TIMEOUT=7200
 export WORLD_SIZE=16 # 总卡数
 export HCCL_EXEC_TIMEOUT=0
 export MIES_CONTAINER_IP=192.168.0.20 # (物理机中使用ifconfig 查看)
-export RANKTABLEFILE=/data/hm/hccl_2s_16p.json #(rank_table_file.json 的路径,生成详见第3节) 
+export RANKTABLEFILE=/data/hm/hccl_2s_16p.json # (rank_table_file.json 的路径,生成详见第3节)
 export HCCL_DETERMINISTIC=true
 export NPU_MEMORY_FRACTION=0.95 # 显存比
-export PYTORCH_NPU_ALLOC_CONF=expandable_segments:True #虚拟内存
-export ASDOPS_LOG_LEVEL=ERROR	#日志等级
-export ASDOPS_LOG_TO_STDOUT=1	#是否打屏
-export MINDIE_LOG_LEVEL=ERROR 
-export MINDIE_LOG_TO_STDOUT=1	#是否打屏
+export PYTORCH_NPU_ALLOC_CONF=expandable_segments:True # 虚拟内存
+export ASDOPS_LOG_LEVEL=ERROR	# 日志等级
+export ASDOPS_LOG_TO_STDOUT=1	# 是否打屏
+export MINDIE_LOG_LEVEL=ERROR
+export MINDIE_LOG_TO_STDOUT=1	# 是否打屏
 export ATB__LOG_LEVEL=ERROR # atb日志等级
 export ATB_LOG_TO_STDOUT=1
 
@@ -329,45 +335,34 @@ vi conf/config.json
 或者通过命令行快速修改
 
 ```bash
-# 修改模型文件夹权限
-chmod -R 750 /data/hm/DeepSeek-V3-0324-w8a8
 # 替换IP
-sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.23",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.20",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换端口
 sed -i 's/"port"[[:space:]]*:[[:space:]]*.*,/"port" : 1025,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 关闭https
 sed -i 's/"httpsEnabled"[[:space:]]*:[[:space:]]*.*,/"httpsEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 开启开启多机推理
-sed -i 's/"multiNodesInferEnabled"[[:space:]]*:[[:space:]]*.*,/"multiNodesInferEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"multiNodesInferEnabled"[[:space:]]*:[[:space:]]*.*,/"multiNodesInferEnabled" : true,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+# 若不需要安全认证，则将以下两个参数设为false
+sed -i 's/"interCommTLSEnabled"[[:space:]]*:[[:space:]]*.*,/"interCommTLSEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"interNodeTLSEnabled"[[:space:]]*:[[:space:]]*.*,/"interNodeTLSEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 启用几卡
 sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[0,1,2,3,4,5,6,7]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换模型名称
-sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "DeepSeek-V3-0324-w8a8",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "DeepSeek-V3-0324",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换模型路径
-sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data\/hm\/DeepSeek-V3-0324-w8a8",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data2\/DeepSeek-V3-0324-w8a8",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 启用几卡
 sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 8,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 其他修改
-sed -i 's/"maxPrefillBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxPrefillBatchSize" : 1,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-sed -i 's/"maxSeqLen"[[:space:]]*:[[:space:]]*.*,/"maxSeqLen" : 25600,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-sed -i 's/"maxPrefillTokens"[[:space:]]*:[[:space:]]*.*,/"maxPrefillTokens" : 25600,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-sed -i 's/"maxInputTokenLen"[[:space:]]*:[[:space:]]*.*,/"maxInputTokenLen" : 20480,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-sed -i 's/"maxBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxBatchSize" : 50,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-sed -i 's/"maxIterTimes"[[:space:]]*:[[:space:]]*.*,/"maxIterTimes" : 20480,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxPrefillBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxPrefillBatchSize" : 10,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxSeqLen"[[:space:]]*:[[:space:]]*.*,/"maxSeqLen" : 24576,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxInputTokenLen"[[:space:]]*:[[:space:]]*.*,/"maxInputTokenLen" : 16384,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxPrefillTokens"[[:space:]]*:[[:space:]]*.*,/"maxPrefillTokens" : 16384,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxBatchSize" : 200,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"maxIterTimes"[[:space:]]*:[[:space:]]*.*,/"maxIterTimes" : 8192,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 查看结果
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep ipAddress
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep port
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep httpsEnabled
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep npuDeviceIds
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep modelName
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep modelWeightPath
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep worldSize
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillBatchSize
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxSeqLen
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillTokens
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxInputTokenLen
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxBatchSize
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxIterTimes
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep -E 'ipAddress|port|httpsEnabled|multiNodesInferEnabled|interCommTLSEnabled|interNodeTLSEnabled|npuDeviceIds|modelName|modelWeightPath|worldSize|maxPrefillBatchSize|maxSeqLen|maxPrefillTokens|maxInputTokenLen|maxBatchSize|maxIterTimes'
 
 
 ```
@@ -417,4 +412,14 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
     "watermark": true
   },
   "stream": false}' http://192.168.0.20:1025/
+
+curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{
+    "model": "DeepSeek-V3-0324",
+    "messages": [{
+        "role": "user",
+        "content": "介绍下杭州西湖"
+    }],
+    "max_tokens": 512,
+    "stream": false
+}' http://192.168.0.20:1025/v1/chat/completions
 ```
