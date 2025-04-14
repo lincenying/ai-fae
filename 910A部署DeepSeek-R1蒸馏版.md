@@ -10,10 +10,14 @@
 使用`ssh`连接裸金属后, 执行以下命令:
 ```bash
 mkdir -p /data/hm
+
+# 如果操作系统是Ubuntu 以下步骤可省略 ↓↓↓↓
 yum update -y
 # 解决 Do you want to try build driver after input kernel absolute path? 报错
 yum install kernel-devel -y
 yum install wget -y
+# 如果操作系统是Ubuntu 以上步骤可省略 ↑↑↑↑
+
 mkdir -p /data/hm/drivers
 cd /data/hm/drivers
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run
@@ -29,16 +33,6 @@ chmod +x Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910-npu
 # 安装驱动
 ./Ascend-hdk-910-npu-firmware_7.5.0.1.129.run --full
 
-# 重启系统
-reboot
-
-# 过一段时间后重新连接ssh
-
-# 进入服务器后, 执行下面命令, 如果出现卡的信息, 说明更像成功
-npu-smi info
-# 如果报`dcmi module initialize failed. ret is -8005`错误, 那么需要重新执行下面命令
-cd /data/hm/drivers
-./Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run  --upgrade
 ```
 ## 2.2 安装docker
 
@@ -47,7 +41,7 @@ cd /data/hm/drivers
 yum install docker-ce docker-ce-cli containerd.io
 
 ```
-### 2.2.2 方法2, 通过二进制包手动安装
+### 2.2.2 (推荐)方法2, 通过二进制包手动安装
 ```bash
 cd ~
 cat > docker.sh << 'EOF'
