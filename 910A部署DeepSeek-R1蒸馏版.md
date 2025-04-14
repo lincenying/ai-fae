@@ -11,6 +11,8 @@
 ```bash
 mkdir -p /data/hm
 
+npu-smi info # 如果驱动版本是24.1.rc3, 以下安装更新驱动步骤可省略
+
 # 如果操作系统是Ubuntu 以下步骤可省略 ↓↓↓↓
 yum update -y
 # 解决 Do you want to try build driver after input kernel absolute path? 报错

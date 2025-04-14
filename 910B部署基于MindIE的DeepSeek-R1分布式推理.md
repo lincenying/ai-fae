@@ -22,7 +22,7 @@ https://www.hiascend.com/developer/ascendhub/detail/af85b724a7e5469ebd7ea13c3439
 ## 2.1 安装驱动
 使用`ssh`连接裸金属后, 执行以下命令:
 ```bash
-npu-smi info # 如果驱动版本是24.1.rc3, 以下步骤可省略
+npu-smi info # 如果驱动版本是24.1.rc3, 以下安装更新驱动步骤可省略
 
 yum update -y
 yum install wget -y

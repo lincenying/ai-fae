@@ -11,7 +11,7 @@
 ```bash
 mkdir -p /data/hm
 
-npu-smi info # 如果驱动版本是24.1.rc3, 以下步骤可省略
+npu-smi info # 如果驱动版本是24.1.rc3, 以下安装更新驱动步骤可省略
 
 yum update -y
 yum install wget -y
