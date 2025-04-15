@@ -9,7 +9,7 @@
 ## 2.1 安装驱动
 使用`ssh`连接裸金属后, 执行以下命令:
 ```bash
-mkdir -p /data/hm
+mkdir -p /data
 
 npu-smi info # 如果驱动版本是24.1.rc3, 以下安装更新驱动步骤可省略
 
@@ -20,8 +20,8 @@ yum install kernel-devel -y
 yum install wget -y
 # 如果操作系统是Ubuntu 以上步骤可省略 ↑↑↑↑
 
-mkdir -p /data/hm/drivers
-cd /data/hm/drivers
+mkdir -p /data/drivers
+cd /data/drivers
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910-npu-firmware_7.5.0.1.129.run
 chmod +x Ascend-hdk-910-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910-npu-firmware_7.5.0.1.129.run
@@ -129,7 +129,7 @@ docker pull swr.cn-central-221.ovaijisuan.com/wh-aicc-fae/mindie:910A-ascend_24.
 ```bash
 pip install modelscope
 
-cd /data/hm
+cd /data
 # 根据情况下载所需要模型
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --local_dir ./DeepSeek-R1-Distill-Qwen-32B
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B --local_dir ./DeepSeek-R1-Distill-Qwen-7B
@@ -140,7 +140,7 @@ modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Llama-70B --local_di
 或者使用`obsutil`下载
 
 ```bash
-cd /data/hm/
+cd /data
 # 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
 # 解压缩obsutil
@@ -152,7 +152,7 @@ mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
 # 添加环境变量
 echo 'export OBSAK="替换成AK"' >> ~/.bashrc
 echo 'export OBSSK="替换成SK"' >> ~/.bashrc
-echo 'export PATH=$PATH:/data/hm/obs_bin' >> ~/.bashrc
+echo 'export PATH=$PATH:/data/obs_bin' >> ~/.bashrc
 source ~/.bashrc
 
 obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
@@ -191,7 +191,7 @@ docker run -itd --privileged  --name=mindie-server --net=host \
 -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
 -v /usr/local/sbin:/usr/local/sbin \
 -v /etc/hccn.conf:/etc/hccn.conf \
--v /data/hm:/data/hm \
+-v /data:/data \
 swr.cn-central-221.ovaijisuan.com/wh-aicc-fae/mindie:910A-ascend_24.1.rc3-cann_8.0.t63-py_3.10-ubuntu_20.04-aarch64-mindie_1.0.T71.05
 
 ```
@@ -202,7 +202,7 @@ swr.cn-central-221.ovaijisuan.com/wh-aicc-fae/mindie:910A-ascend_24.1.rc3-cann_8
 docker run -itd --privileged=true --name=mindie-server --net=host --ipc=host \
 --shm-size 500g \
 -e ASCEND_VISIBLE_DEVICES=0-7 \
--v /data/hm:/data/hm \
+-v /data:/data \
 0d1f23321380
 ```
 
@@ -218,7 +218,7 @@ docker exec -it mindie-server /bin/bash
 修改权重路径中config.json中的torch_dtype为float16
 
 ```bash
-vi /data/hm/DeepSeek-R1-Distill-Qwen-32B/config.json
+vi /data/DeepSeek-R1-Distill-Qwen-32B/config.json
 # 将 "torch_dtype": "bfloat16" 该成 "torch_dtype": "float16"
 ```
 
@@ -255,7 +255,7 @@ vi conf/config.json
                 {
                     "modelInstanceType" : "Standard",
                     "modelName" : "DeepSeek-R1-Distill-Qwen-32B",
-                    "modelWeightPath" : "/data/hm/DeepSeek-R1-Distill-Qwen-32B",
+                    "modelWeightPath" : "/data/DeepSeek-R1-Distill-Qwen-32B",
                     "worldSize" : 4,
                     "cpuMemSize" : 5,
                     "npuMemSize" : -1,

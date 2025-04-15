@@ -141,10 +141,10 @@ for i in {0..7}; do hccn_tool -i $i -ip -g; done
 
 每台物理机都需要运行下面命令
 ```bash
-mkdir -p /data/hm
-cd /data/hm
+mkdir -p /data/hccl
+cd /data/hccl
 wget  http://39.171.244.84:30011/DistributedCommunication/hccl_tools.py 
-python ./hcc_tools.py
+python ./hccl_tools.py
 
 ```
 在你当前目录下生成一个 hccl_xx_(当前物理机ip).json 的文件
@@ -233,7 +233,6 @@ docker run -itd --privileged  --name=mindie-dsv3-w8a8 --net=host \
 -v /usr/local/sbin:/usr/local/sbin \
 -v /etc/hccn.conf:/etc/hccn.conf \
 -v /data:/data \
--v /data2:/data2 \
 mindie:2.0.T9.B020-800I-A2-py3.11-openeuler24.03-lts-aarch64
 
 ```
@@ -272,7 +271,7 @@ export HCCL_CONNECT_TIMEOUT=7200
 export WORLD_SIZE=16 # 总卡数
 export HCCL_EXEC_TIMEOUT=0
 export MIES_CONTAINER_IP=192.168.0.20 # (物理机中使用ifconfig 查看)
-export RANKTABLEFILE=/data/hm/hccl_2s_16p.json # (rank_table_file.json 的路径,生成详见第3节)
+export RANKTABLEFILE=/data/hccl/hccl_2s_16p.json # (rank_table_file.json 的路径,生成详见第3节)
 export HCCL_DETERMINISTIC=true
 export NPU_MEMORY_FRACTION=0.95 # 显存比
 export PYTORCH_NPU_ALLOC_CONF=expandable_segments:True # 虚拟内存
@@ -351,7 +350,7 @@ sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[
 # 替换模型名称 (这个命名影响服务启动, 但是推理时模型名称需要和这个对应)
 sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "DeepSeek-V3-0324",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换模型路径 (模型权重的绝对路径)
-sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data2\/DeepSeek-V3-0324-w8a8",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data\/DeepSeek-V3-0324-w8a8",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 启用几卡 (8 代表8卡, 需要和上面的 npuDeviceIds 保持一致)
 sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 8,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 其他修改
@@ -369,8 +368,8 @@ cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep -E 'i
 
 ## 6.3 拉起服务
 ```bash
-chmod -R 750 /data2/DeepSeek-V3-0324-w8a8/
-chmod 640 /data/hm/hccl_2s_16p.json
+chmod -R 750 /data/DeepSeek-V3-0324-w8a8/
+chmod 640 /data/hccl/hccl_2s_16p.json
 
 cd /usr/local/Ascend/mindie/latest/mindie-service
 ./bin/mindieservice_daemon

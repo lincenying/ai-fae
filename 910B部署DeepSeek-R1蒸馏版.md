@@ -9,14 +9,12 @@
 ## 2.1 安装驱动
 使用`ssh`连接裸金属后, 执行以下命令:
 ```bash
-mkdir -p /data/hm
-
 npu-smi info # 如果驱动版本是24.1.rc3, 以下安装更新驱动步骤可省略
 
 yum update -y
 yum install wget -y
-mkdir -p /data/hm/drivers
-cd /data/hm/drivers
+mkdir -p /data/drivers
+cd /data/drivers
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
 chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
@@ -120,7 +118,7 @@ docker pull swr.cn-south-1.myhuaweicloud.com/ascendhub/mindie:1.0.T71-800I-A2-py
 ```bash
 pip install modelscope
 
-cd /data/hm
+cd /data
 # 根据情况下载所需要模型
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --local_dir ./DeepSeek-R1-Distill-Qwen-32B
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B --local_dir ./DeepSeek-R1-Distill-Qwen-7B
@@ -134,7 +132,7 @@ modelscope download --model Qwen/Qwen2.5-VL-32B-Instruct --local_dir ./Qwen2.5-V
 或者使用`obsutil`下载
 
 ```bash
-cd /data/hm/
+cd /data
 # 下载obsutil
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
 # 解压缩obsutil
@@ -146,7 +144,7 @@ mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
 # 添加环境变量
 echo 'export OBSAK="替换成AK"' >> ~/.bashrc
 echo 'export OBSSK="替换成SK"' >> ~/.bashrc
-echo 'export PATH=$PATH:/data/hm/obs_bin' >> ~/.bashrc
+echo 'export PATH=$PATH:/data/obs_bin' >> ~/.bashrc
 source ~/.bashrc
 
 obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
@@ -164,7 +162,7 @@ obsutil cp obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B/ ./DeepSeek-R1-Distill
 使用下面启动命令(参考)：
 
 ```bash
-docker run -itd --privileged  --name=mindie-server-qw-32b --net=host \
+docker run -itd --privileged  --name=mindie-server-qwq-32b --net=host \
 --shm-size 500g \
 --device=/dev/davinci0 \
 --device=/dev/davinci1 \
@@ -182,8 +180,8 @@ docker run -itd --privileged  --name=mindie-server-qw-32b --net=host \
 -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
 -v /usr/local/sbin:/usr/local/sbin \
 -v /etc/hccn.conf:/etc/hccn.conf \
--v /data/hm:/data/hm \
-swr.cn-south-1.myhuaweicloud.com/ascendhub/mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64 \
+-v /data:/data \
+13baed570c4a \
 /bin/bash
 
 ```
@@ -191,7 +189,7 @@ swr.cn-south-1.myhuaweicloud.com/ascendhub/mindie:1.0.T71-800I-A2-py311-ubuntu22
 进入容器:
 ```bash
 # docker ps 查看下容器ID 或者使用 容器name
-docker exec -it mindie-server-qw-32b /bin/bash
+docker exec -it mindie-server-qwq-32b /bin/bash
 ```
 
 # 4. MindIE服务化启动
@@ -227,7 +225,7 @@ vi conf/config.json
                 {
                     "modelInstanceType" : "Standard",
                     "modelName" : "DeepSeek-R1-Distill-Qwen-32B",
-                    "modelWeightPath" : "/data/hm/DeepSeek-R1-Distill-Qwen-32B",
+                    "modelWeightPath" : "/data/DeepSeek-R1-Distill-Qwen-32B",
                     "worldSize" : 4,
                     "cpuMemSize" : 5,
                     "npuMemSize" : -1,
@@ -265,19 +263,19 @@ vi conf/config.json
 
 ```bash
 # 修改模型文件夹权限
-chmod -R 750 /data/hm/Qwen2.5-32B
+chmod -R 750 /data/QwQ-32B
 # 替换IP (192.168.0.23 替换成 本机对应的IP)
-sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.23",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.21",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换端口 (2025 替换成需要监听的端口)
 sed -i 's/"port"[[:space:]]*:[[:space:]]*.*,/"port" : 1025,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 关闭https (false 为关闭, true为开启)
 sed -i 's/"httpsEnabled"[[:space:]]*:[[:space:]]*.*,/"httpsEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 启用几卡 ([[0,1,2,3,4,5,6,7]] 为8卡, [[0,1,2,3]] 则为4卡, 根据需要修改)
-sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[4,5,6,7]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[0,1,2,3]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换模型名称 (这个命名影响服务启动, 但是推理时模型名称需要和这个对应)
-sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "Qwen2.5-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "QwQ-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换模型路径 (模型权重的绝对路径)
-sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data\/hm\/Qwen2.5-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data\/QwQ-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 启用几卡 (4 代表4卡, 需要和上面的 npuDeviceIds 保持一致)
 sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 4,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 其他修改
@@ -321,14 +319,14 @@ curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -
 }' http://192.168.0.24:1025/
 
 curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{
-    "model": "DeepSeek-R1-Distill-Qwen-32B",
+    "model": "QwQ-32B",
     "messages": [{
         "role": "user",
-        "content": "介绍下杭州西湖"
+        "content": "你是谁"
     }],
     "max_tokens": 512,
     "stream": false
-}' http://127.0.0.1:1025/v1/chat/completions
+}' http://192.168.0.21:1025/v1/chat/completions
 
 ```
 
