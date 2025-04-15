@@ -335,24 +335,24 @@ vi conf/config.json
 或者通过命令行快速修改
 
 ```bash
-# 替换IP
+# 替换IP (192.168.0.23 替换成 本机对应的IP)
 sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.20",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 替换端口
+# 替换端口 (2025 替换成需要监听的端口)
 sed -i 's/"port"[[:space:]]*:[[:space:]]*.*,/"port" : 1025,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 关闭https
+# 关闭https (false 为关闭, true为开启)
 sed -i 's/"httpsEnabled"[[:space:]]*:[[:space:]]*.*,/"httpsEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 开启开启多机推理
 sed -i 's/"multiNodesInferEnabled"[[:space:]]*:[[:space:]]*.*,/"multiNodesInferEnabled" : true,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 若不需要安全认证，则将以下两个参数设为false
 sed -i 's/"interCommTLSEnabled"[[:space:]]*:[[:space:]]*.*,/"interCommTLSEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 sed -i 's/"interNodeTLSEnabled"[[:space:]]*:[[:space:]]*.*,/"interNodeTLSEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 启用几卡
+# 启用几卡 ([[0,1,2,3,4,5,6,7]] 为8卡, [[0,1,2,3]] 则为4卡, 根据需要修改)
 sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[0,1,2,3,4,5,6,7]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 替换模型名称
+# 替换模型名称 (这个命名影响服务启动, 但是推理时模型名称需要和这个对应)
 sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "DeepSeek-V3-0324",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 替换模型路径
+# 替换模型路径 (模型权重的绝对路径)
 sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data2\/DeepSeek-V3-0324-w8a8",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 启用几卡
+# 启用几卡 (8 代表8卡, 需要和上面的 npuDeviceIds 保持一致)
 sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 8,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 其他修改
 sed -i 's/"maxPrefillBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxPrefillBatchSize" : 10,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json

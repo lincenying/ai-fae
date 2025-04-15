@@ -292,19 +292,19 @@ vi conf/config.json
 或者通过命令行快速修改
 
 ```bash
-# 替换IP
+# 替换IP (192.168.0.23 替换成 本机对应的IP)
 sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.23",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 替换端口
+# 替换端口 (2025 替换成需要监听的端口)
 sed -i 's/"port"[[:space:]]*:[[:space:]]*.*,/"port" : 2025,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 关闭https
+# 关闭https (false 为关闭, true为开启)
 sed -i 's/"httpsEnabled"[[:space:]]*:[[:space:]]*.*,/"httpsEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 启用几卡
+# 启用几卡 ([[0,1,2,3,4,5,6,7]] 为8卡, [[0,1,2,3]] 则为4卡, 根据需要修改)
 sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[0,1,2,3,4,5,6,7]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 替换模型名称
+# 替换模型名称 (这个命名影响服务启动, 但是推理时模型名称需要和这个对应)
 sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "DeepSeek-R1-Distill-Qwen-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 替换模型路径
+# 替换模型路径 (模型权重的绝对路径)
 sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/home\/hm\/DeepSeek-R1-Distill-Qwen-32B\/",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
-# 启用几卡
+# 启用几卡 (4 代表4卡, 需要和上面的 npuDeviceIds 保持一致)
 sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 4,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 其他修改
 sed -i 's/"maxPrefillBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxPrefillBatchSize" : 1,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
@@ -313,18 +313,7 @@ sed -i 's/"maxPrefillTokens"[[:space:]]*:[[:space:]]*.*,/"maxPrefillTokens" : 25
 sed -i 's/"maxBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxBatchSize" : 50,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 sed -i 's/"maxIterTimes"[[:space:]]*:[[:space:]]*.*,/"maxIterTimes" : 20480,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 查看结果
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep ipAddress
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep port
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep httpsEnabled
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep npuDeviceIds
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep modelName
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep modelWeightPath
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep worldSize
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillBatchSize
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxSeqLen
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxPrefillTokens
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxBatchSize
-cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep maxIterTimes
+cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep -E 'ipAddress|port|httpsEnabled|multiNodesInferEnabled|interCommTLSEnabled|interNodeTLSEnabled|npuDeviceIds|modelName|modelWeightPath|worldSize|maxPrefillBatchSize|maxSeqLen|maxPrefillTokens|maxInputTokenLen|maxBatchSize|maxIterTimes'
 
 ```
 
