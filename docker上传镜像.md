@@ -22,8 +22,8 @@ docker push swr.cn-east-292.mygaoxinai.com/huqs/mindie_server_chatgpt_web_910b:2
 
 # 下载镜像到本地
 ```bash
+# 不要使用imageid, 否则 docker load 时, 镜像的名字和标签都是none
 docker save mindie_server_chatgpt_web_910b > /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar
-
 
 obsutil cp /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar obs://docker_images/
 ```

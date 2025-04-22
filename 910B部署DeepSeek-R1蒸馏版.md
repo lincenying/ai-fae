@@ -11,8 +11,11 @@
 ```bash
 npu-smi info # 如果驱动版本是24.1.rc3, 以下安装更新驱动步骤可省略
 
+# 如果操作系统是Ubuntu 以下步骤可省略 ↓↓↓↓
 yum update -y
 yum install wget -y
+# 如果操作系统是Ubuntu 以上步骤可省略 ↑↑↑↑
+
 mkdir -p /data/drivers
 cd /data/drivers
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run
