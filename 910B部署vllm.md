@@ -233,16 +233,8 @@ vllm serve /data2/QwQ-32B \
 
 ## 4.3 openai接口
 
-另外新起一个窗口（也要进入docker），输入命令发送POST请求：
+另外新起一个窗口，输入命令发送POST请求：
 ```bash
-curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
-    "inputs": "你是谁",
-    "parameters": {
-        "max_new_tokens": 5012
-    },
-    "stream": false
-}' http://127.0.0.1:8000/
-
 curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{
     "model": "/data2/QwQ-32B",
     "messages": [{
