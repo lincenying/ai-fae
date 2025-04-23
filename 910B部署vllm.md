@@ -202,8 +202,9 @@ docker exec -it vllm-server-qwq-32b /bin/bash
 
 ```bash
 vllm serve /data2/QwQ-32B \
+    --served-model-name QwQ-32B \
     --dtype bfloat16 \
-    --max_model_len 2048  \
+    --max_model_len 32768  \
     --max-num-batched-tokens 32768  \
     --gpu-memory-utilization 0.95 \
     --tensor-parallel-size 2 
@@ -230,13 +231,15 @@ vllm serve /data2/QwQ-32B \
 ‌--log-level‌：调整日志详细程度（DEBUG/INFO/WARNING 等），便于调试。
 ‌--swap-space‌：分配 GPU 交换空间（GB），提升多卡场景下的内存效率。
 ```
+完整参数见:
+https://vllm.hyper.ai/docs/models/engine-arguments#%E5%91%BD%E5%90%8D%E5%8F%82%E6%95%B0
 
 ## 4.3 openai接口
 
 另外新起一个窗口，输入命令发送POST请求：
 ```bash
 curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{
-    "model": "/data2/QwQ-32B",
+    "model": "QwQ-32B",
     "messages": [{
         "role": "user",
         "content": "你是谁"
