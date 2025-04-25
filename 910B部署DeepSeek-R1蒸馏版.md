@@ -18,6 +18,7 @@ yum install wget -y
 
 mkdir -p /data/drivers
 cd /data/drivers
+# 官网下载地址: https://www.hiascend.com/hardware/firmware-drivers/community?product=4&model=32&cann=8.0.0.beta1&driver=Ascend+HDK+24.1.RC3
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
 chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
@@ -311,7 +312,7 @@ unset MINDIE_LOG_TO_STDOUT
 
 ## 4.3 openai接口
 
-另外新起一个窗口（也要进入docker），输入命令发送POST请求：
+另外新起一个窗口，输入命令发送POST请求：
 ```bash
 curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
     "inputs": "你是谁",
