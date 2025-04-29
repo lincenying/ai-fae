@@ -168,7 +168,7 @@ obsutil cp obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B/ ./DeepSeek-R1-Distill
 使用下面启动命令(参考)：
 
 ```bash
-docker run -itd --privileged  --name=mindie-server-qwq-32b --net=host \
+docker run -itd --privileged  --name=mindie-server-qwen3-30b --net=host \
 --shm-size 500g \
 --device=/dev/davinci0 \
 --device=/dev/davinci1 \
@@ -187,7 +187,8 @@ docker run -itd --privileged  --name=mindie-server-qwq-32b --net=host \
 -v /usr/local/sbin:/usr/local/sbin \
 -v /etc/hccn.conf:/etc/hccn.conf \
 -v /data:/data \
-13baed570c4a \
+-v /data2:/data2 \
+a27ba7f6465d \
 /bin/bash
 
 ```
@@ -195,7 +196,7 @@ docker run -itd --privileged  --name=mindie-server-qwq-32b --net=host \
 进入容器:
 ```bash
 # docker ps 查看下容器ID 或者使用 容器name
-docker exec -it mindie-server-qwq-32b /bin/bash
+docker exec -it mindie-server-qwen3-30b /bin/bash
 ```
 
 # 4. MindIE服务化启动
@@ -269,21 +270,21 @@ vi conf/config.json
 
 ```bash
 # 修改模型文件夹权限
-chmod -R 750 /data/QwQ-32B
+chmod -R 750 /data2/Qwen3-30B-A3B
 # 替换IP (192.168.0.23 替换成 本机对应的IP)
-sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.21",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"ipAddress"[[:space:]]*:[[:space:]]*".*",/"ipAddress" : "192.168.0.20",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换端口 (2025 替换成需要监听的端口)
 sed -i 's/"port"[[:space:]]*:[[:space:]]*.*,/"port" : 1025,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 关闭https (false 为关闭, true为开启)
 sed -i 's/"httpsEnabled"[[:space:]]*:[[:space:]]*.*,/"httpsEnabled" : false,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 启用几卡 ([[0,1,2,3,4,5,6,7]] 为8卡, [[0,1,2,3]] 则为4卡, 根据需要修改)
-sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[0,1,2,3]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"npuDeviceIds"[[:space:]]*:[[:space:]]*\[\[.*\]\],/"npuDeviceIds" : [[0,1,2,3,4,5,6,7]],/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换模型名称 (这个命名影响服务启动, 但是推理时模型名称需要和这个对应)
-sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "QwQ-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"modelName"[[:space:]]*:[[:space:]]*".*",/"modelName" : "Qwen3-30B-A3B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 替换模型路径 (模型权重的绝对路径)
-sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data\/QwQ-32B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"modelWeightPath"[[:space:]]*:[[:space:]]*".*",/"modelWeightPath" : "\/data2\/Qwen3-30B-A3B",/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 启用几卡 (4 代表4卡, 需要和上面的 npuDeviceIds 保持一致)
-sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 4,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
+sed -i 's/"worldSize"[[:space:]]*:[[:space:]]*.*,/"worldSize" : 8,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 # 其他修改
 sed -i 's/"maxPrefillBatchSize"[[:space:]]*:[[:space:]]*.*,/"maxPrefillBatchSize" : 1,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
 sed -i 's/"maxSeqLen"[[:space:]]*:[[:space:]]*.*,/"maxSeqLen" : 25600,/' /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json
@@ -299,7 +300,10 @@ cat /usr/local/Ascend/mindie/latest/mindie-service/conf/config.json | grep -E 'i
 
 ## 4.2 拉起服务
 ```bash
-cd /usr/local/Ascend/mindie/latest/mindie-service
+# 解决权重加载过慢问题
+export OMP_NUM_THREADS=1
+# 拉起服务化
+cd /usr/local/Ascend/mindie/latest/mindie-service/
 ./bin/mindieservice_daemon
 
 # 如果启动失败, 可以执行下面两行命令开启debug, 然后执行启动mindie

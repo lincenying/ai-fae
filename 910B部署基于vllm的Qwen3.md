@@ -1,4 +1,4 @@
-[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署vllm.html)
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署基于vllm的Qwen3.html)
 
 # 1. 环境准备
 ## 1.1 服务器要求
@@ -131,17 +131,23 @@ obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```bash
 # 通过 docker pull 下载镜像
+# v0.8.4rc2
+wget http://39.171.244.84:30011/vllm/vllm-ascend-0.8.4rc2.tar.gz
+docker load -i vllm-ascend-0.8.4rc2.tar.gz
 # v0.8.4rc1
-docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.8.4rc1-openeuler-linuxarm64
+# docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.8.4rc1-openeuler-linuxarm64
 # v0.7.3rc2
 # docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.7.3rc2-linuxarm64
 
 # 通过 obsutil 下载镜像, 需执行步骤 2.3
 mkdir -p /data/docker_images
 cd /data/docker_images
+# v0.8.4rc2
+obsutil cp obs://docker/vllm-ascend-0.8.4rc2.tar.gz ./vllm-ascend-0.8.4rc2.tar.gz
+docker load -i vllm-ascend-0.8.4rc2.tar.gz
 # v0.8.4rc1
-obsutil cp obs://docker/vllm-ascend-v0.8.4rc1-openeuler.tar ./vllm-ascend-v0.8.4rc1-openeuler.tar
-docker load -i vllm-ascend-v0.8.4rc1-openeuler.tar
+# obsutil cp obs://docker/vllm-ascend-v0.8.4rc1-openeuler.tar ./vllm-ascend-v0.8.4rc1-openeuler.tar
+# docker load -i vllm-ascend-v0.8.4rc1-openeuler.tar
 # v0.7.3rc2
 # obsutil cp obs://docker/vllm-ascend-v0.7.3rc2.tar.gz ./vllm-ascend-v0.7.3rc2.tar.gz
 # docker load -i vllm-ascend-v0.7.3rc2.tar.gz
@@ -157,14 +163,14 @@ pip install modelscope
 
 cd /data
 # 根据情况下载所需要模型
-modelscope download --model Qwen/Qwen/QwQ-32B --local_dir ./Qwen/QwQ-32B
+modelscope download --model Qwen/Qwen3-30B-A3B --local_dir ./Qwen3-30B-A3B
 
 ```
 或者使用`obsutil`下载 (需执行步骤 2.3)
 
 ```bash
 # 根据情况下载所需要模型
-obsutil cp obs://bigmodel/QwQ-32B/ ./QwQ-32B/ -f -r -flat
+obsutil cp obs://bigmodel/Qwen3-30B-A3B/ ./Qwen3-30B-A3B/ -f -r -flat
 
 ```
 
@@ -174,7 +180,10 @@ obsutil cp obs://bigmodel/QwQ-32B/ ./QwQ-32B/ -f -r -flat
 使用下面启动命令(参考)：
 
 ```bash
-docker run -itd --privileged  --name=vllm-server-qwq-32b --net=host \
+docker run -itd \
+--name vllm-server-qwen3-30b \
+--ipc=host \
+--privileged \
 --shm-size 500g \
 --device=/dev/davinci0 \
 --device=/dev/davinci1 \
@@ -187,14 +196,15 @@ docker run -itd --privileged  --name=vllm-server-qwq-32b --net=host \
 --device=/dev/davinci_manager \
 --device=/dev/hisi_hdc \
 --device /dev/devmm_svm \
--v /usr/local/Ascend/driver:/usr/local/Ascend/driver \
--v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
--v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
--v /usr/local/sbin:/usr/local/sbin \
--v /etc/hccn.conf:/etc/hccn.conf \
+-v /usr/local/dcmi:/usr/local/dcmi \
+-v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
+-v /usr/local/Ascend/driver/lib64/:/usr/local/Ascend/driver/lib64/ \
+-v /usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info \
+-v /etc/ascend_install.info:/etc/ascend_install.info \
 -v /data:/data \
 -v /data2:/data2 \
-swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.8.4rc1-openeuler-linuxarm64 \
+-p 192.168.0.20:1025:8000 \
+quay.io/ascend/vllm-ascend:v0.8.4rc2-openeuler \
 /bin/bash
 
 ```
@@ -202,19 +212,19 @@ swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.8.4rc1-op
 进入容器:
 ```bash
 # docker ps 查看下容器ID 或者使用 容器name
-docker exec -it vllm-server-qwq-32b /bin/bash
+docker exec -it vllm-server-qwen3-30b /bin/bash
 ```
 
 # 4. 拉起服务
 
 ```bash
-vllm serve /data2/QwQ-32B \
-    --served-model-name QwQ-32B \
+vllm serve /data2/Qwen3-30B-A3B \
+    --served-model-name Qwen3-30B-A3B \
     --dtype bfloat16 \
     --max_model_len 32768  \
     --max-num-batched-tokens 32768  \
     --gpu-memory-utilization 0.95 \
-    --tensor-parallel-size 2 
+    --tensor-parallel-size 8 
 
 ```
 ## 4.1 参数说明
@@ -246,13 +256,23 @@ https://vllm.hyper.ai/docs/models/engine-arguments#%E5%91%BD%E5%90%8D%E5%8F%82%E
 另外新起一个窗口，输入命令发送POST请求：
 ```bash
 curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{
-    "model": "QwQ-32B",
+    "model": "Qwen3-30B-A3B",
     "messages": [{
         "role": "user",
         "content": "你是谁"
     }],
     "max_tokens": 512,
     "stream": false
-}' http://127.0.0.1:8000/v1/chat/completions
+}' http://192.168.0.20:1025/v1/chat/completions
+
+curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{
+    "model": "Qwen3-30B-A3B",
+    "messages": [{
+        "role": "user",
+        "content": "你是谁"
+    }],
+    "max_tokens": 512,
+    "stream": false
+}' http://39.171.244.79:60006/v1/chat/completions
 
 ```
