@@ -265,14 +265,4 @@ curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -
     "stream": false
 }' http://192.168.0.20:1025/v1/chat/completions
 
-curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{
-    "model": "Qwen3-30B-A3B",
-    "messages": [{
-        "role": "user",
-        "content": "你是谁"
-    }],
-    "max_tokens": 512,
-    "stream": false
-}' http://39.171.244.79:60006/v1/chat/completions
-
 ```
