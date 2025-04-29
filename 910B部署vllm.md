@@ -131,13 +131,20 @@ obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 ```bash
 # 通过 docker pull 下载镜像
-docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.7.3rc2-linuxarm64
+# v0.8.4rc1
+docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.8.4rc1-openeuler-linuxarm64
+# v0.7.3rc2
+# docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.7.3rc2-linuxarm64
 
 # 通过 obsutil 下载镜像, 需执行步骤 2.3
 mkdir -p /data/docker_images
 cd /data/docker_images
-obsutil cp obs://docker/vllm-ascend-v0.7.3rc2.tar.gz ./vllm-ascend-v0.7.3rc2.tar.gz
-docker load -i vllm-ascend-v0.7.3rc2.tar.gz
+# v0.8.4rc1
+obsutil cp obs://docker/vllm-ascend-v0.8.4rc1-openeuler.tar ./vllm-ascend-v0.8.4rc1-openeuler.tar
+docker load -i vllm-ascend-v0.8.4rc1-openeuler.tar
+# v0.7.3rc2
+# obsutil cp obs://docker/vllm-ascend-v0.7.3rc2.tar.gz ./vllm-ascend-v0.7.3rc2.tar.gz
+# docker load -i vllm-ascend-v0.7.3rc2.tar.gz
 
 ```
 
@@ -187,7 +194,7 @@ docker run -itd --privileged  --name=vllm-server-qwq-32b --net=host \
 -v /etc/hccn.conf:/etc/hccn.conf \
 -v /data:/data \
 -v /data2:/data2 \
-quay.io/ascend/vllm-ascend:v0.7.3rc2 \
+swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.8.4rc1-openeuler-linuxarm64 \
 /bin/bash
 
 ```

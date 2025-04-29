@@ -111,7 +111,9 @@ systemctl daemon-reload && systemctl restart docker
 
 ```bash
 # 下载镜像
-docker pull swr.cn-south-1.myhuaweicloud.com/ascendhub/mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64
+wget http://39.171.244.84:30011/docker_images/mindie%3A1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
+
+docker load -i mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
 
 ```
 

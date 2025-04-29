@@ -7,6 +7,8 @@
 docker login -u xxx -p xxx swr.cn-east-292.mygaoxinai.com
 
 # 将容器保存成镜像
+docker commit -a 提交的镜像作者 -c 使用Dockerfile指令来创建镜像 -m 提交时的说明文字 -p 在commit时，将容器暂停 [容器,可用容器ID或者容器名称] [镜像名称]:[版本名称]
+# 例:
 docker commit mindie_server_hm mindie_server_chatgpt_web_910b:20240923_T65
 
 # 为镜像打标签
@@ -23,7 +25,8 @@ docker push swr.cn-east-292.mygaoxinai.com/huqs/mindie_server_chatgpt_web_910b:2
 # 下载镜像到本地
 ```bash
 # 不要使用imageid, 否则 docker load 时, 镜像的名字和标签都是none
-docker save mindie_server_chatgpt_web_910b > /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar
+docker save -o /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar mindie_server_chatgpt_web_910b:20240923_T65
 
+# 上传至obs
 obsutil cp /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar obs://docker_images/
 ```
