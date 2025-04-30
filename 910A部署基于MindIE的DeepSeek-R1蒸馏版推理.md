@@ -1,4 +1,4 @@
-[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910A部署DeepSeek-R1蒸馏版.html)
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910A部署基于MindIE的DeepSeek-R1蒸馏版推理.html)
 
 # 1. 环境准备
 ## 1.1 服务器要求
@@ -115,6 +115,28 @@ systemctl daemon-reload && systemctl restart docker
 
 ```
 
+## 2.3 安装 obsutil(可选)
+
+```bash
+cd /data
+# 下载obsutil
+wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
+tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
+chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
+echo 'export OBSAK="替换成AK"' >> ~/.bashrc
+echo 'export OBSSK="替换成SK"' >> ~/.bashrc
+echo 'export PATH=$PATH:/data/obs_bin' >> ~/.bashrc
+source ~/.bashrc
+
+obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
+```
+
+
 # 3. 准备容器
 ## 3.1 准备容器
 
@@ -139,25 +161,10 @@ modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Qwen-14B --local_dir
 modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Llama-70B --local_dir ./DeepSeek-R1-Distill-Llama-70B
 
 ```
-或者使用`obsutil`下载
+或者使用`obsutil`下载, 需执行步骤 2.3
 
 ```bash
 cd /data
-# 下载obsutil
-wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
-# 解压缩obsutil
-tar -zxvf obsutil_linux_arm64.tar.gz
-# 修改可执行文件
-chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-# 移动obsutil
-mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
-# 添加环境变量
-echo 'export OBSAK="替换成AK"' >> ~/.bashrc
-echo 'export OBSSK="替换成SK"' >> ~/.bashrc
-echo 'export PATH=$PATH:/data/obs_bin' >> ~/.bashrc
-source ~/.bashrc
-
-obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 
 # 根据情况下载所需要模型
 obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-32B/ ./DeepSeek-R1-Distill-Qwen-32B/ -f -r -flat

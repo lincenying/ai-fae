@@ -1,4 +1,4 @@
-[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署基于vllm的Qwen3.html)
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署基于vllm的Qwen3推理.html)
 
 # 1. 环境准备
 ## 1.1 服务器要求
@@ -134,6 +134,10 @@ obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 # v0.8.4rc2
 wget http://39.171.244.84:30011/vllm/vllm-ascend-0.8.4rc2.tar.gz
 docker load -i vllm-ascend-0.8.4rc2.tar.gz
+# 或者
+docker pull swr.cn-east-3.myhuaweicloud.com/kubesre/quay.io/ascend/vllm-ascend:v0.8.4rc2-openeuler-linux-arm64
+# 或者
+docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.8.4rc2-openeuler-linuxarm64
 # v0.8.4rc1
 # docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/quay.io/ascend/vllm-ascend:v0.8.4rc1-openeuler-linuxarm64
 # v0.7.3rc2
@@ -176,7 +180,7 @@ obsutil cp obs://bigmodel/Qwen3-30B-A3B/ ./Qwen3-30B-A3B/ -f -r -flat
 
 ## 3.3 启动容器
 
-使用`docker images`查看下载下来的`image`的ID，
+使用`docker images`查看下载下来的`image`，
 使用下面启动命令(参考)：
 
 ```bash
@@ -206,6 +210,10 @@ docker run -itd \
 -p 192.168.0.20:1025:8000 \
 quay.io/ascend/vllm-ascend:v0.8.4rc2-openeuler \
 /bin/bash
+
+# -v /data:/data 和 -v /data2:/data2 根据实际情况挂载
+# -p 192.168.0.20:1025:8000 根据实际情况映射ip和端口
+# quay.io/ascend/vllm-ascend:v0.8.4rc2-openeuler 根据实际情况, 修改为对应的镜像名:Tag
 
 ```
 

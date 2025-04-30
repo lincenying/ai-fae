@@ -116,6 +116,28 @@ systemctl daemon-reload && systemctl restart docker
 
 ```
 
+## 2.3 安装 obsutil(可选)
+
+```bash
+cd /data
+# 下载obsutil
+wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
+# 解压缩obsutil
+tar -zxvf obsutil_linux_arm64.tar.gz
+# 修改可执行文件
+chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
+# 移动obsutil
+mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+# 添加环境变量
+echo 'export OBSAK="替换成AK"' >> ~/.bashrc
+echo 'export OBSSK="替换成SK"' >> ~/.bashrc
+echo 'export PATH=$PATH:/data/obs_bin' >> ~/.bashrc
+source ~/.bashrc
+
+obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
+```
+
+
 # 3. 配置分布式通信
 ## 3.1 检查机器网络情况
 

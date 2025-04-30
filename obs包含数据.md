@@ -88,9 +88,9 @@ obs://deepseekv3/deepseekr1-w4a16
 obs://deepseekv3/deepseekv3-bf16
 obs://deepseekv3/DeepSeek-V3-0324-w8a8
 
-obs://bigmodel/DeepSeek-R1-Distill-Qwen-14B
-obs://bigmodel/DeepSeek-R1-Distill-Qwen-32B
-obs://bigmodel/DeepSeek-R1-Distill-Llama-70B
+obs://bigmodel/DeepSeek R1 Distill/DeepSeek-R1-Distill-Qwen-14B
+obs://bigmodel/DeepSeek R1 Distill/DeepSeek-R1-Distill-Qwen-32B
+obs://bigmodel/DeepSeek R1 Distill/DeepSeek-R1-Distill-Llama-70B
 
 obs://bigmodel/QwQ-32B
 
@@ -108,6 +108,11 @@ obs://bigmodel/qwen2.5-vl-7b-instruct
 obs://bigmodel/Qwen2.5-VL-72B-Instruct
 
 obs://bigmodel/qwen2.5-omni
+
+obs://bigmodel/Qwen3/Qwen3-235B-A22B
+obs://bigmodel/Qwen3/Qwen3-32B
+obs://bigmodel/Qwen3/Qwen3-14B
+obs://bigmodel/Qwen3/Qwen3-8B
 
 `docker`
 
