@@ -1,4 +1,4 @@
-[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署基于vllm的Qwen3推理.html)
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署基于vllm的Qwen3-30B推理.html)
 
 # 1. 环境准备
 ## 1.1 服务器要求
@@ -114,9 +114,9 @@ wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsu
 # 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
 # 修改可执行文件
-chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
+chmod +x ./obsutil_linux_arm64_5.7.3/obsutil
 # 移动obsutil
-mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+mv ./obsutil_linux_arm64_5.7.3 ./obs_bin
 # 添加环境变量
 echo 'export OBSAK="替换成AK"' >> ~/.bashrc
 echo 'export OBSSK="替换成SK"' >> ~/.bashrc
@@ -167,14 +167,14 @@ pip install modelscope
 
 cd /data
 # 根据情况下载所需要模型
-modelscope download --model Qwen/Qwen3-30B-A3B --local_dir ./Qwen3-30B-A3B
+modelscope download --model Qwen/Qwen3-32B --local_dir ./Qwen3-32B
 
 ```
 或者使用`obsutil`下载 (需执行步骤 2.3)
 
 ```bash
 # 根据情况下载所需要模型
-obsutil cp obs://bigmodel/Qwen3-30B-A3B/ ./Qwen3-30B-A3B/ -f -r -flat
+obsutil cp obs://bigmodel/Qwen3/Qwen3-32B/ ./Qwen3-32B/ -f -r -flat
 
 ```
 
@@ -185,7 +185,7 @@ obsutil cp obs://bigmodel/Qwen3-30B-A3B/ ./Qwen3-30B-A3B/ -f -r -flat
 
 ```bash
 docker run -itd \
---name vllm-server-qwen3-30b \
+--name vllm-server-qwen3-32b \
 --ipc=host \
 --privileged \
 --shm-size 500g \
@@ -220,14 +220,14 @@ quay.io/ascend/vllm-ascend:v0.8.4rc2-openeuler \
 进入容器:
 ```bash
 # docker ps 查看下容器ID 或者使用 容器name
-docker exec -it vllm-server-qwen3-30b /bin/bash
+docker exec -it vllm-server-qwen3-32b /bin/bash
 ```
 
 # 4. 拉起服务
 
 ```bash
-vllm serve /data2/Qwen3-30B-A3B \
-    --served-model-name Qwen3-30B-A3B \
+vllm serve /data2/Qwen3-32B \
+    --served-model-name Qwen3-32B \
     --dtype bfloat16 \
     --max_model_len 32768  \
     --max-num-batched-tokens 32768  \
@@ -257,20 +257,20 @@ vllm serve /data2/Qwen3-30B-A3B \
 ‌--swap-space‌：分配 GPU 交换空间（GB），提升多卡场景下的内存效率。
 ```
 完整参数见:
-https://vllm.hyper.ai/docs/models/engine-arguments#%E5%91%BD%E5%90%8D%E5%8F%82%E6%95%B0
+https://vllm.hyper.ai/docs/inference-and-serving/engine_args
 
 ## 4.3 openai接口
 
 另外新起一个窗口，输入命令发送POST请求：
 ```bash
 curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{
-    "model": "Qwen3-30B-A3B",
+    "model": "Qwen3-32B",
     "messages": [{
         "role": "user",
         "content": "你是谁"
     }],
     "max_tokens": 512,
     "stream": false
-}' http://192.168.0.20:1025/v1/chat/completions
+}' http://192.168.0.21:8000/v1/chat/completions
 
 ```

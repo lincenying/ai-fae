@@ -115,9 +115,9 @@ wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsu
 # 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
 # 修改可执行文件
-chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
+chmod +x ./obsutil_linux_arm64_5.7.3/obsutil
 # 移动obsutil
-mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+mv ./obsutil_linux_arm64_5.7.3 ./obs_bin
 # 添加环境变量
 echo 'export OBSAK="替换成AK"' >> ~/.bashrc
 echo 'export OBSSK="替换成SK"' >> ~/.bashrc
@@ -349,4 +349,80 @@ curl -H "Accept: application/json" -H "Content-Type: application/json" -X POST -
 ## 4.5 结束mindie服务
 ```bash
 ps -ef |grep mindie |awk '{print $2}'|xargs kill -9
+```
+
+
+# 5. 服务化常见问题
+若出现out of memory报错，可适当调高NPU_MEMORY_FRACTION环境变量（默认值为0.8），适当调低服务化配置文件config.json中maxSeqLen、maxInputTokenLen、maxPrefillBatchSize、maxPrefillTokens、maxBatchSize等参数。
+
+```bash
+export NPU_MEMORY_FRACTION=0.96
+```
+ 
+若出现hccl通信超时报错，可配置以下环境变量。
+
+```bash
+export HCCL_CONNECT_TIMEOUT=7200 # 该环境变量需要配置为整数，取值范围[120,7200]，单位s
+export HCCL_EXEC_TIMEOUT=0
+```
+ 
+无进程内存残留
+如果卡上有内存残留，且有进程，可以尝试以下指令：
+
+```bash
+pkill -9 -f 'mindie|python'
+```
+
+如果卡上有内存残留，但无进程，可以尝试以下指令：
+
+```bash
+npu-smi set -t reset -i 0 -c 0 #重启npu卡
+npu-smi info -t health -i <card_idx> -c 0 #查询npu告警
+```
+
+例：
+
+```bash
+npu-smi set -t reset -i 0 -c 0 #重启npu卡0
+npu-smi info -t health -i 2 -c 0 #查询npu卡2告警
+```
+
+如果卡上有进程残留，无进程，且重启NPU卡无法消除残留内存，请尝试reboot重启机器
+
+日志收集
+遇到推理报错时，请打开日志环境变量，收集日志信息。
+
+算子库日志|默认输出路径为"~/atb/log"
+
+```bash
+export ASDOPS_LOG_LEVEL = INFO
+export ASDOPS_LOG_TO_FILE = 1
+```
+
+加速库日志|默认输出路径为"~/mindie/log/debug"
+
+```bash
+export ATB_LOG_LEVEL = INFO
+export ATB_LOG_TO_FILE = 1
+```
+
+MindIE Service日志|默认输出路径为"~/mindie/log/debug"
+
+```bash
+export MINDIE_LOG_TO_FILE = 1
+export MINDIE_LOG_TO_LEVEL = debug
+```
+
+CANN日志收集|默认输出路径为"~/ascend"
+
+```bash
+export ASCEND_GLOBAL_LOG_TO_LEVEL = 1
+```
+
+权重路径权限问题
+注意保证权重路径是可用的，执行以下命令修改权限，注意是整个父级目录的权限：
+
+```bash
+chown -R HwHiAiUser:HwHiAiUser {/path-to-weights}
+chmod -R 750 {/path-to-weights}
 ```

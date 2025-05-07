@@ -16,9 +16,9 @@ wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsu
 # 解压缩obsutil
 tar -zxvf obsutil_linux_arm64.tar.gz
 # 修改可执行文件
-chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
+chmod +x ./obsutil_linux_arm64_5.7.3/obsutil
 # 移动obsutil
-mv ./obsutil_linux_arm64_5.5.12 ./obs_bin
+mv ./obsutil_linux_arm64_5.7.3 ./obs_bin
 # 添加环境变量
 export OBSAK="这里改成AK"
 export OBSSK="这里改成SK"

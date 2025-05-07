@@ -50,8 +50,8 @@ pip install pycocotools
 cd /home/ma-user/work/
 wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_arm64.tar.gz
 tar -zxvf obsutil_linux_arm64.tar.gz
-chmod +x ./obsutil_linux_arm64_5.5.12/obsutil
-ln ./obsutil_linux_arm64_5.5.12/obsutil obsutil
+chmod +x ./obsutil_linux_arm64_5.7.3/obsutil
+ln ./obsutil_linux_arm64_5.7.3/obsutil obsutil
 export OBSAK="这里改成AK"
 export OBSSK="这里改成SK"
 /home/ma-user/work/obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
