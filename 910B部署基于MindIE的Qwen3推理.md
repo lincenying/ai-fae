@@ -132,6 +132,9 @@ obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 ## 3.1 准备容器
 
 ```bash
+# 通过 docker pull 下载镜像
+docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/thxcode/mindie:2.0.T17-800I-A2-py311-openeuler24.03-lts-linuxarm64
+
 # 通过 obsutil 下载镜像, 需要执行步骤 2.3
 cd /data2
 obsutil cp obs://docker/mindie_2.0.T17.B010-800I-A2-py3.11-openeuler24.03-lts-aarch64.tar.gz ./
@@ -140,7 +143,7 @@ docker load -i mindie_2.0.T17.B010-800I-A2-py3.11-openeuler24.03-lts-aarch64.tar
 
 ```
 
-## 3.2下载模型
+## 3.2 下载模型
 
 使用`魔搭社区`下载模型, 也可以使用`Huggingface`或`魔乐社区`
 

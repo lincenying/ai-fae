@@ -142,6 +142,7 @@ obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 ## 3.1 检查机器网络情况
 
 ```bash
+# 物理机中执行
 # 检查物理链接
 for i in {0..7}; do hccn_tool -i $i -lldp -g | grep Ifname; done 
 # 检查链接情况
@@ -166,7 +167,8 @@ for i in {0..7}; do hccn_tool -i $i -ip -g; done
 ```bash
 mkdir -p /data/hccl
 cd /data/hccl
-wget  http://39.171.244.84:30011/DistributedCommunication/hccl_tools.py 
+wget  http://39.171.244.84:30011/DistributedCommunication/hccl_tools.py
+# wget  https://gitee.com/lincenying/ai-fea/raw/main/files/hccl_tools.py
 python ./hccl_tools.py
 
 ```
@@ -174,6 +176,7 @@ python ./hccl_tools.py
 将其他的机器生成的hccl.json文件放在主物理机的统一文件夹中，使用下面命令获取合并脚本。
 ```bash
 wget  http://39.171.244.84:30011/DistributedCommunication/merge_hccl.py
+# wget  https://gitee.com/lincenying/ai-fea/raw/main/files/merge_hccl.py
 # 改成对应的json文件名
 python ./merge_hccl.py hccl_8p_01234567_xx.xx.xx.xx.json hccl_8p_01234567_xx.xx.xx.xx.json
 
@@ -293,8 +296,8 @@ export ATB_LLM_COMM_BACKEND="hccl"
 export HCCL_CONNECT_TIMEOUT=7200
 export WORLD_SIZE=16 # 总卡数
 export HCCL_EXEC_TIMEOUT=0
-export MIES_CONTAINER_IP=192.168.0.20 # (物理机中使用ifconfig 查看)
-export RANKTABLEFILE=/data/hccl/hccl_2s_16p.json # (rank_table_file.json 的路径,生成详见第3节)
+export MIES_CONTAINER_IP=192.168.0.20 # (物理机中使用 ifconfig 查看)
+export RANKTABLEFILE=/data/hccl/hccl_2s_16p.json # (rank_table_file.json 的路径,生成详见 3.2~3.3)
 export HCCL_DETERMINISTIC=true
 export NPU_MEMORY_FRACTION=0.95 # 显存比
 export PYTORCH_NPU_ALLOC_CONF=expandable_segments:True # 虚拟内存

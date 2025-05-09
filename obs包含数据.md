@@ -81,6 +81,7 @@ obsutil mv obs://model-data/qianwen1.5/14b/model-00001-of-00008.safetensors obs:
 
 # xiemingda账号
 
+### deepseek
 obs://deepseekv3/deepseekR1-a8w8/
 obs://deepseekv3/deepseekR1-bf16
 obs://deepseekv3/deepseekR1
@@ -88,45 +89,51 @@ obs://deepseekv3/deepseekr1-w4a16
 obs://deepseekv3/deepseekv3-bf16
 obs://deepseekv3/DeepSeek-V3-0324-w8a8
 
+### deepseek蒸馏
 obs://bigmodel/DeepSeek R1 Distill/DeepSeek-R1-Distill-Qwen-14B
 obs://bigmodel/DeepSeek R1 Distill/DeepSeek-R1-Distill-Qwen-32B
 obs://bigmodel/DeepSeek R1 Distill/DeepSeek-R1-Distill-Llama-70B
 
-obs://bigmodel/QwQ-32B
-
+### qwen2
 obs://bigmodel/qwen2-72b-instruct
-
+obs://bigmodel/Qwen2-Audio-7B-Instruct
 obs://bigmodel/Qwen2-VL-72B-Instruct
 
+### qwen2.5
+obs://bigmodel/QwQ-32B
 obs://bigmodel/Qwen2.5-14B
 obs://bigmodel/Qwen2.5-14B-Instruct
 obs://bigmodel/Qwen2.5-32B-Instruct
 obs://bigmodel/Qwen2.5-72B-Instruct
-
 obs://bigmodel/Qwen2.5-VL-3B-Instruct
 obs://bigmodel/qwen2.5-vl-7b-instruct
 obs://bigmodel/Qwen2.5-VL-72B-Instruct
-
 obs://bigmodel/qwen2.5-omni
 
+### qwen3
 obs://bigmodel/Qwen3/Qwen3-235B-A22B
 obs://bigmodel/Qwen3/Qwen3-32B
+obs://bigmodel/Qwen3/Qwen3-30B-A3B
 obs://bigmodel/Qwen3/Qwen3-14B
 obs://bigmodel/Qwen3/Qwen3-8B
 
 `docker`
 
-obs://docker/1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
-obs://docker/2.0.T3-800I-A2-py311-openeuler2403-lts.tar
 obs://docker/2.0.T3.1-800I-A2-py311-openeuler24.03-lts.tar
+obs://docker/2.0.T3-800I-A2-py311-openeuler2403-lts.tar
+obs://docker/1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
+
+obs://docker/mindie_2.0.RC1-800I-A2-py311-openeuler24.03-lts.tar.gz
+obs://docker/mindie_2.0.T17.B010-800I-A2-py3.11-openeuler24.03-lts-aarch64.tar.gz
+obs://docker/mindie_2.0.T3.1-800I-A2-py311-openeuler24.03-lts.tar.gz
 obs://docker/mindie_2.0.RC1.B081-800I-A2-py3.11-openeuler24.03-lts-aarch64.tar.gz
 obs://docker/mindie_2.0.T9.B020-800I-A2-py3.11-openeuler24.03-lts-aarch64.tar.gz
-obs://docker/mindie_2.0.T3.1-800I-A2-py311-openeuler24.03-lts.tar.gz
 
 obs://docker/mindie2.0.rc1-310p-py311.tar.gz
 obs://docker/mindie_2.0.RC1.B081-300I-Duo-py3.11-openeuler24.03-lts-aarch64.tar.gz
 
 obs://docker/910A-ascend_24.1.rc3-cann_8.0.t63-py_3.10-ubuntu_20.04-aarch64-mindie_1.0.T71.05.tar
 
-obs://docker/vllm-ascend-v0.7.3rc2.tar.gz
+obs://docker/vllm-ascend-0.8.4rc2.tar.gz.tar
 obs://docker/vllm-ascend-v0.8.4rc1-openeuler.tar
+obs://docker/vllm-ascend-v0.7.3rc2.tar.gz

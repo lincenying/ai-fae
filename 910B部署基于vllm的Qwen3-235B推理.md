@@ -225,9 +225,9 @@ docker exec -it vllm-server-qwen3-235b /bin/bash
 ## 3.4 设置ray集群
 ```bash
 # 主节点
-# 当前节点内网ip
+# 当前节点内网ip (根据实际情况修改, 可用 ifconfig 命令查询得知)
 echo 'export local_ip=192.168.0.15' >> ~/.bashrc
-# 当前节点内网ip对应网卡名称
+# 当前节点内网ip对应网卡名称 (根据实际情况修改, 可用 ifconfig 命令查询得知)
 echo 'export nic_name=enp67s0f0' >> ~/.bashrc
 
 echo 'export HCCL_IF_IP=$local_ip' >> ~/.bashrc
@@ -240,9 +240,9 @@ source ~/.bashrc
 ray start --head --port=6379 --num-gpus=8
 
 # 副节点
-# 当前节点内网ip
+# 当前节点内网ip (根据实际情况修改, 可用 ifconfig 命令查询得知)
 echo 'export local_ip=192.168.0.21' >> ~/.bashrc
-# 当前节点内网ip对应网卡名称
+# 当前节点内网ip对应网卡名称 (根据实际情况修改, 可用 ifconfig 命令查询得知)
 echo 'export nic_name=enp67s0f0' >> ~/.bashrc
 
 echo 'export HCCL_IF_IP=$local_ip' >> ~/.bashrc
