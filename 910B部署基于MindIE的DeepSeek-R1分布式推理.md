@@ -22,12 +22,12 @@ https://www.hiascend.com/developer/ascendhub/detail/af85b724a7e5469ebd7ea13c3439
 ## 2.1 安装驱动
 使用`ssh`连接裸金属后, 执行以下命令:
 ```bash
-npu-smi info # 如果驱动版本是24.1.rc3, 以下安装更新驱动步骤可省略
+npu-smi info # 如果驱动版本大等于24.1.rc3, 以下安装更新驱动步骤可省略
 
 yum update -y
 yum install wget -y
 
-# 官网下载地址: https://www.hiascend.com/hardware/firmware-drivers/community?product=4&model=32&cann=8.0.0.beta1&driver=Ascend+HDK+24.1.RC3
+# 官网下载地址: https://www.hiascend.com/hardware/firmware-drivers/community?product=4&model=32&cann=8.0.0.beta1&driver=Ascend+HDK+24.1.0
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run
 wget http://39.171.244.84:30011/drivers/HDK%2024.1.RC3/Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
 chmod +x Ascend-hdk-910b-npu-driver_24.1.rc3_linux-aarch64.run Ascend-hdk-910b-npu-firmware_7.5.0.1.129.run
