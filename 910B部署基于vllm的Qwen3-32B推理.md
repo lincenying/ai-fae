@@ -131,6 +131,7 @@ obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
 ## 3.1 准备容器
 
 ```bash
+# 更多版本: https://docker.aityp.com/r/quay.io/ascend/vllm-ascend
 # 通过 docker pull 下载镜像
 # v0.8.4rc2
 wget http://39.171.244.84:30011/vllm/vllm-ascend-0.8.4rc2.tar.gz

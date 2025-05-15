@@ -25,9 +25,13 @@ docker push swr.cn-east-292.mygaoxinai.com/huqs/mindie_server_chatgpt_web_910b:2
 # 下载镜像到本地
 ```bash
 # 不要使用imageid, 否则 docker load 时, 镜像的名字和标签都是none
+# 不怎么压缩, 文件大, 保存快
+docker save -o /保存路径/保存文件.tar 镜像:TAG
 docker save -o /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar mindie_server_chatgpt_web_910b:20240923_T65
+# 压缩文件, 文件小, 保存慢
+docker save 镜像:TAG | gzip > /保存路径/保存文件..tar.gz
 docker save swr.cn-south-1.myhuaweicloud.com/ascendhub/mindie:2.0.RC1-800I-A2-py311-openeuler24.03-lts | gzip > mindie_2.0.RC1-800I-A2-py311-openeuler24.03-lts.tar.gz
 
 # 上传至obs
-obsutil cp /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar obs://docker_images/
+obsutil cp /opt/data/docker_images/mindie_server_chatgpt_web_910b.tar obs://docker/
 ```
