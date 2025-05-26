@@ -134,6 +134,7 @@ echo 'export PATH=$PATH:/data/obs_bin' >> ~/.bashrc
 source ~/.bashrc
 
 obsutil config -i=${OBSAK} -k=${OBSSK} -e=obs.cn-east-292.mygaoxinai.com
+
 ```
 
 
@@ -167,9 +168,9 @@ modelscope download --model deepseek-ai/DeepSeek-R1-Distill-Llama-70B --local_di
 cd /data
 
 # 根据情况下载所需要模型
-obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-32B/ ./DeepSeek-R1-Distill-Qwen-32B/ -f -r -flat
-obsutil cp obs://bigmodel/DeepSeek-R1-Distill-Qwen-14B/ ./DeepSeek-R1-Distill-Qwen-14B/ -f -r -flat
-obsutil cp obs://deepseekv3/DeepSeek-R1-Distill-Llama-70B/ ./DeepSeek-R1-Distill-Llama-70B/ -f -r -flat
+obsutil cp obs://bigmodel/DeepSeek-R1-Distill/DeepSeek-R1-Distill-Qwen-32B/ ./DeepSeek-R1-Distill-Qwen-32B/ -f -r -flat
+obsutil cp obs://bigmodel/DeepSeek-R1-Distill/DeepSeek-R1-Distill-Qwen-14B ./DeepSeek-R1-Distill-Qwen-14B/ -f -r -flat
+obsutil cp obs://bigmodel/DeepSeek-R1-Distill/DeepSeek-R1-Distill-Llama-70B/ ./DeepSeek-R1-Distill-Llama-70B/ -f -r -flat
 
 ```
 

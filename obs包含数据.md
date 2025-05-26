@@ -90,9 +90,9 @@ obs://deepseekv3/deepseekv3-bf16
 obs://deepseekv3/DeepSeek-V3-0324-w8a8
 
 ### deepseek蒸馏
-obs://bigmodel/DeepSeek R1 Distill/DeepSeek-R1-Distill-Qwen-14B
-obs://bigmodel/DeepSeek R1 Distill/DeepSeek-R1-Distill-Qwen-32B
-obs://bigmodel/DeepSeek R1 Distill/DeepSeek-R1-Distill-Llama-70B
+obs://bigmodel/DeepSDeepSeek-R1-Distill/DeepSeek-R1-Distill-Qwen-14B
+obs://bigmodel/DeepSDeepSeek-R1-Distill/DeepSeek-R1-Distill-Qwen-32B
+obs://bigmodel/DeepSDeepSeek-R1-Distill/DeepSeek-R1-Distill-Llama-70B
 
 ### qwen2
 obs://bigmodel/qwen2-72b-instruct
@@ -133,6 +133,7 @@ obs://docker/mindie_2.0.RC1.B081-300I-Duo-py3.11-openeuler24.03-lts-aarch64.tar.
 obs://docker/mindie_1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar.gz
 
 obs://docker/910A-ascend_24.1.rc3-cann_8.0.t63-py_3.10-ubuntu_20.04-aarch64-mindie_1.0.T71.05.tar
+obs://docker/910A-ascend_24.1.rc3-cann_8.1.T17-py_3.11-ubuntu_20.04-aarch64-mindie_1.0.0.tar
 
 obs://docker/vllm-ascend-v0.8.4rc2.tar.gz
 obs://docker/vllm-ascend-v0.8.4rc1-openeuler.tar
