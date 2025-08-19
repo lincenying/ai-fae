@@ -1,9 +1,12 @@
-[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署bge.html)
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署基于Mis-Tei的bge.html)
 
 
 ```bash
 # 创建存放模型文件夹
 mkdir -p /data/model
+
+# 安装 openmind-hub
+pip install openmind-hub -i https://mirrors.huaweicloud.com/repository/pypi/simple --trusted-host mirrors.huaweicloud.com
 
 # 设置敏感路径白名单
 export HUB_WHITE_LIST_PATHS=/data/model
