@@ -1,3 +1,5 @@
+[当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署bge.html)
+
 下载模型:
 
 ```bash
