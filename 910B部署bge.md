@@ -1,6 +1,5 @@
 [当前文档访问路径](https://ai-fae.readthedocs.io/zh-cn/latest/910B部署bge.html)
 
-下载模型:
 
 ```bash
 # 创建存放模型文件夹
@@ -16,12 +15,15 @@ export XDG_CACHE_HOME=/data/model/.cache
 docker pull swr.cn-south-1.myhuaweicloud.com/ascendhub/mis-tei:7.1.RC1-800I-A2-aarch64
 ```
 
-下载代码:
+下载模型:
+
+参考:
+http://modelers.cn/docs/zh/openmind-hub-client/0.9/api_reference/download_api.html#snapshot-download
+
 ```py
 from openmind_hub import snapshot_download
 snapshot_download(
     repo_id="MindSDK/bge-m3",
-    token="0a911143905ec874fa24ae49984ad48915fd7768",
     repo_type="model",
     local_dir="/data/model/bge-m3"
 )
@@ -30,7 +32,6 @@ snapshot_download(
 from openmind_hub import snapshot_download
 snapshot_download(
     repo_id="MindSDK/bge-reranker-v2-m3",
-    token="0a911143905ec874fa24ae49984ad48915fd7768",
     repo_type="model",
     local_dir="/data/model/bge-reranker-v2-m3"
 )
