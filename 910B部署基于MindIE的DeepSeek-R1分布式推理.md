@@ -167,7 +167,7 @@ for i in {0..7}; do hccn_tool -i $i -ip -g; done
 ```bash
 mkdir -p /data/hccl
 cd /data/hccl
-wget  http://39.171.244.84:30011/DistributedCommunication/hccl_tools.py
+wget  http://39.171.244.84:30011/rank_table_file_tool/hccl_tools.py
 # wget  https://gitee.com/lincenying/ai-fea/raw/main/files/hccl_tools.py
 python ./hccl_tools.py
 
@@ -175,7 +175,7 @@ python ./hccl_tools.py
 在你当前目录下生成一个 hccl_xx_(当前物理机ip).json 的文件
 将其他的机器生成的hccl.json文件放在主物理机的统一文件夹中，使用下面命令获取合并脚本。
 ```bash
-wget  http://39.171.244.84:30011/DistributedCommunication/merge_hccl.py
+wget  http://39.171.244.84:30011/rank_table_file_tool/merge_hccl.py
 # wget  https://gitee.com/lincenying/ai-fea/raw/main/files/merge_hccl.py
 # 改成对应的json文件名
 python ./merge_hccl.py hccl_8p_01234567_xx.xx.xx.xx.json hccl_8p_01234567_xx.xx.xx.xx.json
@@ -225,10 +225,10 @@ docker load -i mindie:1.0.T71-800I-A2-py311-ubuntu22.04-arm64.tar
 如果需要开启量化W8A8的服务，需要使用mindie-2.0.T3的镜像
 ```bash
 # 下载镜像
-wget http://39.171.244.84:30011/DistributedCommunication/20T3-800I-A2-py311-openeuler2403-lts.tar
+wget http://39.171.244.84:30011/docker_images/mindie2.0t3.tar
 
 # 加载镜像
-docker load -i 20T3-800I-A2-py311-openeuler2403-lts.tar
+docker load -i mindie2.0t3.tar
 ```
 
 ## 4.2 启动容器
@@ -260,6 +260,7 @@ docker run -itd --privileged  --name=mindie-dsv3-w8a8 --net=host \
 -v /etc/hccn.conf:/etc/hccn.conf \
 -v /data:/data \
 mindie:2.0.T9.B020-800I-A2-py3.11-openeuler24.03-lts-aarch64
+# 上面一行改成对应镜像名称
 
 ```
 
